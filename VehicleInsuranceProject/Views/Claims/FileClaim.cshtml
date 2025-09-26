@@ -1,0 +1,219 @@
+﻿@* VehicleInsuranceProject.Web/Views/Claims/FileClaim.cshtml *@
+@model VehicleInsuranceProject.Web.ViewModels.ClaimViewModel
+
+@{
+    ViewData["Title"] = "File a Claim";
+}
+
+@section Head {
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
+    <style>
+        /* Custom styles for this view */
+        .container.claim-container {
+            padding-top: 40px;
+            padding-bottom: 40px;
+        }
+
+        .card.claim-card {
+            border: none;
+            border-radius: 12px;
+            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1); /* Slightly stronger shadow for depth */
+            overflow: hidden; /* Ensures no content overflows rounded corners */
+        }
+
+        .card-header-custom {
+            background-color: #6A0DAD; /* Primary purple color */
+            color: white;
+            padding: 20px 30px;
+            border-bottom: none;
+            border-top-left-radius: 12px;
+            border-top-right-radius: 12px;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+        }
+
+        .card-header-custom h2 {
+            margin-bottom: 0;
+            font-weight: 600;
+            display: flex;
+            align-items: center;
+        }
+
+        .card-body.claim-form-body {
+            padding: 30px; /* Generous padding inside the form body */
+        }
+
+        .form-group {
+            margin-bottom: 25px; /* Increased space between form groups */
+        }
+
+        .form-label {
+            font-weight: 600;
+            color: #495057;
+            margin-bottom: 8px;
+            display: block; /* Ensure label takes its own line */
+        }
+
+        .form-control, .form-control-file {
+            border-radius: 8px;
+            padding: 12px 15px; /* More padding inside inputs */
+            border: 1px solid #ced4da;
+            transition: border-color 0.2s ease-in-out, box-shadow 0.2s ease-in-out;
+        }
+
+        .form-control:focus, .form-control-file:focus {
+            border-color: #8a41cc; /* Purple border on focus */
+            box-shadow: 0 0 0 0.25rem rgba(106, 13, 173, 0.25);
+            outline: none;
+        }
+
+        textarea.form-control {
+            min-height: 120px; /* Taller textarea for claim reason */
+            resize: vertical; /* Allow vertical resizing */
+        }
+
+        .form-text {
+            font-size: 0.875rem;
+            color: #6c757d;
+            margin-top: 5px;
+        }
+
+        .text-danger {
+            font-size: 0.875rem;
+            margin-top: 5px;
+            display: block; /* Ensure validation message is on its own line */
+        }
+
+        .btn-primary-custom {
+            background-color: #6A0DAD;
+            border-color: #6A0DAD;
+            color: white;
+            font-weight: 600;
+            padding: 12px 30px;
+            border-radius: 8px;
+            transition: background-color 0.2s ease-in-out, border-color 0.2s ease-in-out, transform 0.2s ease;
+        }
+
+        .btn-primary-custom:hover {
+            background-color: #550a99;
+            border-color: #550a99;
+            transform: translateY(-2px);
+        }
+
+        .btn-secondary-custom {
+            background-color: #6c757d;
+            border-color: #6c757d;
+            color: white;
+            font-weight: 600;
+            padding: 12px 30px;
+            border-radius: 8px;
+            transition: background-color 0.2s ease-in-out, border-color 0.2s ease-in-out, transform 0.2s ease;
+        }
+
+        .btn-secondary-custom:hover {
+            background-color: #5a6268;
+            border-color: #545b62;
+            transform: translateY(-2px);
+        }
+
+        .button-group-end {
+            display: flex;
+            justify-content: flex-end; /* Aligns buttons to the right */
+            gap: 15px; /* Space between buttons */
+            margin-top: 30px; /* Space above buttons */
+        }
+
+        .policy-info-header {
+            font-size: 1.1rem;
+            font-weight: 500;
+            color: #555;
+            margin-bottom: 20px; /* Space below policy info */
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .policy-info-header strong {
+            color: white;
+            font-size: 1.2rem;
+        }
+
+        .policy-info-header span {
+            color: #6A0DAD; /* Purple for coverage amount */
+            font-weight: 700;
+            font-size: 1.3rem;
+        }
+
+        /* Responsive adjustments */
+        @@media (max-width: 767.98px) {
+            .button-group-end {
+                flex-direction: column; /* Stack buttons on small screens */
+                align-items: stretch; /* Make buttons full width */
+            }
+            .button-group-end .btn {
+                width: 100%;
+                margin-bottom: 10px; /* Space between stacked buttons */
+            }
+        }
+    </style>
+}
+
+<div class="container claim-container">
+    <div class="card claim-card">
+        <div class="card-header-custom">
+            <h2><i class="bi bi-file-earmark-diff me-3"></i> @ViewData["Title"]</h2>
+            <div class="policy-info-header m-0 p-0">
+                <span>Policy: <strong>@Model.PolicyNumber</strong></span>
+                <span class="ms-4">Coverage: <strong>@Model.PolicyCoverageAmount.ToString("C")</strong></span>
+            </div>
+        </div>
+        <div class="card-body claim-form-body">
+            @* Display Errors from Controller *@
+            <div asp-validation-summary="ModelOnly" class="alert alert-danger" role="alert"></div>
+
+            <form asp-action="FileClaim" enctype="multipart/form-data">
+                @Html.AntiForgeryToken()
+
+                <input type="hidden" asp-for="PolicyId" />
+                <input type="hidden" asp-for="PolicyCoverageAmount" /> @* Keep this for server-side validation comparison *@
+
+                <div class="form-group">
+                    <label asp-for="PolicyNumber" class="form-label"></label>
+                    <input asp-for="PolicyNumber" class="form-control" readonly />
+                </div>
+                <div class="form-group">
+                    <label asp-for="ClaimAmount" class="form-label"></label>
+                    <input asp-for="ClaimAmount" class="form-control" type="number" step="0.01" min="0.01" max="@Model.PolicyCoverageAmount" />
+                    <span asp-validation-for="ClaimAmount" class="text-danger"></span>
+                </div>
+                <div class="form-group">
+                    <label asp-for="ClaimReason" class="form-label"></label>
+                    <textarea asp-for="ClaimReason" class="form-control"></textarea>
+                    <span asp-validation-for="ClaimReason" class="text-danger"></span>
+                </div>
+                <div class="form-group">
+                    <label asp-for="ClaimImages" class="form-label"></label>
+                    <input asp-for="ClaimImages" type="file" multiple class="form-control-file" accept="image/*" />
+                    <small class="form-text text-muted">You can upload multiple images (e.g., JPEG, PNG) related to your claim.</small>
+                    <span asp-validation-for="ClaimImages" class="text-danger"></span>
+                </div>
+
+                <div class="button-group-end">
+                    <a asp-action="ViewPolicies" asp-controller="Policy" class="btn btn-secondary-custom">
+                        <i class="bi bi-x-circle me-2"></i> Cancel
+                    </a>
+                    <button type="submit" class="btn btn-primary-custom">
+                        <i class="bi bi-check-circle me-2"></i> Submit Claim
+                    </button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+
+@section Scripts {
+    @{
+        await Html.RenderPartialAsync("_ValidationScriptsPartial");
+    }
+}

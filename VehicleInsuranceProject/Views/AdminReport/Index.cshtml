@@ -1,0 +1,157 @@
+﻿@{
+    ViewData["Title"] = "Admin Reports Dashboard";
+    Layout = "_Layout"; // Or "_Layout" if you don't have a specific admin layout
+}
+
+@section Head {
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
+    <style>
+        .reports-dashboard-container {
+            padding: 30px;
+            background-color: #f8f9fa;
+            border-radius: 8px;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05);
+            margin-top: 20px;
+        }
+
+        .reports-card {
+            border: none;
+            border-radius: 12px;
+            transition: all 0.3s ease-in-out;
+            box-shadow: 0 4px 8px rgba(0,0,0,0.07);
+            min-height: 200px; /* Ensure cards have a consistent height */
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+        }
+
+            .reports-card:hover {
+                transform: translateY(-5px);
+                box-shadow: 0 8px 16px rgba(0,0,0,0.1);
+            }
+
+        .reports-card-icon {
+            font-size: 3.5rem;
+            margin-bottom: 15px;
+            display: block;
+            color: #6c757d; /* Default icon color */
+        }
+
+        .reports-card-title {
+            font-size: 1.5rem;
+            font-weight: 600;
+            margin-bottom: 10px;
+        }
+
+        .reports-card-text {
+            color: #6c757d;
+            font-size: 0.95rem;
+            margin-bottom: 20px;
+            flex-grow: 1; /* Allows text to take up available space */
+        }
+
+        .reports-card-link-btn {
+            font-weight: 500;
+            padding: 10px 20px;
+            border-radius: 8px;
+            width: 100%; /* Make button full width of card */
+        }
+
+        /* Specific icon colors for reports */
+        .icon-policy {
+            color: #17a2b8;
+        }
+        /* Info teal */
+        .icon-claim {
+            color: #ffc107;
+        }
+        /* Warning yellow */
+        .icon-vehicle {
+            color: #28a745;
+        }
+        /* Success green */
+        .icon-customer {
+            color: #007bff;
+        }
+        /* Primary blue */
+    </style>
+}
+
+<div class="container reports-dashboard-container">
+    <h2 class="mb-5"><i class="bi bi-bar-chart-line me-2"></i> @ViewData["Title"]</h2>
+
+    <div class="row row-cols-1 row-cols-md-2 row-cols-lg-3 g-4">
+
+        <!-- Policy Report Card -->
+        <div class="col">
+            <div class="card reports-card text-center shadow">
+                <div class="card-body">
+                    <i class="bi bi-file-earmark-text-fill reports-card-icon icon-policy"></i>
+                    <h5 class="reports-card-title">All Policies</h5>
+                    <p class="reports-card-text">View a comprehensive report of all active, expired, and cancelled insurance policies.</p>
+                    <a asp-controller="AdminReport" asp-action="AllPolicies" class="btn btn-info reports-card-link-btn">
+                        <i class="bi bi-journal-check me-2"></i> View Report
+                    </a>
+                </div>
+            </div>
+        </div>
+
+        <!-- Claim Report Card -->
+        <div class="col">
+            <div class="card reports-card text-center shadow">
+                <div class="card-body">
+                    <i class="bi bi-clipboard-data reports-card-icon icon-claim"></i>
+                    <h5 class="reports-card-title">All Claims</h5>
+                    <p class="reports-card-text">Access a detailed report on all submitted claims, including their current status and amounts.</p>
+                    <a asp-controller="AdminReport" asp-action="AllClaims" class="btn btn-warning reports-card-link-btn">
+                        <i class="bi bi-exclamation-triangle-fill me-2"></i> View Report
+                    </a>
+                </div>
+            </div>
+        </div>
+
+        <!-- Vehicle Report Card -->
+        <div class="col">
+            <div class="card reports-card text-center shadow">
+                <div class="card-body">
+                    <i class="bi bi-car-front-fill reports-card-icon icon-vehicle"></i>
+                    <h5 class="reports-card-title">All Vehicles</h5>
+                    <p class="reports-card-text">Generate a report listing all registered vehicles, including their owners and associated policy/claim counts.</p>
+                    <a asp-controller="AdminReport" asp-action="AllVehicles" class="btn btn-success reports-card-link-btn">
+                        <i class="bi bi-truck me-2"></i> View Report
+                    </a>
+                </div>
+            </div>
+        </div>
+
+        <!-- Customer Report Card -->
+        <div class="col">
+            <div class="card reports-card text-center shadow">
+                <div class="card-body">
+                    <i class="bi bi-people-fill reports-card-icon icon-customer"></i>
+                    <h5 class="reports-card-title">All Customers</h5>
+                    <p class="reports-card-text">Get a comprehensive overview of all customers, their account status, and their total vehicles, policies, and claims.</p>
+                    <a asp-controller="AdminReport" asp-action="AllCustomers" class="btn btn-primary reports-card-link-btn">
+                        <i class="bi bi-person-lines-fill me-2"></i> View Report
+                    </a>
+                </div>
+            </div>
+        </div>
+
+    </div>
+</div>
+
+@section Scripts {
+    @{
+        await Html.RenderPartialAsync("_ValidationScriptsPartial");
+    }
+    <script>
+        $(document).ready(function() {
+            setTimeout(function() {
+                $(".alert-dismissible").fadeTo(500, 0).slideUp(500, function(){
+                    $(this).remove();
+                });
+            }, 7000); // 7 seconds
+        });
+    </script>
+}

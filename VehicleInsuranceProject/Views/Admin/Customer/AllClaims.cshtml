@@ -1,0 +1,133 @@
+﻿@model IEnumerable<VehicleInsuranceProject.Repository.Models.Claim>
+@using VehicleInsuranceProject.Repository.Models;
+
+@{
+    ViewData["Title"] = "All Claims (Admin)";
+}
+
+@section Head {
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
+}
+
+<div class="container dashboard-container">
+    <h2 class="mb-4 text-center"><i class="bi bi-folder-check me-2"></i> @ViewData["Title"]</h2>
+
+    @* Display Success/Error Messages using TempData with Bootstrap alert classes *@
+    @if (TempData["SuccessMessage"] != null)
+    {
+        <div class="alert alert-success alert-dismissible fade show mt-4" role="alert">
+            <i class="bi bi-check-circle-fill me-2"></i> @TempData["SuccessMessage"]
+            <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+        </div>
+    }
+    @if (TempData["ErrorMessage"] != null)
+    {
+        <div class="alert alert-danger alert-dismissible fade show mt-4" role="alert">
+            <i class="bi bi-x-circle-fill me-2"></i> @TempData["ErrorMessage"]
+            <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+        </div>
+    }
+
+    @if (!Model.Any())
+    {
+        <div class="empty-state-section">
+            <i class="bi bi-folder-open"></i>
+            <p>No claims have been filed yet.</p>
+        </div>
+    }
+    else
+    {
+        <div class="table-responsive mt-4">
+            <table class="table table-hover shadow-sm rounded-3 overflow-hidden">
+                <thead class="bg-insure-dark-purple text-insure-white">
+                    <tr>
+                        @* Removed Claim ID header *@
+                        <th>Policy No.</th>
+                        <th>Customer Name</th>
+                        <th>Vehicle Reg. No.</th>
+                        <th>Claim Amount</th>
+                        <th>Reason</th>
+                        <th>Claim Date</th>
+                        <th>Status</th>
+                        <th class="text-center">Actions</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @foreach (var item in Model.OrderByDescending(c => c.claimDate))
+                    {
+                        <tr>
+                            @* Removed Claim ID data cell *@
+                            <td>@item.Policy?.policyNumber</td>
+                            <td>@item.Policy?.Vehicle?.Customer?.Name</td>
+                            <td>@item.Policy?.Vehicle?.registrationNumber</td>
+                            <td>@item.claimAmount.ToString("C")</td>
+                            <td>@item.claimReason</td>
+                            <td>@item.claimDate.ToShortDateString()</td>
+                            <td>
+                                @{
+                                    string badgeClass = "";
+                                    switch (item.claimStatus)
+                                    {
+                                        case ClaimStatus.SUBMITTED:
+                                            badgeClass = "bg-warning text-dark";
+                                            break;
+                                        case ClaimStatus.APPROVED:
+                                            badgeClass = "bg-insure-accent-green";
+                                            break;
+                                        case ClaimStatus.REJECTED:
+                                            badgeClass = "bg-insure-accent-red";
+                                            break;
+                                        default:
+                                            badgeClass = "bg-secondary";
+                                            break;
+                                    }
+                                }
+                                <span class="badge @badgeClass">@item.claimStatus</span>
+                            </td>
+                            <td class="text-center d-flex justify-content-center gap-2">
+                                <a asp-action="Details" asp-route-id="@item.claimId" class="btn btn-sm btn-outline-info" title="View Details">
+                                    <i class="bi bi-eye"></i>
+                                </a>
+
+                                @if (item.claimStatus == ClaimStatus.SUBMITTED)
+                                {
+                                    <form asp-action="UpdateClaimStatus" method="post" class="d-inline-flex">
+                                        @Html.AntiForgeryToken()
+                                        <input type="hidden" name="claimId" value="@item.claimId" />
+                                        <input type="hidden" name="newStatus" value="@ClaimStatus.APPROVED" />
+                                        <button type="submit" class="btn btn-sm btn-outline-success" title="Approve Claim" onclick="return confirm('Are you sure you want to approve this claim?');">
+                                            <i class="bi bi-check-circle"></i>
+                                        </button>
+                                    </form>
+                                    <form asp-action="UpdateClaimStatus" method="post" class="d-inline-flex">
+                                        @Html.AntiForgeryToken()
+                                        <input type="hidden" name="claimId" value="@item.claimId" />
+                                        <input type="hidden" name="newStatus" value="@ClaimStatus.REJECTED" />
+                                        <button type="submit" class="btn btn-sm btn-outline-danger" title="Reject Claim" onclick="return confirm('Are you sure you want to reject this claim?');">
+                                            <i class="bi bi-x-circle"></i>
+                                        </button>
+                                    </form>
+                                }
+                            </td>
+                        </tr>
+                    }
+                </tbody>
+            </table>
+        </div>
+    }
+</div>
+
+@section Scripts {
+    @{
+        await Html.RenderPartialAsync("_ValidationScriptsPartial");
+    }
+    <script>
+        $(document).ready(function() {
+            setTimeout(function() {
+                $(".alert-dismissible").fadeTo(500, 0).slideUp(500, function(){
+                    $(this).remove();
+                });
+            }, 7000); // 7 seconds
+        });
+    </script>
+}

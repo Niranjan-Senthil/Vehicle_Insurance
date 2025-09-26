@@ -1,0 +1,84 @@
+﻿@{
+    ViewData["Title"] = "Home Page - InsureEdge"; // Set the title for this page
+}
+
+<div class="container my-5">
+    <div class="p-5 text-center hero-gradient-bg text-insure-white rounded-3 shadow-lg mb-5">
+        <h1 class="display-4 fw-bold mb-3 text-shadow-light">
+            Protect Your Journey with Confidence
+        </h1>
+        <p class="lead mb-4">
+            Your ultimate solution for managing vehicle insurance policies and claims with ease.
+            Secure, simple, and always at your fingertips.
+        </p>
+        <a asp-controller="Customer" asp-action="Register" class="btn btn-insure-primary btn-lg">
+            Get Started Today
+        </a>
+    </div>
+
+    <section class="py-5 bg-insure-accent-beige rounded-3 shadow-sm mb-5">
+        <h2 class="text-center mb-5 display-5 fw-bold text-insure-dark-purple">
+            Key Features for Your Peace of Mind
+        </h2>
+        <div class="row row-cols-1 row-cols-md-2 row-cols-lg-3 g-4">
+            <div class="col">
+                <div class="card h-100 shadow-sm border-0">
+                    <div class="card-body text-center">
+                        <div class="feature-icon-circle bg-insure-light-purple text-insure-white">
+                            <i class="bi bi-file-earmark-text-fill"></i>
+                        </div>
+                        <h3 class="h5 fw-semibold mb-3 text-insure-dark-purple">Effortless Policy Management</h3>
+                        <p class="text-muted">
+                            Create, view, and renew your vehicle insurance policies with a few simple clicks.
+                            Stay organized and up-to-date.
+                        </p>
+                    </div>
+                </div>
+            </div>
+
+            <div class="col">
+                <div class="card h-100 shadow-sm border-0">
+                    <div class="card-body text-center">
+                        <div class="feature-icon-circle bg-insure-light-purple text-insure-white">
+                            <i class="bi bi-truck-flatbed"></i>
+                        </div>
+                        <h3 class="h5 fw-semibold mb-3 text-insure-dark-purple">Quick Claim Filing & Tracking</h3>
+                        <p class="text-muted">
+                            File claims quickly and track their status in real-time. Our system simplifies the entire process.
+                        </p>
+                    </div>
+                </div>
+            </div>
+
+            <div class="col">
+                <div class="card h-100 shadow-sm border-0">
+                    <div class="card-body text-center">
+                        <div class="feature-icon-circle bg-insure-light-purple text-insure-white">
+                            <i class="bi bi-person-fill"></i>
+                        </div>
+                        <h3 class="h5 fw-semibold mb-3 text-insure-dark-purple">Personalized Customer Dashboard</h3>
+                        <p class="text-muted">
+                            Manage your profile, vehicles, and view all your insurance details from a centralized, secure portal.
+                        </p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section class="py-5 bg-light rounded-3 shadow-sm">
+        <div class="text-center">
+            <h2 class="h3 fw-bold mb-4 text-insure-dark-purple">
+                Why Choose InsureEdge?
+            </h2>
+            <p class="lead text-muted mx-auto" style="max-width: 700px;">
+                Our Vehicle Insurance Policy and Claims Management System is built with you in mind.
+                We offer a robust, scalable, and user-friendly platform that simplifies every aspect of vehicle insurance,
+                from policy creation to efficient claim resolution. Experience unparalleled convenience and reliability.
+            </p>
+            @* <a asp-area="" asp-controller="Home" asp-action="Privacy" class="text-insure-mid-purple mt-3 d-inline-block"> *@
+            @*     Learn more about our mission *@
+            @* </a> *@
+        </div>
+    </section>
+</div>

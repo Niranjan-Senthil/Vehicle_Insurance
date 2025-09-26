@@ -1,0 +1,29 @@
+﻿@using VehicleInsuranceProject.ViewModels;
+@model CustomerDetailsViewModel;
+
+@{
+    ViewData["Title"] = "Customer Details";
+    Layout = "~/Views/Shared/_Layout.cshtml"; // Adjust the layout if needed
+}
+
+<div class="container my-5">
+    <h2 class="text-center mb-4 display-5 fw-bold text-insure-dark-purple">Customer Details</h2>
+
+    <div class="row justify-content-center">
+        <div class="col-md-6 col-lg-5">
+            <div class="card p-4 shadow-lg border-0 rounded-3">
+                <div class="card-body">
+                    <h5 class="card-title text-insure-dark-purple">@Model.Name</h5>
+                    <p class="card-text"><strong>Email:</strong> @Model.Email</p>
+                    <p class="card-text"><strong>Phone:</strong> @Model.Phone</p>
+                    <p class="card-text"><strong>Address:</strong> @Model.Address</p>
+                </div>
+            </div>
+
+            <div class="text-center mt-4">
+                <a asp-controller="Customer" asp-action="UpdateProfile" class="btn btn-insure-primary me-2">Edit Profile</a>
+                <a asp-controller="Customer" asp-action="CustomerDashboard" class="text-decoration-none text-insure-mid-purple">Back to Home</a>
+            </div>
+        </div>
+    </div>
+</div>

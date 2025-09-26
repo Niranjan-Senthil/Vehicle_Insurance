@@ -1,0 +1,163 @@
+﻿@model IEnumerable<VehicleInsuranceProject.Repository.Models.Policy>
+@using VehicleInsuranceProject.Repository.Models;
+
+@{
+    ViewData["Title"] = "My Policies";
+}
+
+@section Head {
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
+}
+
+@* All custom styles for this view are integrated or rely on site.css *@
+@* The <style> block has been removed as styles are now in site.css or use Bootstrap utilities *@
+
+<div class="container dashboard-container">
+    <h2 class="mb-4 text-center"><i class="bi bi-journal-check me-2"></i> @ViewData["Title"]</h2>
+
+    @* Display Success/Error Messages using TempData *@
+    @if (TempData["SuccessMessage"] != null)
+    {
+        <div class="alert alert-success alert-dismissible fade show mt-4" role="alert">
+            <i class="bi bi-check-circle-fill me-2"></i> @TempData["SuccessMessage"]
+            <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+        </div>
+    }
+    @if (TempData["ErrorMessage"] != null)
+    {
+        <div class="alert alert-danger alert-dismissible fade show mt-4" role="alert">
+            <i class="bi bi-x-circle-fill me-2"></i> @TempData["ErrorMessage"]
+            <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+        </div>
+    }
+    @if (TempData["InfoMessage"] != null)
+    {
+        <div class="alert alert-info alert-dismissible fade show mt-4" role="alert">
+            <i class="bi bi-info-circle-fill me-2"></i> @TempData["InfoMessage"]
+            <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+        </div>
+    }
+
+    <p class="text-center mb-4">
+        <a asp-action="Create" asp-controller="Policy" class="btn btn-insure-primary btn-lg">
+            <i class="bi bi-plus-circle me-2"></i> Create New Policy
+        </a>
+    </p>
+
+    @if (Model != null && Model.Any())
+    {
+        <div class="table-responsive mt-4">
+            <table class="table table-hover shadow-sm rounded-3 overflow-hidden">
+                <thead class="bg-insure-dark-purple text-insure-white">
+                    @* Use classes from site.css *@
+                    <tr>
+                        <th>Policy Number</th>
+                        <th>Vehicle</th>
+                        <th>Coverage Level</th>
+                        <th>Coverage Amount</th>
+                        <th>Premium Amount</th>
+                        @* Removed Start Date and End Date headers *@
+                        <th>Status</th>
+                        <th class="text-center">Actions</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @foreach (var item in Model.OrderByDescending(p => p.policyId))
+                    {
+                        <tr>
+                            <td>@Html.DisplayFor(modelItem => item.policyNumber)</td>
+                            <td>@Html.DisplayFor(modelItem => item.Vehicle.registrationNumber)</td>
+                            <td>@(item.CoverageLevel?.Name ?? "N/A")</td>
+                            <td>@string.Format("{0:C}", item.coverageAmount)</td>
+                            <td>@string.Format("{0:C}", item.premiumAmount)</td>
+                            @* Removed Start Date and End Date data cells *@
+                            <td>
+                                <span class="badge @(item.policyStatus == PolicyStatus.ACTIVE ? "bg-insure-accent-green" : "bg-insure-accent-red")">
+                                    @* Use accent colors from site.css *@
+                                    @Html.DisplayFor(modelItem => item.policyStatus)
+                                </span>
+                            </td>
+                            <td class="text-center d-flex justify-content-center gap-2">
+                                @* Use d-flex, justify-content-center, gap-2 for spacing *@
+                                <a asp-action="Details" asp-controller="Policy" asp-route-policyId="@item.policyId" class="btn btn-sm btn-outline-info" title="Details">
+                                    <i class="bi bi-eye"></i>
+                                </a>
+
+                                @{
+                                    var daysUntilExpiry = (item.endDate - DateTime.Today).TotalDays;
+                                    bool canRenew = item.policyStatus == PolicyStatus.ACTIVE && daysUntilExpiry >= 0 && daysUntilExpiry <= 15;
+                                }
+
+                                @if (canRenew)
+                                {
+                                    <a asp-action="Renew" asp-controller="Policy" asp-route-policyId="@item.policyId" class="btn btn-sm btn-outline-success" title="Renew">
+                                        <i class="bi bi-arrow-clockwise"></i>
+                                    </a>
+                                }
+                                else
+                                {
+                                    <button class="btn btn-sm btn-outline-secondary" title="Renew (Available within 15 days of expiry)" disabled>
+                                        <i class="bi bi-arrow-clockwise"></i>
+                                    </button>
+                                }
+
+                                @{
+                                    bool hasRejectedClaim = item.Claims != null && item.Claims.Any(c => c.claimStatus == ClaimStatus.REJECTED);
+                                    bool hasOpenOrApprovedClaim = item.Claims != null && item.Claims.Any(c => c.claimStatus == ClaimStatus.SUBMITTED || c.claimStatus == ClaimStatus.APPROVED);
+                                    bool canFileClaim = item.policyStatus == PolicyStatus.ACTIVE && !hasOpenOrApprovedClaim;
+                                }
+
+                                @if (canFileClaim)
+                                {
+                                    <a asp-action="FileClaim" asp-controller="Claims" asp-route-policyId="@item.policyId" class="btn btn-sm btn-outline-primary" title="File Claim">
+                                        <i class="bi bi-file-earmark-medical"></i>
+                                    </a>
+                                }
+                                else
+                                {
+                                    <button class="btn btn-sm btn-outline-secondary" title="File Claim (Only for Active Policies with no open or approved claims)" disabled>
+                                        <i class="bi bi-file-earmark-medical"></i>
+                                    </button>
+                                }
+
+                                <form asp-action="Delete" asp-controller="Policy" asp-route-policyId="@item.policyId" method="post" class="d-inline-flex">
+                                    @* Use d-inline-flex to align with other buttons *@
+                                    @Html.AntiForgeryToken()
+                                    <button type="submit" class="btn btn-sm btn-outline-danger" title="Delete" onclick="return confirm('Are you sure you want to delete this policy? This action cannot be undone.');">
+                                        <i class="bi bi-trash"></i>
+                                    </button>
+                                </form>
+                            </td>
+                        </tr>
+                    }
+                </tbody>
+            </table>
+        </div>
+    }
+    else
+    {
+        <div class="empty-state-section">
+            @* Uses empty-state-section from site.css *@
+            <i class="bi bi-journal-check"></i>
+            <p>It looks like you don't have any policies yet. Let's create one!</p>
+            <a asp-action="Create" asp-controller="Policy" class="btn btn-insure-primary btn-lg mt-3">
+                <i class="bi bi-plus-circle-fill me-2"></i> Create Your First Policy
+            </a>
+        </div>
+    }
+</div>
+
+@section Scripts {
+    @{
+        await Html.RenderPartialAsync("_ValidationScriptsPartial");
+    }
+    <script>
+        $(document).ready(function() {
+            setTimeout(function() {
+                $(".alert-dismissible").fadeTo(500, 0).slideUp(500, function(){
+                    $(this).remove();
+                });
+            }, 7000); // 7 seconds
+        });
+    </script>
+}

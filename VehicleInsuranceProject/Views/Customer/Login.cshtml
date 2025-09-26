@@ -1,0 +1,52 @@
+﻿@using VehicleInsuranceProject.ViewModels; 
+@model CustomerLoginViewModel;         
+@{
+    ViewData["Title"] = "Login";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<div class="container my-5">
+    <h2 class="text-center mb-4 display-5 fw-bold text-insure-dark-purple">Login</h2>
+    <div class="row justify-content-center">
+        <div class="col-md-6">
+            <div class="card p-4 shadow-lg border-0 rounded-3">
+                <form asp-action="Login" method="post">
+                    <div asp-validation-summary="ModelOnly" class="text-danger mb-3"></div>
+
+                    <div class="mb-3">
+                        <label asp-for="Name" class="form-label text-insure-dark-text">Username / Email</label>
+                        <input asp-for="Name" class="form-control form-control-lg" placeholder="Enter your username or email" />
+                        <span asp-validation-for="Name" class="text-danger small mt-1 d-block"></span>
+                    </div>
+
+                    <div class="mb-4">
+                        <label asp-for="Password" class="form-label text-insure-dark-text">Password</label>
+                        <input asp-for="Password" type="password" class="form-control form-control-lg" placeholder="Enter your password" />
+                        <span asp-validation-for="Password" class="text-danger small mt-1 d-block"></span>
+                    </div>
+                    
+                    <div class="mb-4 form-check">
+                        <input asp-for="RememberMe" class="form-check-input" />
+                        <label asp-for="RememberMe" class="form-check-label text-insure-dark-text"></label>
+                    </div>
+
+                    <button type="submit" class="btn btn-insure-primary w-100 p-3 fs-5">Login</button>
+
+                    <p class="text-center mt-4 text-insure-dark-text">
+                        Don't have an account? 
+                        <a asp-controller="Customer" asp-action="Register" class="text-decoration-none text-insure-mid-purple fw-semibold">Register here</a>.
+                    </p>
+                    <div class="text-center mt-3">
+                        <a asp-controller="Home" asp-action="Index" class="text-decoration-none text-insure-mid-purple">Back to Home</a>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+
+@section Scripts {
+    @{
+        await Html.RenderPartialAsync("_ValidationScriptsPartial.cshtml");
+    }
+}

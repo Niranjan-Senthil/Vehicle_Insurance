@@ -1,0 +1,102 @@
+﻿@using Microsoft.AspNetCore.Identity;
+@using VehicleInsuranceProject.Repository.Models
+@inject SignInManager<IdentityUser> SignInManager;
+@inject UserManager<IdentityUser> UserManager;
+
+@if (SignInManager.IsSignedIn(User))
+{
+    <nav class="navbar navbar-expand-lg navbar-dark bg-insure-dark-purple py-3 shadow-lg rounded-bottom">
+        <div class="container-fluid">
+            <a class="navbar-brand d-flex align-items-center" asp-area="" asp-controller="Home" asp-action="Index">
+                <img src="~/images/logo2.png" alt="InsureEdge Logo" style="height: 70px; margin-right: 10px;">
+                <span class="font-great-vibes fs-2 text-insure-white">InsureEdge</span>
+            </a>
+
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContentAuth"
+                    aria-controls="navbarSupportedContentAuth" aria-expanded="false" aria-label="Toggle navigation">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+
+            <div class="collapse navbar-collapse" id="navbarSupportedContentAuth">
+                <ul class="navbar-nav me-auto mb-2 mb-lg-0">
+                    @if (await UserManager.IsInRoleAsync(await UserManager.GetUserAsync(User), "Admin"))
+                    {
+                        <li class="nav-item">
+                            <a class="nav-link" asp-area="" asp-controller="Admin" asp-action="AdminDashboard">Home</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" asp-area="" asp-controller="Admin" asp-action="Customers">Manage Customers</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" asp-area="" asp-controller="Claims" asp-action="AllClaims">Manage Claims</a>
+                        </li>
+                    }
+                    else if (await UserManager.IsInRoleAsync(await UserManager.GetUserAsync(User), "Customer"))
+                    {
+                        <li class="nav-item">
+                            <a class="nav-link" asp-area="" asp-controller="Customer" asp-action="CustomerDashboard">Home</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" asp-area="" asp-controller="Vehicle" asp-action="ViewVehicles">Vehicles</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" asp-area="" asp-controller="Claims" asp-action="CustomerClaims">Claims</a>
+                        </li>
+                    }
+                    @* <li class="nav-item"> *@
+                    @*     <a class="nav-link" asp-area="" asp-controller="Home" asp-action="Privacy">Privacy</a> *@
+                    @* </li> *@
+                </ul>
+
+                <ul class="navbar-nav mb-2 mb-lg-0">
+                    @if (await UserManager.IsInRoleAsync(await UserManager.GetUserAsync(User), "Customer"))
+                    {
+                        <li class="nav-item">
+                            <a class="nav-link" asp-area="" asp-controller="Customer" asp-action="Details">My Profile</a>
+                        </li>
+                    }
+                    <li class="nav-item">
+                        <form class="form-inline" asp-controller="Customer" asp-action="Logout" method="post">
+                            <button type="submit" class="btn btn-outline-light mt-2 mt-lg-0">Logout</button>
+                        </form>
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </nav>
+}
+else
+{
+    <nav class="navbar navbar-expand-lg navbar-dark bg-insure-dark-purple py-2 shadow-lg rounded-bottom">
+        <div class="container-fluid">
+            <a class="navbar-brand d-flex align-items-center" asp-area="" asp-controller="Home" asp-action="Index">
+                <img src="~/images/logo2.png" alt="InsureEdge Logo" style="height: 70px; margin-right: 10px;">
+                <span class="font-great-vibes fs-2 text-insure-white">InsureEdge</span>
+            </a>
+
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContentUnauth"
+                    aria-controls="navbarSupportedContentUnauth" aria-expanded="false" aria-label="Toggle navigation">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+
+            <div class="collapse navbar-collapse" id="navbarSupportedContentUnauth">
+                <ul class="navbar-nav me-auto mb-2 mb-lg-0">
+                    <li class="nav-item">
+                        <a class="nav-link" asp-area="" asp-controller="Home" asp-action="Index">Home</a>
+                    </li>
+                    @* <li class="nav-item"> *@
+                    @*     <a class="nav-link" asp-area="" asp-controller="Home" asp-action="Privacy">Privacy</a> *@
+                    @* </li> *@
+                </ul>
+                <ul class="navbar-nav mb-2 mb-lg-0">
+                    <li class="nav-item">
+                        <a class="btn btn-outline-light me-2 mt-2 mt-lg-0" asp-controller="Customer" asp-action="Login">Login</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="btn btn-insure-primary mt-2 mt-lg-0" asp-controller="Customer" asp-action="Register">Register</a>
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </nav>
+}

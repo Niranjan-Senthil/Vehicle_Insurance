@@ -1,0 +1,159 @@
+﻿@model IEnumerable<VehicleInsuranceProject.ViewModels.AdminClaimReportViewModel>
+
+@{
+    ViewData["Title"] = "All Claims Report (Admin)";
+    Layout = "_Layout"; // Assuming your admin layout
+}
+
+@section Head {
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
+    <style>
+        .report-container {
+            padding: 30px;
+            background-color: #f8f9fa;
+            border-radius: 8px;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05);
+        }
+
+        .table-responsive {
+            margin-top: 20px;
+        }
+
+        .bg-admin-primary {
+            background-color: #343a40 !important;
+        }
+
+        .status-submitted {
+            color: #ffc107;
+            font-weight: bold;
+        }
+
+        .status-approved {
+            color: #28a745;
+            font-weight: bold;
+        }
+
+        .status-rejected {
+            color: #dc3545;
+            font-weight: bold;
+        }
+
+        .empty-state-section {
+            text-align: center;
+            padding: 50px;
+            color: #6c757d;
+        }
+
+            .empty-state-section i {
+                font-size: 60px;
+                margin-bottom: 20px;
+                color: #ced4da;
+            }
+    </style>
+}
+
+<div class="container report-container">
+    <h2 class="mb-4"><i class="bi bi-clipboard-data me-2"></i> @ViewData["Title"]</h2>
+
+    @if (Model != null && Model.Any())
+    {
+        <div class="table-responsive" id="admin-claims-report-table">
+            <table class="table table-striped table-hover shadow-sm rounded-3 overflow-hidden">
+                <thead class="bg-admin-primary text-white">
+                    <tr>
+                        <th>Claim ID</th>
+                        <th>Customer</th>
+                        <th>Vehicle</th>
+                        <th>Policy #</th>
+                        <th>Amount</th>
+                        <th>Reason</th>
+                        <th>Claim Date</th>
+                        <th>Status</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @foreach (var item in Model.OrderByDescending(c => c.ClaimDate))
+                    {
+                        <tr>
+                            <td>@item.ClaimId</td>
+                            <td>@item.CustomerName (@item.CustomerId)</td>
+                            <td>@item.VehicleRegistrationNumber</td>
+                            <td>@item.PolicyNumber</td>
+                            <td>@item.ClaimAmount.ToString("C")</td>
+                            <td>@item.ClaimReason</td>
+                            <td>@item.ClaimDate.ToShortDateString()</td>
+                            <td>
+                                @{
+                                    string statusClass = "";
+                                    switch (item.ClaimStatus)
+                                    {
+                                        case VehicleInsuranceProject.Repository.Models.ClaimStatus.SUBMITTED:
+                                            statusClass = "status-submitted";
+                                            break;
+                                        case VehicleInsuranceProject.Repository.Models.ClaimStatus.APPROVED:
+                                            statusClass = "status-approved";
+                                            break;
+                                        case VehicleInsuranceProject.Repository.Models.ClaimStatus.REJECTED:
+                                            statusClass = "status-rejected";
+                                            break;
+                                    }
+                                }
+                                <span class="@statusClass">
+                                    @item.ClaimStatus
+                                </span>
+                            </td>
+                        </tr>
+                    }
+                </tbody>
+            </table>
+        </div>
+        <div class="mt-4 text-end">
+            <button id="downloadPdfButton" class="btn btn-primary">
+                <i class="bi bi-file-earmark-pdf me-2"></i> Download PDF
+            </button>
+        </div>
+    }
+    else
+    {
+        <div class="empty-state-section">
+            <i class="bi bi-file-earmark-medical"></i>
+            <p>No claim records found in the system.</p>
+        </div>
+    }
+</div>
+
+
+@section Scripts {
+    <!-- html2pdf.js library -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/html2pdf.js/0.10.1/html2pdf.bundle.min.js"></script>
+
+    <script>
+        $(document).ready(function() {
+            // Auto-hide alerts
+            setTimeout(function() {
+                $(".alert-dismissible").fadeTo(500, 0).slideUp(500, function(){
+                    $(this).remove();
+                });
+            }, 7000); // 7 seconds
+
+            // PDF Download Button Click Event
+           $("#downloadPdfButton").click(function() {
+                // Ask for confirmation
+                if (confirm("Do you want to download this report as a PDF?")) {
+                    var element = document.getElementById('admin-claims-report-table'); // Target the table-responsive div
+
+                    html2pdf().from(element).set({
+                        margin: [30, 10, 5, 10], // Top, Left, Bottom, Right
+                        pagebreak: { avoid: 'tr' }, // Avoid breaking rows across pages
+                        jsPDF: { orientation: 'landscape', unit: 'pt', format: 'letter', compressPDF: true }
+                    }).save('AllCustomerClaimReport.pdf'); // Automatically save the PDF
+                } else {
+                    // User clicked Cancel, do nothing
+                    console.log("PDF download cancelled by user.");
+                }
+            });
+        });
+    </script>
+}
+       
+

@@ -1,0 +1,259 @@
+﻿@using Microsoft.AspNetCore.Identity;
+@using VehicleInsuranceProject.Repository.Models;
+@inject UserManager<IdentityUser> UserManager;
+
+@* Model is not strictly needed for a dashboard, but if you pass data, it would be here *@
+@{
+    ViewData["Title"] = "Admin Dashboard";
+    Layout = "_Layout"; // IMPORTANT: Ensure you have an _AdminLayout.cshtml
+    // If not, change this to "_Layout" or create one.
+
+    // Get the display name for the welcome message:
+    var welcomeName = UserManager.GetUserName(User) ?? "Administrator";
+}
+
+@section Head {
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
+    <style>
+        /* Basic styles for the dashboard elements, consider moving to site.css or a dedicated admin.css */
+        .dashboard-container {
+            padding: 30px;
+            background-color: #f8f9fa;
+            border-radius: 8px;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05);
+        }
+
+        .card-dashboard {
+            border: none;
+            border-radius: 12px;
+            transition: all 0.3s ease-in-out;
+            box-shadow: 0 4px 8px rgba(0,0,0,0.07);
+        }
+
+            .card-dashboard:hover {
+                transform: translateY(-5px);
+                box-shadow: 0 8px 16px rgba(0,0,0,0.1);
+            }
+
+        .card-icon {
+            font-size: 3.5rem; /* Larger icons */
+            margin-bottom: 15px;
+            display: block;
+        }
+
+        .card-customer {
+            color: #007bff; /* Primary blue */
+        }
+
+        .card-vehicle {
+            color: #28a745; /* Success green */
+        }
+
+        .card-policy {
+            color: #17a2b8; /* Info teal */
+        }
+
+        .card-claim {
+            color: #ffc107; /* Warning yellow */
+        }
+
+        .card-admin {
+            color: #dc3545; /* Danger red */
+        }
+
+        .card-setting {
+            color: #6c757d; /* Secondary gray */
+        }
+
+        .card-title {
+            font-size: 1.5rem;
+            font-weight: 600;
+            margin-bottom: 10px;
+        }
+
+        .card-text {
+            color: #6c757d;
+            font-size: 0.95rem;
+            margin-bottom: 20px;
+        }
+
+        .dashboard-link-btn {
+            font-weight: 500;
+            padding: 10px 20px;
+            border-radius: 8px;
+        }
+
+        .recent-activity-section {
+            margin-top: 60px;
+            padding: 30px;
+            background-color: #ffffff;
+            border-radius: 8px;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05);
+        }
+
+        .activity-list-group-item {
+            display: flex;
+            align-items: center;
+            padding: 12px 0;
+            border-bottom: 1px solid #eee;
+        }
+
+            .activity-list-group-item:last-child {
+                border-bottom: none;
+            }
+
+        .activity-icon {
+            font-size: 1.5rem;
+            margin-right: 15px;
+            flex-shrink: 0;
+        }
+
+        .activity-details {
+            flex-grow: 1;
+            font-size: 1rem;
+            color: #343a40;
+        }
+
+        .activity-date {
+            font-size: 0.85rem;
+            color: #6c757d;
+            flex-shrink: 0;
+        }
+        /* Specific icon colors */
+        .bi-check-circle-fill {
+            color: #28a745;
+        }
+        /* Green */
+        .bi-arrow-clockwise {
+            color: #17a2b8;
+        }
+        /* Teal */
+        .bi-file-earmark-medical {
+            color: #007bff;
+        }
+        /* Blue */
+
+        .alert.welcome-alert {
+            background-color: #e2f2ff; /* Light blue */
+            border-color: #cce5ff;
+            color: #004085;
+        }
+    </style>
+}
+
+<div class="container dashboard-container">
+    <h2 class="mb-5">Welcome, @welcomeName!</h2>
+
+    @* Display Success/Error Messages using TempData *@
+    @if (TempData["WelcomeMessage"] != null)
+    {
+        <div class="alert welcome-alert alert-dismissible fade show" role="alert">
+            <i class="bi bi-hand-thumbs-up-fill me-2"></i> @TempData["WelcomeMessage"]
+            <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+        </div>
+    }
+    @if (TempData["SuccessMessage"] != null)
+    {
+        <div class="alert alert-success alert-dismissible fade show mt-4" role="alert">
+            <i class="bi bi-check-circle-fill me-2"></i> @TempData["SuccessMessage"]
+            <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+        </div>
+    }
+    @if (TempData["ErrorMessage"] != null)
+    {
+        <div class="alert alert-danger alert-dismissible fade show mt-4" role="alert">
+            <i class="bi bi-x-circle-fill me-2"></i> @TempData["ErrorMessage"]
+            <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+        </div>
+    }
+
+    <div class="row row-cols-1 row-cols-md-2 row-cols-lg-2 g-4">
+        <!-- Customer Management Card -->
+        <div class="col">
+            <div class="card card-dashboard text-center shadow">
+                <div class="card-body">
+                    <i class="bi bi-people-fill card-icon card-customer"></i>
+                    <h5 class="card-title">Customer Management</h5>
+                    <p class="card-text">View, search, edit, activate, or deactivate customer accounts.</p>
+                    <a asp-controller="Admin" asp-action="Customers" class="btn btn-primary dashboard-link-btn">
+                        <i class="bi bi-person-lines-fill me-2"></i> Manage Customers
+                    </a>
+                </div>
+            </div>
+        </div>
+
+
+        <!-- Policy Management Card -->
+        <div class="col">
+            <div class="card card-dashboard text-center shadow">
+                <div class="card-body">
+                    <i class="bi bi-file-earmark-text-fill card-icon card-policy"></i>
+                    <h5 class="card-title">Policy Administration</h5>
+                    <p class="card-text">Manage and modify all insurance policies.</p>
+                    <a asp-controller="Admin" asp-action="ViewPolicies" class="btn btn-info dashboard-link-btn">
+                        <i class="bi bi-journal-check me-2"></i> Manage Customer Policies
+                    </a>
+                </div>
+            </div>
+        </div>
+        <div class="col">
+            <div class="card card-dashboard text-center shadow">
+                <div class="card-body">
+                    <i class="bi bi-sliders card-icon card-coverage"></i>
+                    <h5 class="card-title">Coverage Level Management</h5>
+                    <p class="card-text">Define and adjust insurance coverage levels.</p>
+                    <a asp-controller="Admin" asp-action="CoverageLevels" class="btn btn-secondary dashboard-link-btn">
+                        <i class="bi bi-cash-stack me-2"></i> Configure Coverage
+                    </a>
+                </div>
+            </div>
+        </div>
+
+        <!-- Claims Processing Card -->
+        <div class="col">
+            <div class="card card-dashboard text-center shadow">
+                <div class="card-body">
+                    <i class="bi bi-exclamation-triangle-fill card-icon card-claim"></i>
+                    <h5 class="card-title">Claims Processing</h5>
+                    <p class="card-text">Review, approve, or reject insurance claims.</p>
+                    <a asp-controller="Claims" asp-action="AllClaims" class="btn btn-warning dashboard-link-btn">
+                        <i class="bi bi-clipboard-data me-2"></i> Process Claims
+                    </a>
+                </div>
+            </div>
+        </div>
+
+       
+
+        <!-- NEW: Reports & Analytics Card -->
+        <div class="col">
+            <div class="card card-dashboard text-center shadow">
+                <div class="card-body">
+                    <i class="bi bi-graph-up card-icon card-setting"></i> <!-- Or a specific report icon -->
+                    <h5 class="card-title">Reports & Analytics</h5>
+                    <p class="card-text">Generate comprehensive reports on system data.</p>
+                    <a asp-controller="AdminReport" asp-action="Index" class="btn btn-secondary dashboard-link-btn">
+                        <i class="bi bi-bar-chart-line me-2"></i> View Reports
+                    </a>
+                </div>
+            </div>
+        </div>
+
+    </div>
+
+    
+
+@section Scripts {
+    @{
+        await Html.RenderPartialAsync("_ValidationScriptsPartial");
+    }
+    <script>
+        $(document).ready(function() {
+            setTimeout(function() {
+                $(".alert-dismissible").fadeTo(500, 0).slideUp(500, function(){
+                    $(this).remove();
+                });
+            }, 7000); // 7 seconds
+        });
+    </script>
+}

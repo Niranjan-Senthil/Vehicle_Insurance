@@ -1,0 +1,126 @@
+﻿@model VehicleInsuranceProject.Repository.Models.CoverageLevel
+
+@{
+    ViewData["Title"] = "Coverage Level Details";
+    Layout = "_Layout"; // Ensure this matches your main layout or admin layout
+}
+
+@section Head {
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
+    <style>
+        .dashboard-container {
+            padding-top: 20px;
+            padding-bottom: 20px;
+        }
+
+        .card {
+            border: none;
+            border-radius: 8px;
+        }
+
+        .detail-label {
+            font-weight: 600;
+            color: #333;
+            text-align: right; /* Align labels to the right */
+            padding-right: 15px; /* Add some space */
+        }
+
+        .detail-value {
+            color: #555;
+            padding-left: 15px; /* Add some space */
+        }
+
+        .section-heading {
+            font-size: 1.4rem;
+            color: #6f42c1; /* Purple, matching CoverageLevels table header */
+            margin-top: 30px;
+            margin-bottom: 15px;
+            padding-bottom: 5px;
+            border-bottom: 1px solid #e0e0e0;
+        }
+
+        .btn-secondary {
+            background-color: #6c757d;
+            border-color: #6c757d;
+            color: white;
+        }
+
+            .btn-secondary:hover {
+                background-color: #5a6268;
+                border-color: #545b62;
+            }
+
+        .btn-warning {
+            background-color: #ffc107;
+            border-color: #ffc107;
+            color: #212529;
+        }
+
+            .btn-warning:hover {
+                background-color: #e0a800;
+                border-color: #d39e00;
+            }
+    </style>
+}
+
+<div class="container dashboard-container">
+    <h2 class="mb-4"><i class="bi bi-info-circle me-2"></i> @ViewData["Title"]</h2>
+
+    @if (TempData["ErrorMessage"] != null)
+    {
+        <div class="alert alert-danger alert-dismissible fade show mt-4" role="alert">
+            <i class="bi bi-x-circle-fill me-2"></i> @TempData["ErrorMessage"]
+            <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+        </div>
+    }
+
+    @if (Model == null)
+    {
+        <div class="alert alert-warning text-center" role="alert">
+            <i class="bi bi-exclamation-triangle me-2"></i> Coverage Level not found.
+        </div>
+    }
+    else
+    {
+        <div class="card shadow-sm p-4">
+            <h4 class="section-heading">Level Information</h4>
+            <dl class="row mb-4">
+                <dt class="col-sm-4 detail-label">@Html.DisplayNameFor(model => model.Name):</dt>
+                <dd class="col-sm-8 detail-value">@Html.DisplayFor(model => model.Name)</dd>
+
+                <dt class="col-sm-4 detail-label">@Html.DisplayNameFor(model => model.Description):</dt>
+                <dd class="col-sm-8 detail-value">@Html.DisplayFor(model => model.Description)</dd>
+
+                <dt class="col-sm-4 detail-label">@Html.DisplayNameFor(model => model.PremiumMultiplier):</dt>
+                <dd class="col-sm-8 detail-value">@Html.DisplayFor(model => model.PremiumMultiplier)</dd>
+
+                <dt class="col-sm-4 detail-label">@Html.DisplayNameFor(model => model.CoverageMultiplier):</dt>
+                <dd class="col-sm-8 detail-value">@Html.DisplayFor(model => model.CoverageMultiplier)</dd>
+            </dl>
+
+            <div class="mt-4 d-flex justify-content-between">
+                <a asp-action="CoverageLevels" asp-controller="Admin" class="btn btn-secondary">
+                    <i class="bi bi-arrow-left-circle me-2"></i> Back to List
+                </a>
+                <a asp-action="EditCoverageLevel" asp-route-id="@Model.CoverageLevelId" asp-controller="Admin" class="btn btn-warning">
+                    <i class="bi bi-pencil me-2"></i> Edit Coverage Level
+                </a>
+            </div>
+        </div>
+    }
+</div>
+
+@section Scripts {
+    @{
+        await Html.RenderPartialAsync("_ValidationScriptsPartial");
+    }
+    <script>
+        $(document).ready(function() {
+            setTimeout(function() {
+                $(".alert-dismissible").fadeTo(500, 0).slideUp(500, function(){
+                    $(this).remove();
+                });
+            }, 7000); // 7 seconds
+        });
+    </script>
+}

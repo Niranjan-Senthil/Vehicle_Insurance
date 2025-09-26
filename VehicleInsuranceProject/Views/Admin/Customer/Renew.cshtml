@@ -1,0 +1,186 @@
+﻿@model VehicleInsuranceProject.Repository.Models.Policy
+
+@{
+    ViewData["Title"] = "Renew Policy (Admin)"; // Changed title for clarity
+    Layout = "_Layout"; // Use your main layout or an admin-specific layout if you have one
+}
+
+@section Head {
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
+    <style>
+        /* Custom styles for this view */
+        .dashboard-container {
+            padding-top: 20px;
+            padding-bottom: 20px;
+        }
+
+        .card {
+            border: none;
+            border-radius: 8px;
+        }
+
+        .form-label {
+            font-weight: 600;
+            color: #333;
+        }
+
+        .btn-insure-primary {
+            background-color: #6A0DAD; /* Purple */
+            border-color: #6A0DAD;
+            color: white;
+            transition: background-color 0.2s ease-in-out;
+        }
+
+        .btn-insure-primary:hover {
+            background-color: #550a99; /* Darker purple */
+            border-color: #550a99;
+        }
+
+        .btn-secondary {
+            background-color: #6c757d;
+            border-color: #6c757d;
+            color: white;
+        }
+
+        .btn-secondary:hover {
+            background-color: #5a6268;
+            border-color: #545b62;
+        }
+    </style>
+}
+
+<div class="container dashboard-container">
+    <h2 class="mb-4"><i class="bi bi-arrow-clockwise me-2"></i> @ViewData["Title"]</h2>
+
+    @if (TempData["ErrorMessage"] != null)
+    {
+        <div class="alert alert-danger" role="alert">
+            @TempData["ErrorMessage"]
+        </div>
+    }
+
+    <div asp-validation-summary="ModelOnly" class="alert alert-danger" role="alert"></div>
+
+    <div class="card shadow-sm p-4">
+        <form asp-action="RenewPolicy" asp-controller="Admin" method="post"> @* Pointing to AdminController *@
+            @Html.AntiForgeryToken()
+            <input type="hidden" asp-for="policyId" />
+            <input type="hidden" asp-for="policyNumber" />
+            <input type="hidden" asp-for="vehicleId" /> @* Keep vehicleId hidden but ensure it's passed *@
+            <input type="hidden" asp-for="policyStatus" /> @* Status will be set by service *@
+
+            <div class="row g-3">
+                <div class="col-md-6">
+                    <label class="form-label">Vehicle (Registration Number)</label>
+                    <input type="text" class="form-control" value="@ViewBag.VehicleRegistrationNumber" readonly />
+                </div>
+                <div class="col-md-6">
+                    <label class="form-label">Original End Date</label>
+                    <input type="date" class="form-control" value="@(((DateTime)ViewBag.OriginalEndDate).ToString("yyyy-MM-dd"))" readonly />
+                </div>
+
+                <div class="col-md-6">
+                    <label asp-for="CoverageLevelId" class="form-label">Coverage Level</label>
+                    <select asp-for="CoverageLevelId" class="form-select" asp-items="ViewBag.CoverageLevels" required>
+                        <option value="">-- Select Coverage Level --</option>
+                    </select>
+                    <span asp-validation-for="CoverageLevelId" class="text-danger"></span>
+                </div>
+
+                <div class="col-md-6">
+                    <label asp-for="startDate" class="form-label">New Start Date</label>
+                    <input asp-for="startDate" type="date" class="form-control" readonly />
+                    <span asp-validation-for="startDate" class="text-danger"></span>
+                </div>
+
+                <div class="col-md-6">
+                    <label asp-for="endDate" class="form-label">New End Date</label>
+                    <input asp-for="endDate" type="date" class="form-control" />
+                    <span asp-validation-for="endDate" class="text-danger"></span>
+                </div>
+
+                <div class="col-md-6">
+                    <label asp-for="premiumAmount" class="form-label">Calculated New Premium Amount</label>
+                    <input asp-for="premiumAmount" class="form-control" type="number" step="0.01" min="0.01" readonly />
+                    <span asp-validation-for="premiumAmount" class="text-danger"></span>
+                </div>
+                <div class="col-md-6">
+                    <label asp-for="coverageAmount" class="form-label">Calculated New Coverage Amount</label>
+                    <input asp-for="coverageAmount" class="form-control" type="number" step="0.01" min="0.01" readonly />
+                    <span asp-validation-for="coverageAmount" class="text-danger"></span>
+                </div>
+            </div>
+
+            <div class="mt-4 d-flex justify-content-between">
+                <a asp-action="ViewPolicies" asp-controller="Admin" class="btn btn-secondary"><i class="bi bi-arrow-left-circle me-2"></i> Back to Policies</a> @* Pointing to AdminController *@
+                <button type="submit" class="btn btn-insure-primary btn-lg"><i class="bi bi-arrow-clockwise me-2"></i> Confirm Renewal</button>
+            </div>
+        </form>
+    </div>
+</div>
+
+@section Scripts {
+    @{
+        await Html.RenderPartialAsync("_ValidationScriptsPartial");
+    }
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script> 
+    <script>
+        // Client-side logic for dynamic calculation for renewal.
+        // This will now make an AJAX call to get the premium/coverage from the server.
+        function updatePremiumAndCoverageAjaxForRenew() {
+            var policyId = $('#policyId').val(); // Policy ID of the policy being renewed
+            var coverageLevelId = $('#CoverageLevelId').val(); // New coverage level for renewal
+
+            if (policyId && coverageLevelId && policyId > 0 && coverageLevelId > 0) { // Added checks for valid IDs
+                $.ajax({
+                    url: '@Url.Action("CalculateRenewalPolicyValues", "Admin")', // CHANGED: Pointing to AdminController
+                    type: 'GET',
+                    data: { policyId: policyId, coverageLevelId: coverageLevelId }, // Pass IDs
+                    success: function(data) {
+                        if (data.success) {
+                            $('#premiumAmount').val(data.premium.toFixed(2));
+                            $('#coverageAmount').val(data.coverage.toFixed(2));
+                        } else {
+                            console.error("Error calculating renewal policy values:", data.message);
+                            $('#premiumAmount').val('0.00');
+                            $('#coverageAmount').val('0.00');
+                            displayTemporaryMessage("Could not calculate renewal values. " + data.message, "danger");
+                        }
+                    },
+                    error: function(jqXHR, textStatus, errorThrown) {
+                        console.error("AJAX Error:", textStatus, errorThrown);
+                        $('#premiumAmount').val('0.00');
+                        $('#coverageAmount').val('0.00');
+                        displayTemporaryMessage("An error occurred during renewal calculation. Please try again.", "danger");
+                    }
+                });
+            } else {
+                $('#premiumAmount').val('0.00');
+                $('#coverageAmount').val('0.00');
+            }
+        }
+
+        // Helper function to display temporary messages (instead of alert)
+        function displayTemporaryMessage(message, type) {
+            var alertHtml = '<div class="alert alert-' + type + ' alert-dismissible fade show mt-2" role="alert">' +
+                            '<i class="bi bi-info-circle-fill me-2"></i> ' + message +
+                            '<button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>' +
+                            '</div>';
+            $('.dashboard-container').prepend(alertHtml); // Add to the top of the container
+            setTimeout(function() {
+                $(".alert-dismissible").fadeTo(500, 0).slideUp(500, function(){
+                    $(this).remove();
+                });
+            }, 7000); // 7 seconds
+        }
+
+
+        $(document).ready(function() {
+            // Initial calculation on page load if values are present (e.g., after postback with errors)
+            updatePremiumAndCoverageAjaxForRenew();
+
+            // Call when coverage level changes
+            $('#CoverageLevelId').change(updatePremiumAndCoverageAjaxForRenew);
+        });
+    </script>
+}

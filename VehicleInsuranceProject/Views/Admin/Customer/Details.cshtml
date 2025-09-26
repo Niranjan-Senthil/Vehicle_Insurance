@@ -1,0 +1,167 @@
+﻿<!-- Views/Admin/Customer/Details.cshtml -->
+@model VehicleInsuranceProject.Repository.Models.Customer
+
+@{
+    ViewData["Title"] = "Admin - Customer Details";
+    // IMPORTANT: Replace "_AdminLayout" with the actual path to your admin layout file.
+    Layout = "_Layout";
+}
+
+@section Head {
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
+    <!-- Include your main CSS file here if it's not already in your _AdminLayout.cshtml -->
+    <style>
+        .dashboard-container {
+            padding: 30px;
+            background-color: #f8f9fa;
+            border-radius: 8px;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05);
+        }
+
+        .card {
+            border: none;
+            border-radius: 8px;
+        }
+
+        dt {
+            font-weight: 600;
+            margin-bottom: 8px;
+        }
+
+        dd {
+            margin-bottom: 8px;
+        }
+
+        .badge-success {
+            background-color: #28a745 !important;
+        }
+
+        .badge-secondary {
+            background-color: #6c757d !important;
+        }
+
+        .btn-primary {
+            background-color: #007bff;
+            border-color: #007bff;
+        }
+
+            .btn-primary:hover {
+                background-color: #0056b3;
+                border-color: #0056b3;
+            }
+
+        .btn-secondary {
+            background-color: #6c757d;
+            border-color: #6c757d;
+        }
+
+            .btn-secondary:hover {
+                background-color: #5a6268;
+                border-color: #5a6268;
+            }
+
+        .btn-warning {
+            background-color: #ffc107;
+            border-color: #ffc107;
+            color: #212529; /* Dark text for contrast */
+        }
+
+            .btn-warning:hover {
+                background-color: #e0a800;
+                border-color: #e0a800;
+            }
+    </style>
+}
+
+<div class="container dashboard-container">
+    <h2 class="mb-4"><i class="bi bi-person-lines-fill me-2"></i> @ViewData["Title"]</h2>
+
+    @if (Model == null)
+    {
+        <div class="alert alert-warning" role="alert">
+            Customer details could not be loaded.
+        </div>
+    }
+    else
+    {
+        <div class="card shadow-sm p-4">
+            <dl class="row">
+                <dt class="col-sm-4">Customer ID:</dt>
+                <dd class="col-sm-8">@Html.DisplayFor(model => model.CustomerId)</dd>
+
+                <dt class="col-sm-4">Name:</dt>
+                <dd class="col-sm-8">@Html.DisplayFor(model => model.Name)</dd>
+
+                <dt class="col-sm-4">Email:</dt>
+                <dd class="col-sm-8">@Html.DisplayFor(model => model.Email)</dd>
+
+                <dt class="col-sm-4">Phone:</dt>
+                <dd class="col-sm-8">@Html.DisplayFor(model => model.Phone)</dd>
+
+                <dt class="col-sm-4">Address:</dt>
+                <dd class="col-sm-8">@Html.DisplayFor(model => model.Address)</dd>
+
+                <dt class="col-sm-4">Status:</dt>
+                <dd class="col-sm-8">
+                    <span class="badge @(Model.IsActive ? "bg-success" : "bg-secondary")">
+                        @(Model.IsActive ? "Active" : "Inactive")
+                    </span>
+                </dd>
+                <dt class="col-sm-4">Identity User ID:</dt>
+                <dd class="col-sm-8">@Html.DisplayFor(model => model.IdentityUserId)</dd>
+
+                @* Add related data (vehicles, policies) here if loaded in controller *@
+                @* This would require eager loading in GetCustomerByCustomerIdAsync or separate service calls *
+                @* <dt class="col-sm-4">Vehicles:</dt>
+                <dd class="col-sm-8">
+                    <ul>
+                        @if (ViewBag.Vehicles != null)
+                        {
+                            @foreach (var vehicle in ViewBag.Vehicles)
+                            {
+                                <li>@vehicle.registrationNumber (@vehicle.make @vehicle.model)</li>
+                            }
+                        }
+                    </ul>
+                </dd>
+                <dt class="col-sm-4">Policies:</dt>
+                <dd class="col-sm-8">
+                     <ul>
+                        @if (ViewBag.Policies != null)
+                        {
+                            @foreach (var policy in ViewBag.Policies)
+                            {
+                                <li>@policy.policyNumber (Coverage: @string.Format("{0:C}", policy.coverageAmount))</li>
+                            }
+                        }
+                    </ul>
+                </dd> *@
+            </dl>
+            <div class="mt-4 d-flex justify-content-between">
+
+                <a asp-action="Customers" class="btn btn-secondary"><i class="bi bi-arrow-left-circle me-2"></i> Back to List</a>
+                <div>
+                    <a asp-action="EditCustomer" asp-route-id="@Model.CustomerId" class="btn btn-warning me-2"><i class="bi bi-pencil me-2"></i> Edit Customer</a>
+                    @if (Model.IsActive)
+                    {
+                        <form asp-action="DeactivateCustomer" asp-route-id="@Model.CustomerId" method="post" class="d-inline">
+                            @Html.AntiForgeryToken()
+                            <button type="submit" class="btn btn-secondary" onclick="return confirm('Are you sure you want to deactivate this customer?');">
+                                <i class="bi bi-x-circle me-2"></i> Deactivate
+                            </button>
+                        </form>
+                    }
+                    else
+                    {
+                        <form asp-action="ActivateCustomer" asp-route-id="@Model.CustomerId" method="post" class="d-inline">
+                            @Html.AntiForgeryToken()
+                            <button type="submit" class="btn btn-success" onclick="return confirm('Are you sure you want to activate this customer?');">
+                                <i class="bi bi-check-circle me-2"></i> Activate
+                            </button>
+                        </form>
+                    }
+                </div>
+            </div>
+        </div>
+    }
+</div>

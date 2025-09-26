@@ -1,0 +1,73 @@
+﻿@* @using VehicleInsuranceProject.Repository.Models *@
+@* @model VehicleInsuranceProject.Repository.Models.Policy *@
+
+@* @{ *@
+@*     ViewData["Title"] = "Edit Policy"; *@
+@* } *@
+
+@* @section Head { *@
+@*     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css"> *@
+@* } *@
+
+@* <div class="container dashboard-container"> *@
+@*     <h2 class="mb-4"><i class="bi bi-pencil-square me-2"></i> @ViewData["Title"]</h2> *@
+
+@*     @* Display Errors from Controller *@ 
+@*     <div asp-validation-summary="ModelOnly" class="alert alert-danger" role="alert"></div> *@
+
+@*     <div class="card shadow-sm p-4"> *@
+@*         <form asp-action="Edit"> *@
+@*             @Html.AntiForgeryToken() *@
+@*             <input type="hidden" asp-for="policyId" /> *@
+@*             <input type="hidden" asp-for="vehicleId" /> *@
+@*             <input type="hidden" asp-for="policyNumber" /> *@
+
+@*             <div class="row g-3"> *@
+@*                 <div class="col-md-6"> *@
+@*                     <label class="form-label">Policy Number</label> *@
+@*                     <input type="text" class="form-control" value="@Model.policyNumber" readonly /> *@
+@*                 </div> *@
+@*                 <div class="col-md-6"> *@
+@*                     <label class="form-label">Vehicle Registration</label> *@
+@*                     <input type="text" class="form-control" value="@ViewBag.VehicleRegistrationNumber" readonly /> *@
+@*                 </div> *@
+@*                 <div class="col-md-6"> *@
+@*                     <label asp-for="coverageAmount" class="form-label">Coverage Amount</label> *@
+@*                     <input asp-for="coverageAmount" class="form-control" /> *@
+@*                     <span asp-validation-for="coverageAmount" class="text-danger"></span> *@
+@*                 </div> *@
+@*                 <div class="col-md-6"> *@
+@*                     <label asp-for="premiumAmount" class="form-label">Premium Amount</label> *@
+@*                     <input asp-for="premiumAmount" class="form-control" /> *@
+@*                     <span asp-validation-for="premiumAmount" class="text-danger"></span> *@
+@*                 </div> *@
+@*                 <div class="col-md-6"> *@
+@*                     <label asp-for="startDate" class="form-label">Start Date</label> *@
+@*                     <input asp-for="startDate" type="date" class="form-control" /> *@
+@*                     <span asp-validation-for="startDate" class="text-danger"></span> *@
+@*                 </div> *@
+@*                 <div class="col-md-6"> *@
+@*                     <label asp-for="endDate" class="form-label">End Date</label> *@
+@*                     <input asp-for="endDate" type="date" class="form-control" /> *@
+@*                     <span asp-validation-for="endDate" class="text-danger"></span> *@
+@*                 </div> *@
+@*                 <div class="col-md-6"> *@
+@*                     <label asp-for="policyStatus" class="form-label">Policy Status</label> *@
+@*                     <select asp-for="policyStatus" class="form-select" asp-items="Html.GetEnumSelectList<PolicyStatus>()"></select> *@
+@*                     <span asp-validation-for="policyStatus" class="text-danger"></span> *@
+@*                 </div> *@
+@*             </div> *@
+
+@*             <div class="mt-4 d-flex justify-content-between"> *@
+@*                 <a asp-action="ViewPolicies" class="btn btn-secondary"><i class="bi bi-arrow-left-circle me-2"></i> Back to Policies</a> *@
+@*                 <button type="submit" class="btn btn-insure-primary btn-lg"><i class="bi bi-save me-2"></i> Save Changes</button> *@
+@*             </div> *@
+@*         </form> *@
+@*     </div> *@
+@* </div> *@
+
+@* @section Scripts { *@
+@*     @{ *@
+@*         await Html.RenderPartialAsync("_ValidationScriptsPartial"); *@
+@*     } *@
+@* } *@

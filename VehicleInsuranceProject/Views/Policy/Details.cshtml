@@ -1,0 +1,129 @@
+﻿@using VehicleInsuranceProject.Repository.Models
+@model VehicleInsuranceProject.Repository.Models.Policy
+
+@{
+    ViewData["Title"] = "Policy Details";
+}
+
+@section Head {
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
+}
+
+<div class="container dashboard-container">
+    <h2 class="mb-4"><i class="bi bi-journal-text me-2"></i> @ViewData["Title"]</h2>
+
+    @if (Model == null)
+    {
+        <div class="alert alert-warning" role="alert">
+            Policy details could not be loaded.
+        </div>
+    }
+    else
+    {
+        <div class="card shadow-sm p-4">
+            <dl class="row">
+                <dt class="col-sm-4">Policy Number:</dt>
+                <dd class="col-sm-8">@Html.DisplayFor(model => model.policyNumber)</dd>
+
+                <dt class="col-sm-4">Vehicle:</dt>
+                <dd class="col-sm-8">@(Model.Vehicle?.registrationNumber ?? "N/A")</dd>
+
+                <dt class="col-sm-4">Vehicle Make & Model:</dt>
+                <dd class="col-sm-8">@(Model.Vehicle != null ? $"{Model.Vehicle.make} {Model.Vehicle.model}" : "N/A")</dd>
+
+                <dt class="col-sm-4">Coverage Level:</dt>
+                <dd class="col-sm-8">@(Model.CoverageLevel?.Name ?? "N/A")</dd> 
+
+                <dt class="col-sm-4">Coverage Amount:</dt>
+                <dd class="col-sm-8">@string.Format("{0:C}", Model.coverageAmount)</dd>
+
+                <dt class="col-sm-4">Premium Amount:</dt>
+                <dd class="col-sm-8">@string.Format("{0:C}", Model.premiumAmount)</dd>
+
+                <dt class="col-sm-4">Start Date:</dt>
+                <dd class="col-sm-8">@Html.DisplayFor(model => model.startDate)</dd>
+
+                <dt class="col-sm-4">End Date:</dt>
+                <dd class="col-sm-8">@Html.DisplayFor(model => model.endDate)</dd>
+
+                <dt class="col-sm-4">Policy Status:</dt>
+                <dd class="col-sm-8">
+                    <span class="badge @(Model.policyStatus == PolicyStatus.ACTIVE ? "bg-success" : "bg-danger")">
+                        @Html.DisplayFor(model => model.policyStatus)
+                    </span>
+                </dd>
+            </dl>
+            <div class="mt-4 d-flex justify-content-between">
+                <a asp-action="ViewPolicies" class="btn btn-secondary"><i class="bi bi-arrow-left-circle me-2"></i> Back to List</a>
+                <div>
+                    @{
+                        // Calculate the difference in days
+                        var daysUntilExpiry = (Model.endDate - DateTime.Today).TotalDays;
+
+                        // Condition for enabling the Renew button:
+                        // Policy must be ACTIVE AND (endDate is today or in the future AND within 15 days)
+                        bool canRenew = Model.policyStatus == PolicyStatus.ACTIVE && daysUntilExpiry >= 0 && daysUntilExpiry <= 15;
+                    }
+
+                    @* <a asp-action="Edit" asp-route-policyId="@Model.policyId" class="btn btn-warning me-2"><i class="bi bi-pencil me-2"></i> Edit</a> *@
+                    @if (canRenew)
+                    {
+                        <a asp-action="Renew" asp-route-policyId="@Model.policyId" class="btn btn-success"><i class="bi bi-arrow-clockwise me-2"></i> Renew Policy</a>
+                    }
+                    else
+                    {
+                        <button class="btn btn-success" title="Renew (Available within 15 days of expiry)" disabled>
+                            <i class="bi bi-arrow-clockwise me-2"></i> Renew Policy
+                        </button>
+                    }
+                </div>
+            </div>
+        </div>
+    }
+</div>
+
+@section Scripts {
+    @{
+        await Html.RenderPartialAsync("_ValidationScriptsPartial");
+    }
+}
+<style>
+    /* Custom styles for this view */
+    .dashboard-container {
+        padding-top: 20px;
+        padding-bottom: 20px;
+    }
+
+    .card {
+        border: none;
+        border-radius: 8px;
+    }
+
+    .form-label {
+        font-weight: 600;
+        color: #333;
+    }
+
+    .btn-insure-primary {
+        background-color: #6A0DAD; /* Purple */
+        border-color: #6A0DAD;
+        color: white;
+        transition: background-color 0.2s ease-in-out;
+    }
+
+    .btn-insure-primary:hover {
+        background-color: #550a99; /* Darker purple */
+        border-color: #550a99;
+    }
+
+    .btn-secondary {
+        background-color: #6c757d;
+        border-color: #6c757d;
+        color: white;
+    }
+
+    .btn-secondary:hover {
+        background-color: #5a6268;
+        border-color: #545b62;
+    }
+</style>

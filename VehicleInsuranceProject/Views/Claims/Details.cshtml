@@ -1,0 +1,76 @@
+﻿@* VehicleInsuranceProject.Web/Views/Claims/Details.cshtml *@
+@model VehicleInsuranceProject.Repository.Models.Claim
+
+@{
+    ViewData["Title"] = "Claim Details";
+}
+
+<h1>Claim Details</h1>
+
+<div>
+    <h4>Claim ID: @Model.claimId</h4>
+    <hr />
+    <dl class="row">
+        <dt class="col-sm-3">Policy Number:</dt>
+        <dd class="col-sm-9">@Model.Policy?.policyNumber</dd>
+
+        <dt class="col-sm-3">Claim Amount:</dt>
+        <dd class="col-sm-9">@Model.claimAmount.ToString("C")</dd>
+
+        <dt class="col-sm-3">Policy Coverage:</dt>
+        <dd class="col-sm-9">@Model.Policy?.coverageAmount.ToString("C")</dd>
+
+        <dt class="col-sm-3">Reason for Claim:</dt>
+        <dd class="col-sm-9">@Model.claimReason</dd>
+
+        <dt class="col-sm-3">Claim Date:</dt>
+        <dd class="col-sm-9">@Model.claimDate.ToShortDateString()</dd>
+
+        <dt class="col-sm-3">Status:</dt>
+        <dd class="col-sm-9">@Model.claimStatus</dd>
+
+        <dt class="col-sm-3">Vehicle:</dt>
+        <dd class="col-sm-9">@Model.Policy?.Vehicle?.make @Model.Policy?.Vehicle?.model (@Model.Policy?.Vehicle?.registrationNumber)</dd>
+
+        <dt class="col-sm-3">Customer Name:</dt>
+        <dd class="col-sm-9">@Model.Policy?.Vehicle?.Customer?.Name</dd>
+
+        <dt class="col-sm-3">Customer Email:</dt>
+        <dd class="col-sm-9">@Model.Policy?.Vehicle?.Customer?.Email</dd>
+
+        @if (!string.IsNullOrEmpty(Model.ImagePaths))
+        {
+            <dt class="col-sm-3">Images:</dt>
+            <dd class="col-sm-9">
+                <div class="row">
+                    @foreach (var path in Model.ImagePaths.Split(',', StringSplitOptions.RemoveEmptyEntries))
+                    {
+                        <div class="col-md-4 mb-3">
+                            <img src="@path" alt="Claim Image" class="img-fluid img-thumbnail" style="max-width: 200px; max-height: 200px; object-fit: cover;" />
+                        </div>
+                    }
+                </div>
+            </dd>
+        }
+    </dl>
+</div>
+<div>
+    @* <a asp-action="CustomerClaims" class="btn btn-secondary">Back to Claims</a> *@
+    @if (User.IsInRole("Admin"))
+    {
+        <a asp-action="AllClaims" class="btn btn-secondary">Back to All Claims</a>
+        @if (Model.claimStatus == VehicleInsuranceProject.Repository.Models.ClaimStatus.SUBMITTED)
+        {
+            <form asp-action="UpdateClaimStatus" method="post" class="d-inline">
+                <input type="hidden" name="claimId" value="@Model.claimId" />
+                <input type="hidden" name="newStatus" value="@VehicleInsuranceProject.Repository.Models.ClaimStatus.APPROVED" />
+                <button type="submit" class="btn btn-success">Approve</button>
+            </form>
+            <form asp-action="UpdateClaimStatus" method="post" class="d-inline">
+                <input type="hidden" name="claimId" value="@Model.claimId" />
+                <input type="hidden" name="newStatus" value="@VehicleInsuranceProject.Repository.Models.ClaimStatus.REJECTED" />
+                <button type="submit" class="btn btn-danger">Reject</button>
+            </form>
+        }
+    }
+</div>

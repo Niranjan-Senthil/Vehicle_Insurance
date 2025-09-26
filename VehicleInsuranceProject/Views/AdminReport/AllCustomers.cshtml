@@ -1,0 +1,138 @@
+﻿@model IEnumerable<VehicleInsuranceProject.ViewModels.AdminCustomerReportViewModel>
+
+@{
+    ViewData["Title"] = "All Customers Report (Admin)";
+    Layout = "_Layout"; // Assuming your admin layout
+}
+
+@section Head {
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
+    <style>
+        .report-container {
+            padding: 30px;
+            background-color: #f8f9fa;
+            border-radius: 8px;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05);
+        }
+
+        .table-responsive {
+            margin-top: 20px;
+        }
+
+        .bg-admin-primary {
+            background-color: #343a40 !important;
+        }
+
+        .status-active {
+            color: #28a745;
+            font-weight: bold;
+        }
+
+        .status-inactive {
+            color: #6c757d;
+            font-weight: bold;
+        }
+
+        .empty-state-section {
+            text-align: center;
+            padding: 50px;
+            color: #6c757d;
+        }
+
+            .empty-state-section i {
+                font-size: 60px;
+                margin-bottom: 20px;
+                color: #ced4da;
+            }
+    </style>
+}
+
+<div class="container report-container">
+    <h2 class="mb-4"><i class="bi bi-people-fill me-2"></i> @ViewData["Title"]</h2>
+
+    @if (Model != null && Model.Any())
+    {
+        <div class="table-responsive" id="admin-customers-report-table">
+            <table class="table table-striped table-hover shadow-sm rounded-3 overflow-hidden">
+                <thead class="bg-admin-primary text-white">
+                    <tr>
+                        <th>Customer ID</th>
+                        <th>Name</th>
+                        <th>Email</th>
+                        <th>Phone</th>
+                        <th>Status</th>
+                        <th>Vehicles</th>
+                        <th>Active Policies</th>
+                        <th>Total Claims</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @foreach (var item in Model.OrderBy(c => c.Name))
+                    {
+                        <tr>
+                            <td>@item.CustomerId</td>
+                            <td>@item.Name</td>
+                            <td>@item.Email</td>
+                            <td>@item.Phone</td>
+                            <td>
+                                <span class="@(item.IsActive ? "status-active" : "status-inactive")">
+                                    @(item.IsActive ? "Active" : "Inactive")
+                                </span>
+                            </td>
+                            <td>@item.TotalVehicles</td>
+                            <td>@item.ActivePolicies</td>
+                            <td>@item.TotalClaims</td>
+                        </tr>
+                    }
+                </tbody>
+            </table>
+        </div>
+        <div class="mt-4 text-end">
+            <button id="downloadPdfButton" class="btn btn-primary">
+                <i class="bi bi-file-earmark-pdf me-2"></i> Download PDF
+            </button>
+        </div>
+    }
+    else
+    {
+        <div class="empty-state-section">
+            <i class="bi bi-people"></i>
+            <p>No customer records found in the system.</p>
+        </div>
+    }
+</div>
+
+
+
+@section Scripts {
+    <!-- html2pdf.js library -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/html2pdf.js/0.10.1/html2pdf.bundle.min.js"></script>
+
+    <script>
+        $(document).ready(function() {
+            // Auto-hide alerts
+            setTimeout(function() {
+                $(".alert-dismissible").fadeTo(500, 0).slideUp(500, function(){
+                    $(this).remove();
+                });
+            }, 7000); // 7 seconds
+
+            // PDF Download Button Click Event
+           $("#downloadPdfButton").click(function() {
+                // Ask for confirmation
+                if (confirm("Do you want to download this report as a PDF?")) {
+                    var element = document.getElementById('admin-customers-report-table'); // Target the table-responsive div
+
+                    html2pdf().from(element).set({
+                        margin: [30, 10, 5, 10], // Top, Left, Bottom, Right
+                        pagebreak: { avoid: 'tr' }, // Avoid breaking rows across pages
+                        jsPDF: { orientation: 'landscape', unit: 'pt', format: 'letter', compressPDF: true }
+                    }).save('AllCustomersReport.pdf'); // Automatically save the PDF
+                } else {
+                    // User clicked Cancel, do nothing
+                    console.log("PDF download cancelled by user.");
+                }
+            });
+        });
+    </script>
+}

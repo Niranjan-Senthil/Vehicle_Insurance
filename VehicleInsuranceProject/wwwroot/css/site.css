@@ -1,0 +1,474 @@
+/* site.css: Global styles for VehicleInsuranceProject */
+
+/* Define CSS Variables for the Color Palette from your logo.png / logo1.png */
+:root {
+    --insure-edge-dark-bg: #222222; /* Dark grey from logo1.png's background circle for footer/hero */
+    --insure-edge-dark-purple: #2A1657; /* Darkest purple/indigo from the logo */
+    --insure-edge-mid-purple: #5C3A9B; /* A mid-tone purple from the logo gradient */
+    --insure-edge-light-purple: #8E44AD; /* Lighter purple from the logo gradient */
+    --insure-edge-white-text: #FFFFFF;
+    --insure-edge-dark-text: #343a40; /* Standard dark text for light backgrounds */
+    --insure-edge-soft-grey: #6c757d; /* For muted text */
+    /* New variables for dashboard-specific accents, complementing the purple theme */
+    --insure-edge-accent-blue: #007bff; /* Keep a standard blue for clarity for specific elements */
+    --insure-edge-accent-green: #28a745; /* For success/policies */
+    --insure-edge-accent-yellow: #ffc107; /* For warnings/claims */
+    --insure-edge-accent-red: #dc3545; /* For dangers/deletes */
+    /* Dashboard Specific Colors for Alerts & Backgrounds */
+    --dashboard-bg: #f8f9fa; /* Light grey background for the overall page */
+    --dashboard-card-bg: #ffffff;
+    --dashboard-welcome-alert-bg: #e6f7ed; /* Lighter, subtle green for welcome */
+    --dashboard-welcome-alert-text: #1b5e20; /* Darker green text */
+    --dashboard-welcome-alert-border: #d0e8d5;
+    --dashboard-activity-bg: #f5f7fa; /* Slightly off-white for activity list items */
+    --dashboard-activity-border: #e9edf2;
+    --dashboard-empty-state-bg: #f0f2f5;
+    --dashboard-empty-state-text: #6c757d;
+    --dashboard-empty-state-icon: #adb5bd;
+}
+
+/* General body font and color */
+body {
+    font-family: 'Open Sans', sans-serif;
+    color: var(--insure-edge-dark-text);
+    background-color: var(--dashboard-bg); /* Apply dashboard background to body */
+}
+
+.form-control::placeholder { /* For all inputs with form-control */
+    font-size: 0.9rem; /* Adjust this value as needed. 1rem is default, 0.9rem is slightly smaller */
+    color: var(--insure-edge-soft-grey); /* You can also adjust the color if needed */
+    opacity: 0.8; /* Make it slightly less prominent than default */
+}
+
+.badge.bg-insure-accent-green {
+    background-color: var(--insure-edge-accent-green) !important;
+    **color: var(--insure-edge-dark-text) !important; /* Force dark text for light background */
+    **
+}
+
+.badge.bg-insure-accent-red {
+    background-color: var(--insure-edge-accent-red) !important;
+    **color: var(--insure-edge-dark-text) !important; /* Force dark text for light background */
+    **
+}
+/* Headings use Open Sans bold by default */
+h1, h2, h3, h4, h5, h6 {
+    font-family: 'Open Sans', sans-serif;
+    font-weight: 700;
+}
+
+/* Navbar Brand Styling */
+.navbar-brand .font-great-vibes {
+    font-family: 'Great Vibes', cursive !important;
+    font-size: 2rem !important; /* Larger font size for brand */
+    font-weight: normal !important;
+}
+
+.navbar-light .navbar-brand {
+    color: var(--insure-edge-dark-purple) !important; /* Brand name in dark purple on light nav */
+}
+
+/* Navigation Links (general, for both auth/unauth) */
+.navbar-light .navbar-nav .nav-link {
+    color: var(--insure-edge-dark-text) !important; /* Dark text for nav links on light nav */
+    font-weight: 400;
+    transition: color 0.3s ease;
+}
+
+    .navbar-light .navbar-nav .nav-link:hover {
+        color: var(--insure-edge-mid-purple) !important; /* Hover effect to a purple */
+    }
+
+/* Make placeholder text smaller for form inputs */
+.form-control::placeholder {
+    font-size: 0.9rem; /* Adjust this value as needed. 1rem is default, 0.9rem is slightly smaller */
+    color: var(--insure-edge-soft-grey);
+    opacity: 0.8;
+}
+
+/* Custom Button Styles */
+/* This is the primary themed button used across the application */
+.btn-insure-primary {
+    background-color: var(--insure-edge-mid-purple);
+    border-color: var(--insure-edge-dark-purple);
+    color: var(--insure-edge-white-text);
+    transition: background-color 0.3s ease, border-color 0.3s ease;
+}
+
+    .btn-insure-primary:hover,
+    .btn-insure-primary:focus {
+        background-color: var(--insure-edge-light-purple);
+        border-color: var(--insure-edge-light-purple);
+        color: var(--insure-edge-white-text);
+        box-shadow: 0 0 0 0.25rem rgba(var(--insure-edge-mid-purple), 0.25);
+    }
+
+.btn-outline-insure-primary {
+    color: var(--insure-edge-mid-purple);
+    border-color: var(--insure-edge-mid-purple);
+    background-color: transparent;
+    transition: all 0.3s ease;
+}
+
+    .btn-outline-insure-primary:hover,
+    .btn-outline-insure-primary:focus {
+        background-color: var(--insure-edge-mid-purple);
+        color: var(--insure-edge-white-text);
+        border-color: var(--insure-edge-mid-purple);
+        box-shadow: 0 0 0 0.25rem rgba(var(--insure-edge-mid-purple), 0.25);
+    }
+
+/* Override default Bootstrap button styles to align with the primary theme */
+/* These will make all .btn-primary, .btn-success, etc. look like the Insure Primary button */
+.btn-primary,
+.btn-success,
+.btn-warning,
+.btn-info,
+.btn-danger { /* Including danger here for consistency, though it was already red */
+    background-color: var(--insure-edge-mid-purple);
+    border-color: var(--insure-edge-dark-purple);
+    color: var(--insure-edge-white-text);
+    transition: background-color 0.3s ease, border-color 0.3s ease;
+}
+
+    .btn-primary:hover, .btn-primary:focus,
+    .btn-success:hover, .btn-success:focus,
+    .btn-warning:hover, .btn-warning:focus,
+    .btn-info:hover, .btn-info:focus,
+    .btn-danger:hover, .btn-danger:focus {
+        background-color: var(--insure-edge-light-purple);
+        border-color: var(--insure-edge-light-purple);
+        color: var(--insure-edge-white-text); /* Ensure text remains white on hover for all these */
+        box-shadow: 0 0 0 0.25rem rgba(var(--insure-edge-mid-purple), 0.25);
+    }
+
+/* Special case for the "danger" button if it needs to truly be red for destructive actions */
+/* If you want btn-danger to stay red, uncomment this block */
+/*
+.btn-danger {
+    background-color: var(--insure-edge-accent-red);
+    border-color: var(--insure-edge-accent-red);
+    color: var(--insure-edge-white-text);
+}
+
+    .btn-danger:hover,
+    .btn-danger:focus {
+        background-color: #c82333; // A darker shade of #dc3545
+        border-color: #bd2130;
+        box-shadow: 0 0 0 0.25rem rgba(var(--insure-edge-accent-red), 0.25);
+    }
+*/
+
+/* Background Color Utility Classes */
+.bg-insure-dark-bg { /* For hero, footer */
+    background-color: var(--insure-edge-dark-bg) !important;
+}
+
+.bg-insure-dark-purple {
+    background-color: var(--insure-edge-dark-purple) !important;
+}
+
+.bg-insure-light-purple {
+    background-color: var(--insure-edge-light-purple) !important;
+}
+
+
+/* Text Color Utility Classes */
+.text-insure-dark-purple {
+    color: var(--insure-edge-dark-purple) !important;
+}
+
+.text-insure-mid-purple {
+    color: var(--insure-edge-mid-purple) !important;
+}
+
+    .text-insure-mid-purple:hover {
+        color: var(--insure-edge-dark-purple) !important;
+    }
+
+.text-insure-light-purple {
+    color: var(--insure-edge-light-purple) !important;
+}
+
+.text-insure-white {
+    color: var(--insure-edge-white-text) !important;
+}
+
+.text-dark {
+    color: var(--insure-edge-dark-text) !important;
+}
+
+.text-muted {
+    color: var(--insure-edge-soft-grey) !important;
+}
+
+
+/* Hero Section Specific Styles */
+.hero-gradient-bg {
+    background: linear-gradient(to right, var(--insure-edge-dark-purple), var(--insure-edge-light-purple));
+}
+
+.text-shadow-light {
+    text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.4);
+}
+
+/* Feature Icon Circles (for Index.cshtml) */
+.feature-icon-circle {
+    background-color: var(--insure-edge-light-purple);
+    color: var(--insure-edge-white-text);
+    width: 60px;
+    height: 60px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: 50%;
+    margin: 0 auto 1.5rem;
+}
+
+    .feature-icon-circle i {
+        font-size: 2rem;
+    }
+
+/* Custom Footer */
+.custom-footer {
+    background-color: var(--insure-edge-dark-bg); /* Use the dark background for the footer */
+    color: var(--insure-edge-white-text);
+    padding-top: 1.5rem;
+    padding-bottom: 1.5rem;
+    margin-top: 2rem;
+    border-top-left-radius: .5rem;
+    border-top-right-radius: .5rem;
+}
+
+    .custom-footer a {
+        color: rgba(255, 255, 255, 0.7);
+        text-decoration: none;
+        transition: color 0.3s ease;
+    }
+
+        .custom-footer a:hover {
+            color: var(--insure-edge-white-text);
+        }
+
+
+/* ========================================================= */
+/* CUSTOMER DASHBOARD SPECIFIC STYLES (MOVED FROM INLINE) */
+/* ========================================================= */
+
+.dashboard-container {
+    max-width: 1000px;
+    margin: 50px auto;
+    padding: 40px;
+    background-color: var(--dashboard-card-bg); /* White background */
+    border-radius: 15px;
+    box-shadow: 0 15px 40px rgba(0, 0, 0, 0.15);
+}
+
+    .dashboard-container h2 {
+        font-size: 3rem; /* Larger, more prominent heading */
+        font-weight: 700;
+        color: var(--insure-edge-dark-purple); /* Darker purple */
+        margin-bottom: 30px;
+        text-align: center;
+        position: relative;
+        padding-bottom: 20px;
+    }
+
+        .dashboard-container h2::after {
+            content: '';
+            position: absolute;
+            left: 50%;
+            bottom: 0;
+            transform: translateX(-50%);
+            width: 120px; /* Wider underline */
+            height: 5px;
+            background-color: var(--insure-edge-mid-purple); /* Mid purple */
+            border-radius: 3px;
+        }
+
+.card-dashboard {
+    border: none;
+    border-radius: 12px;
+    overflow: hidden;
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+    height: 100%; /* Ensure cards in a row have equal height */
+}
+
+    .card-dashboard:hover {
+        transform: translateY(-8px); /* More pronounced lift */
+        box-shadow: 0 18px 45px rgba(0, 0, 0, 0.15); /* Stronger shadow on hover */
+    }
+
+    .card-dashboard .card-body {
+        padding: 2.5rem;
+        display: flex;
+        flex-direction: column;
+        justify-content: space-between;
+    }
+
+    .card-dashboard .card-title {
+        font-size: 1.8rem; /* Larger card title */
+        font-weight: 700;
+        margin-bottom: 1rem;
+        color: var(--insure-edge-dark-purple); /* Darker purple */
+    }
+
+    .card-dashboard .card-text {
+        font-size: 1.1rem;
+        color: var(--insure-edge-dark-text);
+        flex-grow: 1; /* Allows text to take up available space */
+    }
+
+.card-icon {
+    font-size: 3.5rem; /* Large icons */
+    margin-bottom: 1.5rem;
+    display: block; /* Ensures icon takes full width for text-center */
+    text-align: center;
+}
+
+/* Specific card colors and icons - Mapped to theme colors */
+/* ALL ICONS WILL NOW BE DARK PURPLE */
+.card-vehicles .card-icon,
+.card-claims .card-icon,
+.card-profile .card-icon,
+.card-policy .card-icon {
+    color: var(--insure-edge-mid-purple);
+}
+
+.dashboard-link-btn {
+    margin-top: 1.5rem;
+    width: 100%; /* Full width button */
+    font-size: 1.1rem;
+    font-weight: 600;
+    padding: 0.8rem 1.5rem;
+    border-radius: 8px;
+    transition: all 0.2s ease-in-out;
+    /* Ensure all dashboard link buttons are themed */
+    background-color: var(--insure-edge-mid-purple);
+    border-color: var(--insure-edge-dark-purple);
+    color: var(--insure-edge-white-text);
+}
+
+    .dashboard-link-btn:hover,
+    .dashboard-link-btn:focus {
+        background-color: var(--insure-edge-light-purple);
+        border-color: var(--insure-edge-light-purple);
+        color: var(--insure-edge-white-text);
+        box-shadow: 0 0 0 0.25rem rgba(var(--insure-edge-mid-purple), 0.25);
+    }
+
+
+/* Alert for welcome message - Themed to a success/soft green */
+.welcome-alert {
+    background-color: var(--dashboard-welcome-alert-bg); /* Light green */
+    color: var(--dashboard-welcome-alert-text); /* Dark green text */
+    border-color: var(--dashboard-welcome-alert-border);
+    padding: 1.5rem;
+    border-radius: 12px;
+    font-size: 1.1rem;
+    margin-bottom: 30px;
+    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.08);
+}
+
+/* Recent Activity Section */
+.recent-activity-section {
+    margin-top: 60px;
+    padding-top: 40px;
+    border-top: 1px solid var(--dashboard-activity-border);
+}
+
+    .recent-activity-section h3 {
+        font-size: 2.2rem;
+        font-weight: 700;
+        color: var(--insure-edge-dark-purple);
+        margin-bottom: 30px;
+        text-align: center;
+        position: relative;
+        padding-bottom: 15px;
+    }
+
+        .recent-activity-section h3::after {
+            content: '';
+            position: absolute;
+            left: 50%;
+            bottom: 0;
+            transform: translateX(-50%);
+            width: 100px;
+            height: 4px;
+            background-color: var(--insure-edge-mid-purple); /* Mid purple underline */
+            border-radius: 2px;
+        }
+
+.activity-list-group-item {
+    background-color: var(--dashboard-activity-bg);
+    border: 1px solid var(--dashboard-activity-border);
+    border-radius: 8px;
+    margin-bottom: 10px;
+    padding: 15px 20px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    transition: background-color 0.2s ease, transform 0.1s ease;
+}
+
+    .activity-list-group-item:hover {
+        background-color: var(--dashboard-activity-border); /* Slightly darker on hover */
+        transform: translateY(-2px);
+    }
+
+    .activity-list-group-item .activity-icon {
+        font-size: 1.4rem;
+        color: var(--insure-edge-mid-purple); /* Use mid purple for activity icons */
+        margin-right: 15px;
+    }
+
+    .activity-list-group-item .activity-details {
+        flex-grow: 1;
+        font-size: 1rem;
+        color: var(--insure-edge-dark-text);
+    }
+
+    .activity-list-group-item .activity-date {
+        font-size: 0.85rem;
+        color: var(--insure-edge-soft-grey);
+        white-space: nowrap; /* Prevent date from wrapping */
+    }
+
+.empty-state-section {
+    padding: 50px;
+    text-align: center;
+    background-color: var(--dashboard-empty-state-bg);
+    border-radius: 12px;
+    color: var(--dashboard-empty-state-text);
+    font-size: 1.2rem;
+    margin-top: 30px;
+    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.05);
+}
+
+    .empty-state-section i {
+        font-size: 4rem;
+        margin-bottom: 20px;
+        color: var(--dashboard-empty-state-icon);
+    }
+
+/* Table styling for recent vehicles */
+.table-striped tbody tr:nth-of-type(odd) {
+    background-color: rgba(var(--insure-edge-mid-purple), 0.05); /* Light purple stripe */
+}
+
+.table-hover tbody tr:hover {
+    background-color: rgba(var(--insure-edge-mid-purple), 0.1); /* Slightly darker purple on hover */
+}
+
+.table thead {
+    background-color: var(--insure-edge-dark-purple); /* Dark purple header */
+    color: var(--insure-edge-white-text);
+}
+
+.table th {
+    border-color: rgba(255, 255, 255, 0.2) !important; /* Lighter border for dark header */
+}
+
+.table td, .table th {
+    vertical-align: middle; /* Center content vertically */
+}

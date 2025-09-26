@@ -1,0 +1,56 @@
+﻿@using VehicleInsuranceProject.ViewModels;
+@model CustomerUpdateViewModel;
+
+@{
+    ViewData["Title"] = "Update Profile";
+    Layout = "~/Views/Shared/_Layout.cshtml"; // Adjust the layout if needed
+}
+
+<div class="container my-5">
+    <h2 class="text-center mb-4 display-5 fw-bold text-insure-dark-purple">Update Profile</h2>
+    <div class="row justify-content-center">
+        <div class="col-md-6">
+            <div class="card p-4 shadow-lg border-0 rounded-3">
+                <form asp-action="UpdateProfile" method="post">
+                    <div asp-validation-summary="ModelOnly" class="text-danger mb-3"></div>
+                    <input type="hidden" asp-for="CustomerId" />
+
+                    <div class="mb-3">
+                        <label asp-for="Name" class="form-label text-insure-dark-text">Name</label>
+                        <input asp-for="Name" class="form-control form-control-lg" />
+                        <span asp-validation-for="Name" class="text-danger small mt-1 d-block"></span>
+                    </div>
+
+                    <div class="mb-3">
+                        <label asp-for="Email" class="form-label text-insure-dark-text">Email</label>
+                        <input asp-for="Email" class="form-control form-control-lg" />
+                        <span asp-validation-for="Email" class="text-danger small mt-1 d-block"></span>
+                    </div>
+
+                    <div class="mb-3">
+                        <label asp-for="Phone" class="form-label text-insure-dark-text">Phone</label>
+                        <input asp-for="Phone" class="form-control form-control-lg" />
+                        <span asp-validation-for="Phone" class="text-danger small mt-1 d-block"></span>
+                    </div>
+
+                    <div class="mb-3">
+                        <label asp-for="Address" class="form-label text-insure-dark-text">Address</label>
+                        <textarea asp-for="Address" class="form-control form-control-lg"></textarea>
+                        <label asp-validation-for="Address" class="text-danger small mt-1 d-block"></label>
+                    </div>
+
+                    <button type="submit" value="Update" class="btn btn-insure-primary w-100 p-3 fs-5">Update</button>
+                    <div class="text-center mt-3">
+                        <a asp-controller="Customer" asp-action="CustomerDashboard" class="text-decoration-none text-insure-mid-purple">Back to Home</a>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+
+@section Scripts {
+    @{
+        await Html.RenderPartialAsync("_ValidationScriptsPartial.cshtml");
+    }
+}

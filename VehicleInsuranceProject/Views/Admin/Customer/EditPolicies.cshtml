@@ -1,0 +1,253 @@
+﻿@model VehicleInsuranceProject.Repository.Models.Policy
+@using VehicleInsuranceProject.Repository.Models; @* For PolicyStatus enum *@
+@using System;
+
+@{
+    ViewData["Title"] = "Edit Policy (Admin)";
+    Layout = "_Layout"; // Ensure this matches your main layout or admin layout
+}
+
+@section Head {
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
+    <style>
+        .dashboard-container {
+            padding-top: 20px;
+            padding-bottom: 20px;
+        }
+
+        .card {
+            border: none;
+            border-radius: 8px;
+        }
+
+        .form-label {
+            font-weight: 600;
+            color: #333;
+        }
+
+        .form-control[readonly] {
+            background-color: #e9ecef; /* Lighter background for readonly inputs */
+            opacity: 1; /* Ensure text is not faded */
+        }
+
+        .btn-insure-primary {
+            background-color: #007bff; /* Primary blue for save */
+            border-color: #007bff;
+            color: white;
+            transition: background-color 0.2s ease-in-out;
+        }
+
+        .btn-insure-primary:hover {
+            background-color: #0056b3; /* Darker blue */
+            border-color: #0056b3;
+        }
+
+        .btn-secondary {
+            background-color: #6c757d;
+            border-color: #6c757d;
+            color: white;
+        }
+
+        .btn-secondary:hover {
+            background-color: #5a6268;
+            border-color: #545b62;
+        }
+
+        .section-heading {
+            font-size: 1.4rem;
+            color: var(--insure-edge-dark-purple); /* Matches table header green */
+            margin-top: 30px;
+            margin-bottom: 15px;
+            padding-bottom: 5px;
+            border-bottom: 1px solid #e0e0e0;
+        }
+    </style>
+}
+
+<div class="container dashboard-container">
+    <h2 class="mb-4"><i class="bi bi-pencil me-2"></i> @ViewData["Title"]</h2>
+
+    @if (TempData["ErrorMessage"] != null)
+    {
+        <div class="alert alert-danger alert-dismissible fade show mt-4" role="alert">
+            <i class="bi bi-x-circle-fill me-2"></i> @TempData["ErrorMessage"]
+            <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+        </div>
+    }
+    @if (TempData["SuccessMessage"] != null)
+    {
+        <div class="alert alert-success alert-dismissible fade show mt-4" role="alert">
+            <i class="bi bi-check-circle-fill me-2"></i> @TempData["SuccessMessage"]
+            <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+        </div>
+    }
+
+
+    <div asp-validation-summary="ModelOnly" class="alert alert-danger" role="alert"></div>
+
+    <div class="card shadow-sm p-4">
+        <form asp-action="EditPolicy" asp-controller="Admin" method="post">
+            @Html.AntiForgeryToken()
+            <input type="hidden" asp-for="policyId" />
+            <input type="hidden" asp-for="policyNumber" /> @* Policy number is generated, not edited via form *@
+            <input type="hidden" asp-for="vehicleId" /> 
+            <input type="hidden" asp-for="premiumAmount" /> 
+            <input type="hidden" asp-for="coverageAmount" /> 
+
+            <h4 class="section-heading">Policy Details</h4>
+            <div class="row g-3 mb-4">
+                <div class="col-md-6">
+                    <label asp-for="policyNumber" class="form-label">Policy Number</label>
+                    <input asp-for="policyNumber" class="form-control" readonly />
+                </div>
+                <div class="col-md-6">
+                    <label asp-for="startDate" class="form-label">Start Date</label>
+                    <input asp-for="startDate" type="date" class="form-control" />
+                    <span asp-validation-for="startDate" class="text-danger"></span>
+                </div>
+                <div class="col-md-6">
+                    <label asp-for="endDate" class="form-label">End Date</label>
+                    <input asp-for="endDate" type="date" class="form-control" />
+                    <span asp-validation-for="endDate" class="text-danger"></span>
+                </div>
+                <div class="col-md-6">
+                    <label asp-for="CoverageLevelId" class="form-label">Coverage Level</label>
+                    <select asp-for="CoverageLevelId" class="form-select" asp-items="ViewBag.CoverageLevels" required>
+                        <option value="">-- Select Coverage Level --</option>
+                    </select>
+                    <span asp-validation-for="CoverageLevelId" class="text-danger"></span>
+                </div>
+                 <div class="col-md-6">
+                    <label asp-for="policyStatus" class="form-label">Policy Status</label>
+                    <select asp-for="policyStatus" class="form-select">
+                        @foreach (var status in Enum.GetValues(typeof(PolicyStatus)))
+                        {
+                            <option value="@status">@status.ToString()</option>
+                        }
+                    </select>
+                    <span asp-validation-for="policyStatus" class="text-danger"></span>
+                </div>
+                <div class="col-md-6">
+                    <label asp-for="premiumAmount" class="form-label">Calculated Premium Amount</label>
+                    <input id="calculatedPremium" class="form-control" type="number" step="0.01" min="0.01" readonly value="@Model.premiumAmount" />
+                    <span asp-validation-for="premiumAmount" class="text-danger"></span>
+                </div>
+                <div class="col-md-6">
+                    <label asp-for="coverageAmount" class="form-label">Calculated Coverage Amount</label>
+                    <input id="calculatedCoverage" class="form-control" type="number" step="0.01" min="0.01" readonly value="@Model.coverageAmount" />
+                    <span asp-validation-for="coverageAmount" class="text-danger"></span>
+                </div>
+            </div>
+
+            <h4 class="section-heading">Vehicle Information (Read-only)</h4>
+            @if (Model.Vehicle != null)
+            {
+                <div class="row g-3 mb-4">
+                    <div class="col-md-6">
+                        <label class="form-label">Registration Number:</label>
+                        <input type="text" class="form-control" value="@Model.Vehicle.registrationNumber" readonly />
+                    </div>
+                    <div class="col-md-6">
+                        <label class="form-label">Make:</label>
+                        <input type="text" class="form-control" value="@Model.Vehicle.make" readonly />
+                    </div>
+                    <div class="col-md-6">
+                        <label class="form-label">Model:</label>
+                        <input type="text" class="form-control" value="@Model.Vehicle.model" readonly />
+                    </div>
+                    <div class="col-md-6">
+                        <label class="form-label">Year of Manufacture:</label>
+                        <input type="text" class="form-control" value="@Model.Vehicle.yearOfManufacture" readonly />
+                    </div>
+                    <div class="col-md-6">
+                        <label class="form-label">Vehicle Type:</label>
+                        <input type="text" class="form-control" value="@Model.Vehicle.vehicleType" readonly />
+                    </div>
+                     <div class="col-md-6">
+                        <label class="form-label">Customer Name:</label>
+                        <input type="text" class="form-control" value="@(Model.Vehicle.Customer?.Name ?? "N/A")" readonly />
+                    </div>
+                </div>
+            }
+            else
+            {
+                <div class="alert alert-warning">No associated vehicle found for this policy.</div>
+            }
+
+
+            <div class="mt-4 d-flex justify-content-between">
+                <a asp-action="ViewPolicies" asp-controller="Admin" class="btn btn-secondary">
+                    <i class="bi bi-arrow-left-circle me-2"></i> Back to Policies
+                </a>
+                <button type="submit" class="btn btn-insure-primary btn-lg">
+                    <i class="bi bi-save me-2"></i> Save Changes
+                </button>
+            </div>
+        </form>
+    </div>
+</div>
+
+@section Scripts {
+    @{
+        await Html.RenderPartialAsync("_ValidationScriptsPartial");
+    }
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+    <script>
+        function updatePremiumAndCoverageAjaxForEdit() {
+            var policyId = $('#policyId').val(); // Get the existing policy ID
+            var coverageLevelId = $('#CoverageLevelId').val();
+
+            // Only make AJAX call if both IDs are valid
+            if (policyId && coverageLevelId && policyId > 0 && coverageLevelId > 0) {
+                $.ajax({
+                    // CHANGED: Call the AdminController's CalculateRenewalPolicyValues
+                    url: '@Url.Action("CalculateRenewalPolicyValues", "Admin")',
+                    type: 'GET',
+                    data: { policyId: policyId, coverageLevelId: coverageLevelId }, // Pass policyId
+                    success: function(data) {
+                        if (data.success) {
+                            $('#calculatedPremium').val(data.premium.toFixed(2));
+                            $('#calculatedCoverage').val(data.coverage.toFixed(2));
+                        } else {
+                            console.error("Error calculating policy values:", data.message);
+                            $('#calculatedPremium').val('0.00');
+                            $('#calculatedCoverage').val('0.00');
+                            displayTemporaryMessage("Could not calculate policy values. " + data.message, "danger");
+                        }
+                    },
+                    error: function(jqXHR, textStatus, errorThrown) {
+                        console.error("AJAX Error:", textStatus, errorThrown);
+                        $('#calculatedPremium').val('0.00');
+                        $('#calculatedCoverage').val('0.00');
+                        displayTemporaryMessage("An error occurred during calculation. Please try again.", "danger");
+                    }
+                });
+            } else {
+                $('#calculatedPremium').val('0.00');
+                $('#calculatedCoverage').val('0.00');
+            }
+        }
+
+        // Helper function for temporary messages (copied from Renew.cshtml)
+        function displayTemporaryMessage(message, type) {
+            var alertHtml = '<div class="alert alert-' + type + ' alert-dismissible fade show mt-2" role="alert">' +
+                            '<i class="bi bi-info-circle-fill me-2"></i> ' + message +
+                            '<button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>' +
+                            '</div>';
+            $('.dashboard-container').prepend(alertHtml);
+            setTimeout(function() {
+                $(".alert-dismissible").fadeTo(500, 0).slideUp(500, function(){
+                    $(this).remove();
+                });
+            }, 7000); // 7 seconds
+        }
+
+        $(document).ready(function() {
+            // Initial calculation on page load (if CoverageLevelId is already selected)
+            updatePremiumAndCoverageAjaxForEdit();
+
+            // Recalculate when Coverage Level changes
+            $('#CoverageLevelId').change(updatePremiumAndCoverageAjaxForEdit);
+        });
+    </script>
+}
