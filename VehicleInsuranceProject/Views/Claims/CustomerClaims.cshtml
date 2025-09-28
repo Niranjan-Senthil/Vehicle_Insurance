@@ -1,20 +1,128 @@
 ﻿@* VehicleInsuranceProject.Web/Views/Claims/CustomerClaims.cshtml *@
 @model IEnumerable<VehicleInsuranceProject.Repository.Models.Claim>
-@using VehicleInsuranceProject.Repository.Models; @* Added using for PolicyStatus, ClaimStatus *@
+@using VehicleInsuranceProject.Repository.Models;
 
 @{
     ViewData["Title"] = "Your Filed Claims";
+
+    // A cleaner way to map claim statuses to modern UI badge classes
+    var statusBadges = new Dictionary<ClaimStatus, (string Class, string Icon)>
+    {
+        { ClaimStatus.SUBMITTED, ("status-submitted", "bi-hourglass-split") },
+        { ClaimStatus.APPROVED, ("status-approved", "bi-check2-circle") },
+        { ClaimStatus.REJECTED, ("status-rejected", "bi-x-circle") }
+    };
+    var defaultBadge = ("status-default", "bi-question-circle");
 }
 
 @section Head {
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
+    <style>
+        /* --- Modern & Professional Color Palette --- */
+        :root {
+            --ins-bg-light: #f8f9fa;
+            --ins-primary: #0d6efd; /* A professional, modern blue */
+            --ins-header-bg: #ffc107; /* Professional Yellow for Header */
+            --ins-header-text: #212529; /* Dark text for yellow background */
+            --ins-text-primary: #212529;
+            --ins-text-secondary: #6c757d;
+            --ins-success: #198754;
+            --ins-danger: #dc3545;
+            --ins-border-color: #dee2e6;
+            --ins-table-stripe-color: #f9f9f9; /* Lighter stripe for the table */
+            --ins-table-hover-color: #f1f1f1; /* Hover color for table rows */
+            
+            /* Status Colors */
+            --status-submitted-bg: #fff3cd;
+            --status-submitted-text: #664d03;
+            --status-approved-bg: #d1e7dd;
+            --status-approved-text: #0f5132;
+            --status-rejected-bg: #f8d7da;
+            --status-rejected-text: #58151c;
+            --status-default-bg: #e2e3e5;
+            --status-default-text: #41464b;
+        }
+
+        body {
+            background-color: var(--ins-bg-light);
+            color: var(--ins-text-primary);
+        }
+
+        .dashboard-container {
+            padding-top: 2rem;
+            padding-bottom: 2rem;
+            max-width: 1140px;
+        }
+        
+        .table-header-custom {
+            background-color: var(--ins-header-bg);
+            color: var(--ins-header-text);
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
+
+        .btn-insure-primary {
+            background-color: var(--ins-primary);
+            border-color: var(--ins-primary);
+            color: #fff;
+            transition: background-color 0.3s ease, transform 0.2s ease;
+        }
+        
+        .btn-insure-primary:hover {
+            background-color: #0b5ed7;
+            transform: translateY(-2px);
+            color: #fff;
+        }
+        
+        .empty-state-section {
+            text-align: center;
+            padding: 5rem 2rem;
+            background-color: #fff;
+            border-radius: 0.75rem;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.05);
+            margin-top: 2rem;
+        }
+
+        .empty-state-section .bi {
+            font-size: 4rem;
+            color: var(--ins-primary);
+            margin-bottom: 1rem;
+        }
+
+        .empty-state-section p {
+            font-size: 1.125rem;
+            color: var(--ins-text-secondary);
+        }
+        
+        .table tbody tr:nth-of-type(odd) {
+             background-color: var(--ins-table-stripe-color);
+        }
+
+        .table-hover tbody tr:hover {
+            background-color: var(--ins-table-hover-color);
+        }
+        
+        .status-badge {
+            padding: 0.5em 0.85em;
+            font-weight: 600;
+            font-size: 0.8rem;
+            border-radius: 50rem; /* pill shape */
+            display: inline-flex;
+            align-items: center;
+            gap: 0.4rem;
+        }
+
+        .status-submitted { background-color: var(--status-submitted-bg); color: var(--status-submitted-text); }
+        .status-approved { background-color: var(--status-approved-bg); color: var(--status-approved-text); }
+        .status-rejected { background-color: var(--status-rejected-bg); color: var(--status-rejected-text); }
+        .status-default { background-color: var(--status-default-bg); color: var(--status-default-text); }
+        
+    </style>
 }
 
 <div class="container dashboard-container">
-    @* Consistent container for styling *@
-    <h2 class="mb-4 text-center"><i class="bi bi-file-earmark-text me-2"></i> @ViewData["Title"]</h2> @* Added icon and centered title *@
+    <h2 class="mb-4 text-center fw-light"><i class="bi bi-file-earmark-text me-2"></i> @ViewData["Title"]</h2>
 
-    @* Display Success/Error Messages using TempData with Bootstrap alert classes *@
     @if (TempData["SuccessMessage"] != null)
     {
         <div class="alert alert-success alert-dismissible fade show mt-4" role="alert">
@@ -33,36 +141,31 @@
     @if (!Model.Any())
     {
         <div class="empty-state-section">
-            @* Consistent empty state styling *@
-            <i class="bi bi-file-earmark-medical"></i> @* Icon for no claims filed by customer *@
-            <p>You have not filed any claims yet.</p>
-            <p>
-                <a asp-action="ViewPolicies" asp-controller="Customer" class="btn btn-insure-primary btn-lg mt-3">
-                    @* Used custom button class *@
-                    <i class="bi bi-journals me-2"></i> View your policies to file a claim.
-                </a>
-            </p>
+            <i class="bi bi-file-earmark-medical"></i>
+            <p class="h4 fw-normal">No claims found.</p>
+            <p>You can file a claim from your active policies page.</p>
+            <a asp-action="ViewPolicies" asp-controller="Customer" class="btn btn-insure-primary btn-lg mt-3">
+                <i class="bi bi-journals me-2"></i> View Your Policies
+            </a>
         </div>
     }
     else
     {
-        <div class="table-responsive mt-4">
-            <table class="table table-striped table-hover shadow-sm rounded-3 overflow-hidden">
-                @* Applied table styling classes *@
-                <thead class="bg-insure-dark-purple text-insure-white">
-                    @* Use custom theme colors *@
+        <div class="table-responsive mt-4 card shadow-sm border-0">
+            <table class="table table-hover mb-0">
+                <thead class="table-header-custom">
                     <tr>
-                        <th>Claim ID</th>
-                        <th>Policy Number</th>
-                        <th>Claim Amount</th>
-                        <th>Reason</th>
-                        <th>Claim Date</th>
-                        <th>Status</th>
-                        <th class="text-center">Actions</th> @* Centered actions column header *@
+                        <th scope="col">Claim ID</th>
+                        <th scope="col">Policy Number</th>
+                        <th scope="col">Claim Amount</th>
+                        <th scope="col">Reason</th>
+                        <th scope="col">Claim Date</th>
+                        <th scope="col">Status</th>
+                        <th scope="col" class="text-center">Actions</th>
                     </tr>
                 </thead>
                 <tbody>
-                    @foreach (var item in Model.OrderByDescending(c => c.claimDate)) @* Order by most recent claims first *@
+                    @foreach (var item in Model.OrderByDescending(c => c.claimDate))
                     {
                         <tr>
                             <td>@item.claimId</td>
@@ -72,29 +175,16 @@
                             <td>@item.claimDate.ToShortDateString()</td>
                             <td>
                                 @{
-                                    string badgeClass = "";
-                                    switch (item.claimStatus)
-                                    {
-                                        case ClaimStatus.SUBMITTED:
-                                            badgeClass = "bg-warning text-dark"; // Bootstrap warning for pending
-                                            break;
-                                        case ClaimStatus.APPROVED:
-                                            badgeClass = "bg-insure-accent-green"; // Your custom success color
-                                            break;
-                                        case ClaimStatus.REJECTED:
-                                            badgeClass = "bg-insure-accent-red"; // Your custom danger color
-                                            break;
-                                        default:
-                                            badgeClass = "bg-secondary"; // Fallback for other statuses
-                                            break;
-                                    }
+                                    var (badgeClass, badgeIcon) = statusBadges.GetValueOrDefault(item.claimStatus, defaultBadge);
                                 }
-                                <span class="badge @badgeClass">@item.claimStatus</span>
+                                <span class="status-badge @badgeClass">
+                                    <i class="bi @badgeIcon"></i>
+                                    <span>@item.claimStatus</span>
+                                </span>
                             </td>
-                            <td class="text-center d-flex justify-content-center">
-                                @* Applied flexbox for button alignment *@
-                                <a asp-action="Details" asp-route-id="@item.claimId" class="btn btn-sm btn-outline-info" title="View Details">
-                                    <i class="bi bi-eye me-1"></i> Details
+                            <td class="text-center">
+                                <a asp-action="Details" asp-route-id="@item.claimId" class="btn btn-sm btn-outline-secondary" title="View">
+                                    <i class="bi bi-eye me-1"></i> View
                                 </a>
                             </td>
                         </tr>
@@ -110,12 +200,16 @@
         await Html.RenderPartialAsync("_ValidationScriptsPartial");
     }
     <script>
-        $(document).ready(function() {
-            setTimeout(function() {
-                $(".alert-dismissible").fadeTo(500, 0).slideUp(500, function(){
-                    $(this).remove();
-                });
-            }, 7000); // 7 seconds
+        // Use modern vanilla JavaScript for the alert fade out
+        document.addEventListener('DOMContentLoaded', function() {
+            const alerts = document.querySelectorAll('.alert-dismissible');
+            if (alerts) {
+                setTimeout(() => {
+                    alerts.forEach(alert => {
+                        new bootstrap.Alert(alert).close();
+                    });
+                }, 7000); // 7 seconds
+            }
         });
     </script>
 }

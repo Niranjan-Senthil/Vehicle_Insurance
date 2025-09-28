@@ -1,76 +1,243 @@
 ﻿@* VehicleInsuranceProject.Web/Views/Claims/Details.cshtml *@
 @model VehicleInsuranceProject.Repository.Models.Claim
+@using VehicleInsuranceProject.Repository.Models
 
 @{
-    ViewData["Title"] = "Claim Details";
+    ViewData["Title"] = $"Claim Details - {Model.claimId}";
+
+    // A cleaner way to map claim statuses to modern UI badge classes
+    var statusBadges = new Dictionary<ClaimStatus, (string Class, string Icon)>
+    {
+        { ClaimStatus.SUBMITTED, ("status-submitted", "bi-hourglass-split") },
+        { ClaimStatus.APPROVED, ("status-approved", "bi-check2-circle") },
+        { ClaimStatus.REJECTED, ("status-rejected", "bi-x-circle") }
+    };
+    var defaultBadge = ("status-default", "bi-question-circle");
 }
 
-<h1>Claim Details</h1>
+@section Head {
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
+    <style>
+        /* --- Modern & Professional Color Palette --- */
+        :root {
+            --ins-bg-light: #f8f9fa;
+            --ins-primary: #0d6efd;
+            --ins-text-primary: #212529;
+            --ins-text-secondary: #6c757d;
+            --ins-border-color: #dee2e6;
+            --ins-card-bg: #ffffff;
+            --ins-card-shadow: rgba(0, 0, 0, 0.05);
 
-<div>
-    <h4>Claim ID: @Model.claimId</h4>
-    <hr />
-    <dl class="row">
-        <dt class="col-sm-3">Policy Number:</dt>
-        <dd class="col-sm-9">@Model.Policy?.policyNumber</dd>
+            /* Status Colors */
+            --status-submitted-bg: #fff3cd;
+            --status-submitted-text: #664d03;
+            --status-approved-bg: #d1e7dd;
+            --status-approved-text: #0f5132;
+            --status-rejected-bg: #f8d7da;
+            --status-rejected-text: #58151c;
+            --status-default-bg: #e2e3e5;
+            --status-default-text: #41464b;
+        }
 
-        <dt class="col-sm-3">Claim Amount:</dt>
-        <dd class="col-sm-9">@Model.claimAmount.ToString("C")</dd>
+        body {
+            background-color: var(--ins-bg-light);
+        }
 
-        <dt class="col-sm-3">Policy Coverage:</dt>
-        <dd class="col-sm-9">@Model.Policy?.coverageAmount.ToString("C")</dd>
+        .details-container {
+            max-width: 900px;
+            margin: 2rem auto;
+        }
 
-        <dt class="col-sm-3">Reason for Claim:</dt>
-        <dd class="col-sm-9">@Model.claimReason</dd>
+        .details-card {
+            background-color: var(--ins-card-bg);
+            border: 1px solid var(--ins-border-color);
+            border-radius: 0.75rem;
+            box-shadow: 0 4px 12px var(--ins-card-shadow);
+            overflow: hidden;
+        }
 
-        <dt class="col-sm-3">Claim Date:</dt>
-        <dd class="col-sm-9">@Model.claimDate.ToShortDateString()</dd>
+        .details-header {
+            padding: 1.5rem 2rem;
+            background-color: var(--ins-bg-light);
+            border-bottom: 1px solid var(--ins-border-color);
+        }
 
-        <dt class="col-sm-3">Status:</dt>
-        <dd class="col-sm-9">@Model.claimStatus</dd>
+        .details-header h1 {
+            font-size: 1.75rem;
+            font-weight: 500;
+            color: var(--ins-text-primary);
+        }
+        
+        .details-header .claim-id {
+            font-size: 1rem;
+            color: var(--ins-text-secondary);
+            font-weight: 400;
+        }
 
-        <dt class="col-sm-3">Vehicle:</dt>
-        <dd class="col-sm-9">@Model.Policy?.Vehicle?.make @Model.Policy?.Vehicle?.model (@Model.Policy?.Vehicle?.registrationNumber)</dd>
+        .details-body {
+            padding: 2rem;
+        }
+        
+        .details-section {
+            margin-bottom: 2rem;
+        }
 
-        <dt class="col-sm-3">Customer Name:</dt>
-        <dd class="col-sm-9">@Model.Policy?.Vehicle?.Customer?.Name</dd>
+        .details-section h5 {
+            font-size: 1.1rem;
+            color: var(--ins-primary);
+            margin-bottom: 1rem;
+            padding-bottom: 0.5rem;
+            border-bottom: 2px solid var(--ins-primary);
+            display: inline-block;
+        }
 
-        <dt class="col-sm-3">Customer Email:</dt>
-        <dd class="col-sm-9">@Model.Policy?.Vehicle?.Customer?.Email</dd>
+        .details-list dt {
+            font-weight: 500;
+            color: var(--ins-text-secondary);
+        }
 
-        @if (!string.IsNullOrEmpty(Model.ImagePaths))
-        {
-            <dt class="col-sm-3">Images:</dt>
-            <dd class="col-sm-9">
-                <div class="row">
-                    @foreach (var path in Model.ImagePaths.Split(',', StringSplitOptions.RemoveEmptyEntries))
-                    {
-                        <div class="col-md-4 mb-3">
-                            <img src="@path" alt="Claim Image" class="img-fluid img-thumbnail" style="max-width: 200px; max-height: 200px; object-fit: cover;" />
-                        </div>
-                    }
+        .details-list dd {
+            color: var(--ins-text-primary);
+            font-weight: 400;
+        }
+
+        .claim-image {
+            border-radius: 0.5rem;
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+        }
+
+        .claim-image:hover {
+            transform: scale(1.05);
+            box-shadow: 0 8px 20px rgba(0,0,0,0.15);
+        }
+
+        .details-actions {
+            padding: 1.5rem 2rem;
+            background-color: var(--ins-bg-light);
+            border-top: 1px solid var(--ins-border-color);
+            text-align: right;
+        }
+
+        .status-badge {
+            padding: 0.5em 0.85em;
+            font-weight: 600;
+            font-size: 0.9rem;
+            border-radius: 50rem;
+            display: inline-flex;
+            align-items: center;
+            gap: 0.4rem;
+        }
+
+        .status-submitted { background-color: var(--status-submitted-bg); color: var(--status-submitted-text); }
+        .status-approved { background-color: var(--status-approved-bg); color: var(--status-approved-text); }
+        .status-rejected { background-color: var(--status-rejected-bg); color: var(--status-rejected-text); }
+        .status-default { background-color: var(--status-default-bg); color: var(--status-default-text); }
+
+    </style>
+}
+
+<div class="container details-container">
+    <div class="details-card">
+        <div class="details-header">
+            <h1>Claim Details <span class="claim-id">#@Model.claimId</span></h1>
+        </div>
+        <div class="details-body">
+            <!-- Claim Information Section -->
+            <div class="details-section">
+                <h5><i class="bi bi-file-earmark-text me-2"></i>Claim Information</h5>
+                <dl class="row details-list">
+                    <dt class="col-sm-4">Claim Amount:</dt>
+                    <dd class="col-sm-8">@Model.claimAmount.ToString("C")</dd>
+
+                    <dt class="col-sm-4">Reason for Claim:</dt>
+                    <dd class="col-sm-8">@Model.claimReason</dd>
+
+                    <dt class="col-sm-4">Claim Date:</dt>
+                    <dd class="col-sm-8">@Model.claimDate.ToShortDateString()</dd>
+
+                    <dt class="col-sm-4">Status:</dt>
+                    <dd class="col-sm-8">
+                        @{
+                            var (badgeClass, badgeIcon) = statusBadges.GetValueOrDefault(Model.claimStatus, defaultBadge);
+                        }
+                        <span class="status-badge @badgeClass">
+                            <i class="bi @badgeIcon"></i>
+                            <span>@Model.claimStatus</span>
+                        </span>
+                    </dd>
+                </dl>
+            </div>
+
+            <!-- Policy & Vehicle Section -->
+            <div class="details-section">
+                <h5><i class="bi bi-shield-check me-2"></i>Policy & Vehicle</h5>
+                <dl class="row details-list">
+                    <dt class="col-sm-4">Policy Number:</dt>
+                    <dd class="col-sm-8">@Model.Policy?.policyNumber</dd>
+
+                    <dt class="col-sm-4">Policy Coverage:</dt>
+                    <dd class="col-sm-8">@Model.Policy?.coverageAmount.ToString("C")</dd>
+                    
+                    <dt class="col-sm-4">Vehicle:</dt>
+                    <dd class="col-sm-8">@Model.Policy?.Vehicle?.make @Model.Policy?.Vehicle?.model</dd>
+
+                    <dt class="col-sm-4">Registration Number:</dt>
+                    <dd class="col-sm-8">@Model.Policy?.Vehicle?.registrationNumber</dd>
+                </dl>
+            </div>
+            
+             <!-- Customer Section -->
+            <div class="details-section">
+                <h5><i class="bi bi-person me-2"></i>Customer Information</h5>
+                <dl class="row details-list">
+                    <dt class="col-sm-4">Customer Name:</dt>
+                    <dd class="col-sm-8">@Model.Policy?.Vehicle?.Customer?.Name</dd>
+
+                    <dt class="col-sm-4">Customer Email:</dt>
+                    <dd class="col-sm-8">@Model.Policy?.Vehicle?.Customer?.Email</dd>
+                </dl>
+            </div>
+
+            @if (!string.IsNullOrEmpty(Model.ImagePaths))
+            {
+                <div class="details-section">
+                    <h5><i class="bi bi-images me-2"></i>Submitted Images</h5>
+                    <div class="row">
+                        @foreach (var path in Model.ImagePaths.Split(',', StringSplitOptions.RemoveEmptyEntries))
+                        {
+                            <div class="col-md-4 mb-3">
+                                <a href="@path" target="_blank" title="View full image">
+                                    <img src="@path" alt="Claim Image" class="img-fluid img-thumbnail claim-image" />
+                                </a>
+                            </div>
+                        }
+                    </div>
                 </div>
-            </dd>
-        }
-    </dl>
-</div>
-<div>
-    @* <a asp-action="CustomerClaims" class="btn btn-secondary">Back to Claims</a> *@
-    @if (User.IsInRole("Admin"))
-    {
-        <a asp-action="AllClaims" class="btn btn-secondary">Back to All Claims</a>
-        @if (Model.claimStatus == VehicleInsuranceProject.Repository.Models.ClaimStatus.SUBMITTED)
-        {
-            <form asp-action="UpdateClaimStatus" method="post" class="d-inline">
-                <input type="hidden" name="claimId" value="@Model.claimId" />
-                <input type="hidden" name="newStatus" value="@VehicleInsuranceProject.Repository.Models.ClaimStatus.APPROVED" />
-                <button type="submit" class="btn btn-success">Approve</button>
-            </form>
-            <form asp-action="UpdateClaimStatus" method="post" class="d-inline">
-                <input type="hidden" name="claimId" value="@Model.claimId" />
-                <input type="hidden" name="newStatus" value="@VehicleInsuranceProject.Repository.Models.ClaimStatus.REJECTED" />
-                <button type="submit" class="btn btn-danger">Reject</button>
-            </form>
-        }
-    }
+            }
+        </div>
+        <div class="details-actions">
+            @if (User.IsInRole("Admin"))
+            {
+                <a asp-action="AllClaims" class="btn btn-secondary"><i class="bi bi-arrow-left me-1"></i> Back to All Claims</a>
+                
+                @if (Model.claimStatus == ClaimStatus.SUBMITTED)
+                {
+                    <form asp-action="UpdateClaimStatus" method="post" class="d-inline">
+                        <input type="hidden" name="claimId" value="@Model.claimId" />
+                        <input type="hidden" name="newStatus" value="@ClaimStatus.APPROVED" />
+                        <button type="submit" class="btn btn-success"><i class="bi bi-check-lg me-1"></i> Approve</button>
+                    </form>
+                    <form asp-action="UpdateClaimStatus" method="post" class="d-inline">
+                        <input type="hidden" name="claimId" value="@Model.claimId" />
+                        <input type="hidden" name="newStatus" value="@ClaimStatus.REJECTED" />
+                        <button type="submit" class="btn btn-danger"><i class="bi bi-x-lg me-1"></i> Reject</button>
+                    </form>
+                }
+            }
+            else
+            {
+                 <a asp-action="CustomerClaims" class="btn btn-secondary"><i class="bi bi-arrow-left me-1"></i> Back to My Claims</a>
+            }
+        </div>
+    </div>
 </div>
