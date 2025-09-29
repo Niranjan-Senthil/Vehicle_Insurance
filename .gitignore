@@ -1,1 +1,7 @@
 .vs/
+/bin
+/obj
+*.json.cache
+*.pdb
+*.dll
+*.exe
