@@ -116,18 +116,6 @@ build_metadata.AdditionalFiles.CssScope =
 build_metadata.AdditionalFiles.TargetPath = Vmlld3NcQWRtaW5cUG9saWN5XEVkaXRDb3ZlcmFnZUxldmVsLmNzaHRtbA==
 build_metadata.AdditionalFiles.CssScope = 
 
-[C:/Users/2438801/OneDrive - Cognizant/Desktop/New folder/Final/Vehicle_Insurance/VehicleInsuranceProject/Views/Claims/CustomerClaims.cshtml]
-build_metadata.AdditionalFiles.TargetPath = Vmlld3NcQ2xhaW1zXEN1c3RvbWVyQ2xhaW1zLmNzaHRtbA==
-build_metadata.AdditionalFiles.CssScope = 
-
-[C:/Users/2438801/OneDrive - Cognizant/Desktop/New folder/Final/Vehicle_Insurance/VehicleInsuranceProject/Views/Claims/Details.cshtml]
-build_metadata.AdditionalFiles.TargetPath = Vmlld3NcQ2xhaW1zXERldGFpbHMuY3NodG1s
-build_metadata.AdditionalFiles.CssScope = 
-
-[C:/Users/2438801/OneDrive - Cognizant/Desktop/New folder/Final/Vehicle_Insurance/VehicleInsuranceProject/Views/Claims/FileClaim.cshtml]
-build_metadata.AdditionalFiles.TargetPath = Vmlld3NcQ2xhaW1zXEZpbGVDbGFpbS5jc2h0bWw=
-build_metadata.AdditionalFiles.CssScope = 
-
 [C:/Users/2438801/OneDrive - Cognizant/Desktop/New folder/Final/Vehicle_Insurance/VehicleInsuranceProject/Views/Customer/CustomerDashboard.cshtml]
 build_metadata.AdditionalFiles.TargetPath = Vmlld3NcQ3VzdG9tZXJcQ3VzdG9tZXJEYXNoYm9hcmQuY3NodG1s
 build_metadata.AdditionalFiles.CssScope = 
@@ -198,22 +186,6 @@ build_metadata.AdditionalFiles.CssScope =
 
 [C:/Users/2438801/OneDrive - Cognizant/Desktop/New folder/Final/Vehicle_Insurance/VehicleInsuranceProject/Views/Shared/_ValidationScriptsPartial.cshtml]
 build_metadata.AdditionalFiles.TargetPath = Vmlld3NcU2hhcmVkXF9WYWxpZGF0aW9uU2NyaXB0c1BhcnRpYWwuY3NodG1s
-build_metadata.AdditionalFiles.CssScope = 
-
-[C:/Users/2438801/OneDrive - Cognizant/Desktop/New folder/Final/Vehicle_Insurance/VehicleInsuranceProject/Views/Vehicle/Add.cshtml]
-build_metadata.AdditionalFiles.TargetPath = Vmlld3NcVmVoaWNsZVxBZGQuY3NodG1s
-build_metadata.AdditionalFiles.CssScope = 
-
-[C:/Users/2438801/OneDrive - Cognizant/Desktop/New folder/Final/Vehicle_Insurance/VehicleInsuranceProject/Views/Vehicle/Edit.cshtml]
-build_metadata.AdditionalFiles.TargetPath = Vmlld3NcVmVoaWNsZVxFZGl0LmNzaHRtbA==
-build_metadata.AdditionalFiles.CssScope = 
-
-[C:/Users/2438801/OneDrive - Cognizant/Desktop/New folder/Final/Vehicle_Insurance/VehicleInsuranceProject/Views/Vehicle/Success.cshtml]
-build_metadata.AdditionalFiles.TargetPath = Vmlld3NcVmVoaWNsZVxTdWNjZXNzLmNzaHRtbA==
-build_metadata.AdditionalFiles.CssScope = 
-
-[C:/Users/2438801/OneDrive - Cognizant/Desktop/New folder/Final/Vehicle_Insurance/VehicleInsuranceProject/Views/Vehicle/ViewVehicles.cshtml]
-build_metadata.AdditionalFiles.TargetPath = Vmlld3NcVmVoaWNsZVxWaWV3VmVoaWNsZXMuY3NodG1s
 build_metadata.AdditionalFiles.CssScope = 
 
 [C:/Users/2438801/OneDrive - Cognizant/Desktop/New folder/Final/Vehicle_Insurance/VehicleInsuranceProject/Views/_ViewImports.cshtml]
