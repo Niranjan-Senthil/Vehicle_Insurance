@@ -7,74 +7,95 @@
 }
 
 <style>
+    /* ------------------------------------------------------------------ */
+    /* POLISURE VIBRANT BLUE/PURPLE THEME STYLES (Form)                   */
+    /* ------------------------------------------------------------------ */
+
+    /* Custom Color Definitions for consistency (Matching the reference images) */
+    :root {
+        --theme-primary-purple: #6c20b5;     /* Main button/accent color (Deep Purple) */
+        --theme-dark-blue: #303F9F;          /* Darker primary color (Header Text) */
+        --theme-bg-light: #f4f6f9;           /* Very light dashboard background */
+        --theme-text-dark: #2c3e50;          /* Main content text color */
+        --theme-border-light: #e0e0e0;       /* Subtle border */
+    }
+
+    /* General body background */
+    body {
+        background-color: var(--theme-bg-light); 
+        font-family: 'Inter', sans-serif;
+    }
+
     /* Main form container - clean, professional card */
     .insure-form-card {
         max-width: 800px;
-        margin: 60px auto; /* More margin top/bottom */
-        padding: 40px;
-        background-color: #ffffff; /* Clean white background */
-        border-radius: 12px; /* Nicely rounded corners */
-        box-shadow: 0 8px 25px rgba(0, 0, 0, 0.1); /* Soft, subtle shadow */
-        border: 1px solid #e0e0e0; /* Light border for definition */
+        margin: 60px auto; 
+        padding: 50px; /* Increased padding */
+        background-color: #ffffff; 
+        border-radius: 12px; 
+        box-shadow: 0 8px 30px rgba(0, 0, 0, 0.05); /* Soft, subtle shadow */
+        border: 1px solid var(--theme-border-light); 
     }
 
-        /* Heading for the form */
-        .insure-form-card h2 {
-            font-size: 2.5rem; /* Prominent heading */
-            font-weight: 700; /* Bold */
-            color: #4a0e7e; /* Deep purple (from logo inference) */
-            margin-bottom: 35px; /* More space below heading */
-            text-align: center;
-            position: relative;
-            padding-bottom: 15px;
-        }
+    /* Page Heading Block (Centered with Icon - Shared style) */
+    .header-block {
+        text-align: center;
+        margin-bottom: 40px;
+    }
 
-            /* Underline accent for the heading */
-            .insure-form-card h2::after {
-                content: '';
-                position: absolute;
-                left: 50%;
-                bottom: 0;
-                transform: translateX(-50%);
-                width: 90px; /* Decent length */
-                height: 4px; /* Thickness */
-                background-color: #7b2cbf; /* A brighter purple/blue accent */
-                border-radius: 2px;
-            }
+    .header-icon {
+        font-size: 3.5rem;
+        color: var(--theme-primary-purple);
+        margin-bottom: 10px;
+        display: block;
+    }
+
+    .header-block h2 {
+        font-size: 2.2rem;
+        font-weight: 700;
+        color: var(--theme-dark-blue); 
+        margin-bottom: 5px;
+    }
+    
+    .header-block p {
+        color: #7f8c8d; /* Secondary/muted text */
+        font-size: 1rem;
+    }
+
 
     /* Labels */
     .insure-label {
-        font-weight: 600; /* Semi-bold labels */
-        color: #333333; /* Dark, readable text */
-        margin-bottom: 8px; /* Space between label and input */
+        font-weight: 600; 
+        color: var(--theme-text-dark); 
+        margin-bottom: 8px; 
     }
 
     /* Form Controls (Inputs, Selects) */
     .insure-input, .insure-select {
-        border-radius: 8px; /* Consistent rounding */
-        border: 1px solid #d1d9e6; /* Soft, light border */
+        border-radius: 8px; 
+        border: 1px solid #d1d9e6; 
         padding: 0.8rem 1.1rem;
-        font-size: 1.05rem;
-        color: #495057; /* Standard text color */
+        font-size: 1.0rem; /* Slightly reduced font size for cleaner input */
+        color: #495057; 
         transition: all 0.3s ease;
     }
 
         .insure-input::placeholder {
-            color: #a0a8b4; /* Muted placeholder text */
+            color: #a0a8b4; 
         }
 
         .insure-input:focus, .insure-select:focus {
-            border-color: #7b2cbf; /* Accent color on focus */
-            box-shadow: 0 0 0 0.25rem rgba(123, 44, 191, 0.25); /* Soft glow matching accent */
-            outline: none; /* Remove default outline */
-            background-color: #fcfdff; /* Slightly whiter background on focus */
+            border-color: var(--theme-primary-purple); /* Accent color on focus */
+            box-shadow: 0 0 0 0.25rem rgba(108, 32, 181, 0.25); /* Soft glow matching accent */
+            outline: none; 
+            background-color: #fcfdff; 
         }
 
     /* Validation summary and individual field errors */
     .validation-summary-errors {
-        background-color: #fff0f0; /* Very light red background */
-        color: #d80000; /* Darker red text */
-        border: 1px solid #ffcccc; /* Red border */
+        background-color: #fff0f0; 
+        color: #d80000; 
+        border: 1px solid #ffcccc; 
         border-radius: 8px;
         padding: 15px 20px;
         margin-bottom: 25px;
@@ -82,34 +103,35 @@
     }
 
     .field-validation-error {
-        color: #d80000; /* Darker red for individual field errors */
+        color: #d80000; 
         font-size: 0.85rem;
         margin-top: 5px;
-        display: block; /* Ensure it takes its own line */
+        display: block; 
     }
 
-    /* Buttons - Primary action */
+    /* Buttons - Primary action (Register Vehicle) */
     .btn-insure-primary {
-        background-color: #6c20b5; /* Deep purple from logo inference */
-        border-color: #6c20b5;
+        background-color: var(--theme-primary-purple); 
+        border-color: var(--theme-primary-purple);
         color: #ffffff;
         padding: 0.9rem 2.2rem;
-        font-size: 1.15rem;
+        font-size: 1.0rem; 
         font-weight: 600;
-        border-radius: 8px;
-        transition: all 0.2s ease-in-out;
+        border-radius: 6px; 
+        transition: all 0.3s ease;
         display: inline-flex;
         align-items: center;
         justify-content: center;
         gap: 10px;
+        box-shadow: 0 4px 10px rgba(108, 32, 181, 0.4); 
     }
 
         .btn-insure-primary:hover {
-            background-color: #5a199f; /* Slightly darker purple on hover */
+            background-color: #5a199f; 
             border-color: #5a199f;
-            transform: translateY(-2px); /* Slight lift */
-            box-shadow: 0 6px 15px rgba(108, 32, 181, 0.25); /* Soft shadow */
-            color: #ffffff; /* Keep text white */
+            transform: translateY(-2px); 
+            box-shadow: 0 6px 15px rgba(108, 32, 181, 0.6); 
+            color: #ffffff; 
         }
 
         .btn-insure-primary:active {
@@ -117,15 +139,15 @@
             box-shadow: none;
         }
 
-    /* Buttons - Secondary action */
+    /* Buttons - Secondary action (Back/Cancel) */
     .btn-insure-secondary {
-        background-color: #e9ecef; /* Light grey for secondary */
+        background-color: #e9ecef; 
         border: 1px solid #d1d9e6;
-        color: #495057; /* Dark text */
+        color: #495057; 
         padding: 0.9rem 2.2rem;
-        font-size: 1.15rem;
+        font-size: 1.0rem; 
         font-weight: 600;
-        border-radius: 8px;
+        border-radius: 6px; 
         transition: all 0.2s ease-in-out;
         display: inline-flex;
         align-items: center;
@@ -134,32 +156,31 @@
     }
 
         .btn-insure-secondary:hover {
-            background-color: #dee2e6; /* Darker grey on hover */
+            background-color: #dee2e6; 
             border-color: #c5cbd3;
             transform: translateY(-2px);
-            box-shadow: 0 6px 15px rgba(0, 0, 0, 0.1);
-            color: #495057; /* Keep text dark */
+            box-shadow: 0 0 0 0.25rem rgba(108, 32, 181, 0.05); 
+            color: #495057; 
         }
 
         .btn-insure-secondary:active {
             transform: translateY(0);
             box-shadow: none;
         }
-
-    /* General body background */
-    body {
-        background-color: #f4f6f9; /* Off-white, soft background for the page */
-        font-family: 'Inter', 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;
-    }
 </style>
 
 <div class="container insure-form-card">
-    <h2>Add New Vehicle</h2>
+    
+    <div class="header-block">
+        <i class="bi bi-car-front-fill header-icon"></i>
+        <h2>Register New Vehicle</h2>
+        <p>Please enter the details of the vehicle you wish to insure.</p>
+    </div>
 
     <form asp-action="Add" method="post">
         @* This hidden input for CustomerId is now populated by the controller's GET action.
-           It's sent back to the POST action, but the POST action will re-verify/override it
-           with the CustomerId from the logged-in user for security. *@
+             It's sent back to the POST action, but the POST action will re-verify/override it
+             with the CustomerId from the logged-in user for security. *@
         <input type="hidden" asp-for="CustomerId" />
 
         <div asp-validation-summary="ModelOnly" class="validation-summary-errors" role="alert"></div>
@@ -192,7 +213,8 @@
             <div class="col-md-6">
                 <div class="mb-4">
                     <label asp-for="yearOfManufacture" class="form-label insure-label">Year of Manufacture</label>
-                    <input asp-for="yearOfManufacture" class="form-control insure-input" placeholder="e.g., 2020" />
+                    @* Added type="number" with min/max attributes for better user experience and validation *@
+                    <input asp-for="yearOfManufacture" class="form-control insure-input" placeholder="e.g., 2020" type="number" min="1900" max="@DateTime.Now.Year" />
                     <span asp-validation-for="yearOfManufacture" class="field-validation-error"></span>
                 </div>
             </div>
@@ -203,7 +225,7 @@
             <select asp-for="vehicleType" class="form-select insure-select">
                 <option value="">-- Select Type --</option>
                 @* Dynamically generate options from the enum *@
-                @foreach (var type in Html.GetEnumSelectList<VehicleType>()) // <--- CHANGED THIS LINE
+                @foreach (var type in Html.GetEnumSelectList<VehicleType>()) 
                 {
                     <option value="@type.Value">@type.Text</option>
                 }
@@ -213,10 +235,10 @@
 
         <div class="d-grid gap-3 d-md-flex justify-content-md-center">
             <button type="submit" class="btn btn-insure-primary">
-                <i class="bi bi-plus-circle me-2"></i> Add Vehicle
+                <i class="bi bi-check-circle me-2"></i> Register Vehicle
             </button>
             <a asp-controller="Vehicle" asp-action="ViewVehicles" class="btn btn-insure-secondary">
-                <i class="bi bi-x-circle me-2"></i> Cancel
+                <i class="bi bi-arrow-left me-2"></i> Back to Vehicles
             </a>
         </div>
     </form>

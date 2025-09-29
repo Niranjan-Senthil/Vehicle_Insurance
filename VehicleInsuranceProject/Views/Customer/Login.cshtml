@@ -1,43 +1,52 @@
 ﻿@using VehicleInsuranceProject.ViewModels; 
 @model CustomerLoginViewModel;         
 @{
-    ViewData["Title"] = "Login";
+    ViewData["Title"] = "Customer Login";
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
 
-<div class="container my-5">
-    <h2 class="text-center mb-4 display-5 fw-bold text-insure-dark-purple">Login</h2>
+<div class="container my-5 login-bg-container">
     <div class="row justify-content-center">
-        <div class="col-md-6">
-            <div class="card p-4 shadow-lg border-0 rounded-3">
+        <div class="col-md-8 col-lg-6 col-xl-5">
+            <div class="login-card p-5 shadow-xl rounded-4">
+                
+                <div class="text-center mb-5">
+                    <i class="bi bi-shield-lock-fill login-icon mb-3"></i>
+                    <h2 class="display-6 fw-bolder text-dark-blue">Sign In to Your Account</h2>
+                    <p class="text-secondary mt-2">Access your policies, claims, and vehicle details.</p>
+                </div>
+                
                 <form asp-action="Login" method="post">
                     <div asp-validation-summary="ModelOnly" class="text-danger mb-3"></div>
 
-                    <div class="mb-3">
-                        <label asp-for="Name" class="form-label text-insure-dark-text">Username / Email</label>
-                        <input asp-for="Name" class="form-control form-control-lg" placeholder="Enter your username or email" />
+                    <div class="mb-4">
+                        <label asp-for="Name" class="form-label login-label">Username / Email</label>
+                        <input asp-for="Name" class="form-control form-control-lg login-input" placeholder="Enter your username or email" />
                         <span asp-validation-for="Name" class="text-danger small mt-1 d-block"></span>
                     </div>
 
                     <div class="mb-4">
-                        <label asp-for="Password" class="form-label text-insure-dark-text">Password</label>
-                        <input asp-for="Password" type="password" class="form-control form-control-lg" placeholder="Enter your password" />
+                        <label asp-for="Password" class="form-label login-label">Password</label>
+                        <input asp-for="Password" type="password" class="form-control form-control-lg login-input" placeholder="Enter your password" />
                         <span asp-validation-for="Password" class="text-danger small mt-1 d-block"></span>
                     </div>
                     
-                    <div class="mb-4 form-check">
-                        <input asp-for="RememberMe" class="form-check-input" />
-                        <label asp-for="RememberMe" class="form-check-label text-insure-dark-text"></label>
+                    <div class="d-flex justify-content-between align-items-center mb-5">
+                        <div class="form-check">
+                            <input asp-for="RememberMe" class="form-check-input login-check" />
+                            <label asp-for="RememberMe" class="form-check-label text-secondary small">Keep me signed in</label>
+                        </div>
+                        <a href="#" class="text-decoration-none text-primary-link small fw-semibold">Forgot Password?</a>
                     </div>
 
-                    <button type="submit" class="btn btn-insure-primary w-100 p-3 fs-5">Login</button>
+                    <button type="submit" class="btn btn-login-primary w-100 p-3 fs-5 fw-bold">Login</button>
 
-                    <p class="text-center mt-4 text-insure-dark-text">
+                    <p class="text-center mt-4 text-secondary">
                         Don't have an account? 
-                        <a asp-controller="Customer" asp-action="Register" class="text-decoration-none text-insure-mid-purple fw-semibold">Register here</a>.
+                        <a asp-controller="Customer" asp-action="Register" class="text-decoration-none text-primary-link fw-bold">Register here</a>.
                     </p>
                     <div class="text-center mt-3">
-                        <a asp-controller="Home" asp-action="Index" class="text-decoration-none text-insure-mid-purple">Back to Home</a>
+                        <a asp-controller="Home" asp-action="Index" class="text-decoration-none text-secondary small">← Back to Home</a>
                     </div>
                 </form>
             </div>
@@ -50,3 +59,91 @@
         await Html.RenderPartialAsync("_ValidationScriptsPartial.cshtml");
     }
 }
+
+<style>
+    /* * MODERN LOGIN PAGE STYLES
+     * Color Palette: Navy Blue (Primary) and Indigo (Accent) on a soft background.
+     */
+
+    /* Apply a soft background to the main page content */
+    .login-bg-container {
+        /* This slightly darker shade than the dashboard will make the white card pop */
+        background-color: #F0F4F8; 
+        min-height: 85vh; /* Ensure it covers the view height */
+        padding-top: 80px !important;
+        padding-bottom: 80px !important;
+        margin-top: -20px; /* Pull it up to cover any default white space */
+        margin-bottom: -20px;
+    }
+
+    /* Primary Navy Blue Color */
+    .btn-login-primary {
+        background-color: #1a237e; /* Deep Navy Blue */
+        border-color: #1a237e;
+        color: white;
+        transition: all 0.3s ease;
+    }
+
+    .btn-login-primary:hover {
+        background-color: #0d144b; /* Darker Navy Blue on hover */
+        border-color: #0d144b;
+        transform: translateY(-2px);
+        box-shadow: 0 4px 10px rgba(26, 35, 126, 0.4);
+    }
+    
+    .text-primary-link {
+        color: #4B0082; /* Deep Indigo Accent (Kept for contrast) */
+    }
+    .text-primary-link:hover {
+        color: #6a00b0;
+    }
+    .text-dark-blue {
+        color: #333333; /* Dark text for high contrast */
+    }
+
+    /* Card Styling */
+    .login-card {
+        background: #ffffff;
+        border: 1px solid #e9ecef;
+        border-radius: 1.5rem !important; /* Softer, larger radius */
+        /* Smooth, noticeable shadow */
+        box-shadow: 0 10px 30px rgba(0, 0, 0, 0.08); 
+    }
+
+    /* Icon Styling */
+    .login-icon {
+        font-size: 4rem;
+        color: #1a237e; /* Navy Blue icon */
+        /* Subtle glow effect */
+        text-shadow: 0 0 10px rgba(26, 35, 126, 0.3);
+    }
+
+    /* Form Elements */
+    .login-label {
+        color: #333333;
+        font-weight: 500;
+        margin-bottom: 0.5rem;
+    }
+
+    .login-input {
+        border-radius: 0.75rem; /* Rounded input fields */
+        border: 1px solid #ced4da;
+        padding: 0.75rem 1rem;
+        transition: border-color 0.3s, box-shadow 0.3s;
+    }
+
+    .login-input:focus {
+        border-color: #1a237e; /* Navy Blue focus glow */
+        box-shadow: 0 0 0 0.25rem rgba(26, 35, 126, 0.2);
+    }
+    
+    .login-check:checked {
+        background-color: #1a237e; /* Navy Blue color for checkbox */
+        border-color: #1a237e;
+    }
+    
+    /* Ensure body background is overridden for this view */
+    body {
+        background-color: #F0F4F8 !important; 
+    }
+</style>

@@ -5,98 +5,44 @@
 
 @section Head {
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
-    <style>
-        .reports-dashboard-container {
-            padding: 30px;
-            background-color: #f8f9fa;
-            border-radius: 8px;
-            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05);
-            margin-top: 20px;
-        }
-
-        .reports-card {
-            border: none;
-            border-radius: 12px;
-            transition: all 0.3s ease-in-out;
-            box-shadow: 0 4px 8px rgba(0,0,0,0.07);
-            min-height: 180px; /* Adjust height as needed */
-            display: flex;
-            flex-direction: column;
-            justify-content: space-between;
-        }
-
-            .reports-card:hover {
-                transform: translateY(-5px);
-                box-shadow: 0 8px 16px rgba(0,0,0,0.1);
-            }
-
-        .reports-card-icon {
-            font-size: 3.5rem;
-            margin-bottom: 15px;
-            display: block;
-            color: #6c757d; /* Default icon color */
-        }
-
-        .reports-card-title {
-            font-size: 1.5rem;
-            font-weight: 600;
-            margin-bottom: 10px;
-        }
-
-        .reports-card-text {
-            color: #6c757d;
-            font-size: 0.95rem;
-            margin-bottom: 20px;
-            flex-grow: 1;
-        }
-
-        .reports-card-link-btn {
-            font-weight: 500;
-            padding: 10px 20px;
-            border-radius: 8px;
-            width: 100%;
-        }
-
-        /* Specific icon colors for customer reports */
-        .icon-policy {
-            color: #17a2b8;
-        }
-        /* Info teal */
-        .icon-claim {
-            color: #ffc107;
-        }
-        /* Warning yellow */
-    </style>
 }
 
-<div class="container reports-dashboard-container">
-    <h2 class="mb-5"><i class="bi bi-file-earmark-bar-graph me-2"></i> @ViewData["Title"]</h2>
+<div class="container py-5 reports-dashboard-container">
+    <h2 class="mb-5 text-center fw-bolder text-slate display-4">
+        <i class="bi bi-file-earmark-bar-graph me-3"></i> @ViewData["Title"]
+    </h2>
 
     <div class="row row-cols-1 row-cols-md-2 g-4">
 
-        <!-- My Policies Report Card -->
+        <!-- My Policies Report Card (Now Red) -->
         <div class="col">
-            <div class="card reports-card text-center shadow">
-                <div class="card-body">
+            <div class="card reports-card card-policy-red text-center h-100 shadow-md">
+                <div class="card-body d-flex flex-column justify-content-between p-4">
                     <i class="bi bi-file-earmark-text-fill reports-card-icon icon-policy"></i>
-                    <h5 class="reports-card-title">My Policies Report</h5>
-                    <p class="reports-card-text">View a report detailing all your vehicle insurance policies, including their status and coverage.</p>
-                    <a asp-controller="Report" asp-action="MyPolicies" class="btn btn-info reports-card-link-btn">
+                    <div>
+                        <h5 class="reports-card-title text-slate">My Policies Report</h5>
+                        <p class="reports-card-text">View a detailed report of all your active, expired, and pending vehicle insurance policies.</p>
+                    </div>
+                    @* Button class updated to use custom `btn-policy-red` to override layout styles *@
+                    <a asp-controller="Report" asp-action="MyPolicies" class="btn btn-policy-red reports-card-link-btn shadow-sm">
                         <i class="bi bi-journal-check me-2"></i> View Policies
                     </a>
                 </div>
             </div>
         </div>
 
-        <!-- My Claims Report Card -->
+        <!-- My Claims Report Card (Now Green) -->
         <div class="col">
-            <div class="card reports-card text-center shadow">
-                <div class="card-body">
+            <div class="card reports-card card-claim-green text-center h-100 shadow-md">
+                <div class="card-body d-flex flex-column justify-content-between p-4">
                     <i class="bi bi-clipboard-data reports-card-icon icon-claim"></i>
-                    <h5 class="reports-card-title">My Claims Report</h5>
-                    <p class="reports-card-text">Access a report on all your submitted claims, including their current status and claim details.</p>
-                    <a asp-controller="Report" asp-action="MyClaims" class="btn btn-warning reports-card-link-btn">
-                        <i class="bi bi-exclamation-triangle-fill me-2"></i> View Claims
+                    <div>
+                        <h5 class="reports-card-title text-slate">My Claims Report</h5>
+                        <p class="reports-card-text">Access a report on all submitted claims, tracking their current status and payment information.</p>
+                    </div>
+                    @* Button class updated to use custom `btn-claim-green` to override layout styles *@
+                    <a asp-controller="Report" asp-action="MyClaims" class="btn btn-claim-green reports-card-link-btn shadow-sm">
+                        <i class="bi bi-clipboard-check me-2"></i> View Claims
                     </a>
                 </div>
             </div>
@@ -109,13 +55,105 @@
     @{
         await Html.RenderPartialAsync("_ValidationScriptsPartial");
     }
-    <script>
-        $(document).ready(function() {
-            setTimeout(function() {
-                $(".alert-dismissible").fadeTo(500, 0).slideUp(500, function(){
-                    $(this).remove();
-                });
-            }, 7000); // 7 seconds
-        });
-    </script>
 }
+
+<style>
+    /* Color Palette Variables (Updated for Lighter Red and Green) */
+    :root {
+        --color-slate: #263238; /* Dark Slate Text */
+        --color-shadow-light: rgba(0, 0, 0, 0.05);
+        --color-shadow-md: rgba(0, 0, 0, 0.1);
+        --color-policy-red: #E55B5B; /* Softer, lighter Red for button/icon */
+        --color-claim-green: #58B681; /* Softer, lighter Green for button/icon */
+    }
+
+    /* General Layout */
+    .reports-dashboard-container {
+        background-color: #f0f4f8 !important; /* Light background to frame the cards */
+        border-radius: 12px;
+        min-height: 80vh;
+    }
+
+    .text-slate {
+        color: var(--color-slate); 
+    }
+    
+    /* Card Styling */
+    .reports-card {
+        /* Borders are now removed, relying on background and shadow */
+        border-radius: 16px;
+        transition: all 0.3s cubic-bezier(0.25, 0.8, 0.25, 1);
+        box-shadow: 0 2px 5px var(--color-shadow-light);
+    }
+    
+    /* Policy Card - Red */
+    .card-policy-red {
+        background-color: #FFE6E6; /* Very light Pink tint for background */
+    }
+    
+    /* Claim Card - Green */
+    .card-claim-green {
+        background-color: #E6FFEF; /* Very light Mint Green tint for background */
+    }
+
+
+    .reports-card:hover {
+        transform: translateY(-8px);
+        box-shadow: 0 10px 20px var(--color-shadow-md);
+    }
+
+    .reports-card-icon {
+        font-size: 4.0rem;
+        margin-bottom: 20px;
+        display: block;
+    }
+
+    .reports-card-title {
+        font-size: 1.65rem;
+        font-weight: 700;
+        margin-bottom: 5px;
+    }
+
+    .reports-card-text {
+        color: #6c757d;
+        font-size: 1rem;
+        margin-bottom: 25px;
+    }
+
+    .reports-card-link-btn {
+        font-weight: 600;
+        padding: 12px 20px;
+        border-radius: 10px;
+        text-transform: uppercase;
+        /* Important: Use !important to override external layout styles */
+    }
+    
+    /* CUSTOM BUTTON STYLES TO OVERRIDE LAYOUT */
+    .btn-policy-red {
+        background-color: var(--color-policy-red) !important;
+        border-color: var(--color-policy-red) !important;
+        color: white !important;
+    }
+    .btn-policy-red:hover {
+        background-color: #D14747 !important; /* Slightly darker red on hover */
+        border-color: #D14747 !important;
+    }
+    
+    .btn-claim-green {
+        background-color: var(--color-claim-green) !important;
+        border-color: var(--color-claim-green) !important;
+        color: white !important;
+    }
+    .btn-claim-green:hover {
+        background-color: #4A996D !important; /* Slightly darker green on hover */
+        border-color: #4A996D !important;
+    }
+
+    /* Specific icon colors (Using requested Red/Green for distinction) */
+    .icon-policy {
+        color: var(--color-policy-red); /* Red for Policies */
+    }
+    .icon-claim {
+        color: var(--color-claim-green); /* Green for Claims */
+    }
+</style>

@@ -6,97 +6,93 @@
 }
 
 <style>
-    /* Color Palette Variables (consistent with ViewVehicles/Add page) */
+    /* ------------------------------------------------------------------ */
+    /* POLISURE VIBRANT BLUE/PURPLE THEME STYLES (Edit Form)              */
+    /* Consistent variables imported from the Add/View pages              */
+    /* ------------------------------------------------------------------ */
+
     :root {
-        --insure-primary-purple: #5b21b6; /* A strong, professional purple */
-        --insure-accent-blue: #2563eb; /* A complementary deep blue */
-        --insure-light-purple: #ede9fe; /* Very light purple for subtle accents */
-        --insure-text-dark: #333333; /* General dark text */
-        --insure-text-light: #f8fafc; /* White/light text on dark backgrounds */
-        --insure-background-light: #f4f6f9; /* Light page background */
-        --insure-border-light: #e0e0e0; /* Light border for elements */
-        /* Semantic colors for buttons/alerts */
-        --insure-success: #22c55e;
-        --insure-warning: #f59e0b; /* Professional orange for specific edit elements if needed, but not primary actions */
-        --insure-danger: #ef4444;
-        --insure-info: #0ea5e9;
+        --theme-primary-purple: #6c20b5;     /* Main button/accent color (Deep Purple) */
+        --theme-dark-blue: #303F9F;          /* Darker primary color (Header Text) */
+        --theme-bg-light: #f4f6f9;           /* Very light dashboard background */
+        --theme-text-dark: #2c3e50;          /* Main content text color */
+        --theme-border-light: #e0e0e0;       /* Subtle border */
+        --theme-accent-blue: #2563eb;        /* Secondary action accent (e.g., Update button) */
     }
 
-    /* Global Body Styling (if not already in _Layout.cshtml or site.css) */
+    /* Global Body Styling */
     body {
-        background-color: var(--insure-background-light);
-        font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-        color: var(--insure-text-dark);
+        background-color: var(--theme-bg-light);
+        font-family: 'Inter', sans-serif;
+        color: var(--theme-text-dark);
     }
 
     /* Main form container - clean, professional card */
     .insure-form-card {
         max-width: 800px;
-        margin: 60px auto; /* More margin top/bottom */
-        padding: 40px;
-        background-color: #ffffff; /* Clean white background */
-        border-radius: 12px; /* Nicely rounded corners */
-        box-shadow: 0 8px 25px rgba(0, 0, 0, 0.1); /* Soft, subtle shadow */
-        border: 1px solid var(--insure-border-light); /* Light border for definition */
+        margin: 60px auto; 
+        padding: 50px; /* Consistent padding */
+        background-color: #ffffff; 
+        border-radius: 12px; 
+        box-shadow: 0 8px 30px rgba(0, 0, 0, 0.05); /* Soft, subtle shadow */
+        border: 1px solid var(--theme-border-light); 
     }
 
-        /* Heading for the form */
-        .insure-form-card h2 {
-            font-size: 2.5rem; /* Prominent heading */
-            font-weight: 700; /* Bold */
-            color: var(--insure-primary-purple); /* Primary purple for heading, consistent with ViewVehicles */
-            margin-bottom: 35px; /* More space below heading */
-            text-align: center;
-            position: relative;
-            padding-bottom: 15px;
-        }
+    /* Page Heading Block (Centered with Icon - Shared style) */
+    .header-block {
+        text-align: center;
+        margin-bottom: 40px;
+    }
 
-            /* Underline accent for the heading */
-            .insure-form-card h2::after {
-                content: '';
-                position: absolute;
-                left: 50%;
-                bottom: 0;
-                transform: translateX(-50%);
-                width: 90px; /* Decent length */
-                height: 4px; /* Thickness */
-                background-color: var(--insure-accent-blue); /* Accent blue for underline, consistent with ViewVehicles */
-                border-radius: 2px;
-            }
+    .header-icon {
+        font-size: 3.5rem;
+        color: var(--theme-accent-blue); /* Use the accent blue for the Edit icon */
+        margin-bottom: 10px;
+        display: block;
+    }
+
+    .header-block h2 {
+        font-size: 2.2rem;
+        font-weight: 700;
+        color: var(--theme-dark-blue); 
+        margin-bottom: 5px;
+    }
+    
+    .header-block p {
+        color: #7f8c8d; /* Secondary/muted text */
+        font-size: 1rem;
+    }
+
 
     /* Labels */
     .insure-label {
-        font-weight: 600; /* Semi-bold labels */
-        color: var(--insure-text-dark); /* Dark, readable text */
-        margin-bottom: 8px; /* Space between label and input */
+        font-weight: 600; 
+        color: var(--theme-text-dark); 
+        margin-bottom: 8px; 
     }
 
     /* Form Controls (Inputs, Selects) */
     .insure-input, .insure-select {
-        border-radius: 8px; /* Consistent rounding */
-        border: 1px solid var(--insure-border-light); /* Soft, light border */
+        border-radius: 8px; 
+        border: 1px solid #d1d9e6; 
         padding: 0.8rem 1.1rem;
-        font-size: 1.05rem;
-        color: var(--insure-text-dark); /* Standard text color */
+        font-size: 1.0rem; 
+        color: #495057; 
         transition: all 0.3s ease;
     }
 
-        .insure-input::placeholder {
-            color: #a0a8b4; /* Muted placeholder text */
-        }
-
         .insure-input:focus, .insure-select:focus {
-            border-color: var(--insure-accent-blue); /* Accent color on focus, consistent with other pages */
-            box-shadow: 0 0 0 0.25rem rgba(37, 99, 235, 0.25); /* Soft glow matching accent */
-            outline: none; /* Remove default outline */
-            background-color: #fcfdff; /* Slightly whiter background on focus */
+            border-color: var(--theme-accent-blue); 
+            box-shadow: 0 0 0 0.25rem rgba(37, 99, 235, 0.25); /* Soft glow matching accent blue */
+            outline: none; 
+            background-color: #fcfdff; 
         }
 
-    /* Validation summary and individual field errors */
+    /* Validation summary and individual field errors (unchanged) */
     .validation-summary-errors {
-        background-color: #fff0f0; /* Very light red background */
-        color: #d80000; /* Darker red text */
-        border: 1px solid #ffcccc; /* Red border */
+        background-color: #fff0f0; 
+        color: #d80000; 
+        border: 1px solid #ffcccc; 
         border-radius: 8px;
         padding: 15px 20px;
         margin-bottom: 25px;
@@ -104,36 +100,35 @@
     }
 
     .field-validation-error {
-        color: #d80000; /* Darker red for individual field errors */
+        color: #d80000; 
         font-size: 0.85rem;
         margin-top: 5px;
-        display: block; /* Ensure it takes its own line */
+        display: block; 
     }
 
-    /* Buttons - Primary action (Update) */
+    /* Buttons - Primary action (Update Vehicle) - Using Accent Blue for Edit Action */
     .btn-insure-update {
-        /* CHANGED: Using --insure-accent-blue for the Update button, like the Add button */
-        background-color: var(--insure-accent-blue);
-        border-color: var(--insure-accent-blue);
-        color: var(--insure-text-light); /* Light text for contrast on blue */
+        background-color: var(--theme-accent-blue); 
+        border-color: var(--theme-accent-blue);
+        color: #ffffff;
         padding: 0.9rem 2.2rem;
-        font-size: 1.15rem;
+        font-size: 1.0rem; 
         font-weight: 600;
-        border-radius: 8px;
-        transition: all 0.2s ease-in-out;
+        border-radius: 6px; 
+        transition: all 0.3s ease;
         display: inline-flex;
         align-items: center;
         justify-content: center;
         gap: 10px;
+        box-shadow: 0 4px 10px rgba(37, 99, 235, 0.4); 
     }
 
         .btn-insure-update:hover {
-            /* CHANGED: Darken accent blue on hover */
-            background-color: color-mix(in srgb, var(--insure-accent-blue) 85%, black);
-            border-color: color-mix(in srgb, var(--insure-accent-blue) 85%, black);
-            transform: translateY(-2px); /* Slight lift */
-            box-shadow: 0 6px 15px rgba(37, 99, 235, 0.25); /* Soft shadow matching blue */
-            color: var(--insure-text-light); /* Keep text light */
+            background-color: #1e40af; /* Slightly darker blue on hover */
+            border-color: #1e40af;
+            transform: translateY(-2px); 
+            box-shadow: 0 6px 15px rgba(37, 99, 235, 0.6); 
+            color: #ffffff; 
         }
 
         .btn-insure-update:active {
@@ -141,15 +136,15 @@
             box-shadow: none;
         }
 
-    /* Buttons - Secondary action (Back to List) */
+    /* Buttons - Secondary action (Back to List) - Same as previous secondary button */
     .btn-insure-secondary {
-        background-color: #e9ecef; /* Light grey for secondary */
-        border: 1px solid var(--insure-border-light);
-        color: var(--insure-text-dark); /* Dark text */
+        background-color: #e9ecef; 
+        border: 1px solid #d1d9e6;
+        color: #495057; 
         padding: 0.9rem 2.2rem;
-        font-size: 1.15rem;
+        font-size: 1.0rem; 
         font-weight: 600;
-        border-radius: 8px;
+        border-radius: 6px; 
         transition: all 0.2s ease-in-out;
         display: inline-flex;
         align-items: center;
@@ -158,11 +153,11 @@
     }
 
         .btn-insure-secondary:hover {
-            background-color: #dee2e6; /* Darker grey on hover */
+            background-color: #dee2e6; 
             border-color: #c5cbd3;
             transform: translateY(-2px);
-            box-shadow: 0 6px 15px rgba(0, 0, 0, 0.1);
-            color: var(--insure-text-dark); /* Keep text dark */
+            box-shadow: 0 0 0 0.25rem rgba(108, 32, 181, 0.05); 
+            color: #495057; 
         }
 
         .btn-insure-secondary:active {
@@ -172,9 +167,15 @@
 </style>
 
 <div class="container insure-form-card">
-    <h2>Edit Vehicle</h2>
+    
+    <div class="header-block">
+        <i class="bi bi-pencil-square header-icon"></i>
+        <h2>Edit Vehicle Details</h2>
+        <p>Update the registration, model, or manufacturing year for this vehicle.</p>
+    </div>
 
     <form asp-action="Edit" method="post">
+        @* Hidden fields for vehicle ID and Customer ID are critical for the update action *@
         <input type="hidden" asp-for="vehicleId" />
         <input type="hidden" asp-for="CustomerId" />
 
@@ -208,7 +209,8 @@
             <div class="col-md-6">
                 <div class="mb-4">
                     <label asp-for="yearOfManufacture" class="form-label insure-label">Year of Manufacture</label>
-                    <input asp-for="yearOfManufacture" class="form-control insure-input" />
+                    @* Added type="number" with min/max attributes for better user experience and validation *@
+                    <input asp-for="yearOfManufacture" class="form-control insure-input" type="number" min="1900" max="@DateTime.Now.Year" />
                     <span asp-validation-for="yearOfManufacture" class="field-validation-error"></span>
                 </div>
             </div>
@@ -218,10 +220,9 @@
             <label asp-for="vehicleType" class="form-label insure-label">Vehicle Type</label>
             <select asp-for="vehicleType" class="form-select insure-select">
                 <option value="">-- Select Type --</option>
-                @foreach (var type in Html.GetEnumSelectList<VehicleType>()) // <--- CHANGED THIS LINE
+                @foreach (var type in Html.GetEnumSelectList<VehicleType>()) 
                 {
                     <option value="@type.Value" selected="@(type.Value == Model.vehicleType.ToString() ? "selected" : null)">@type.Text</option>
-                   
                 }
             </select>
             <span asp-validation-for="vehicleType" class="field-validation-error"></span>
@@ -229,10 +230,10 @@
 
         <div class="d-grid gap-3 d-md-flex justify-content-md-center">
             <button type="submit" class="btn btn-insure-update">
-                <i class="bi bi-pencil-square me-2"></i> Update Vehicle
+                <i class="bi bi-floppy-fill me-2"></i> Save Changes
             </button>
             <a asp-controller="Vehicle" asp-action="ViewVehicles" class="btn btn-insure-secondary">
-                <i class="bi bi-arrow-left-circle me-2"></i> Back to List
+                <i class="bi bi-arrow-left me-2"></i> Back to List
             </a>
         </div>
     </form>

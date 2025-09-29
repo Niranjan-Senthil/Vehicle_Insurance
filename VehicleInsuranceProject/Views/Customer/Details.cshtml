@@ -2,28 +2,115 @@
 @model CustomerDetailsViewModel;
 
 @{
-    ViewData["Title"] = "Customer Details";
+    ViewData["Title"] = "Customer Profile";
     Layout = "~/Views/Shared/_Layout.cshtml"; // Adjust the layout if needed
 }
 
-<div class="container my-5">
-    <h2 class="text-center mb-4 display-5 fw-bold text-insure-dark-purple">Customer Details</h2>
-
+<div class="container my-5 profile-bg-container">
     <div class="row justify-content-center">
-        <div class="col-md-6 col-lg-5">
-            <div class="card p-4 shadow-lg border-0 rounded-3">
-                <div class="card-body">
-                    <h5 class="card-title text-insure-dark-purple">@Model.Name</h5>
-                    <p class="card-text"><strong>Email:</strong> @Model.Email</p>
-                    <p class="card-text"><strong>Phone:</strong> @Model.Phone</p>
-                    <p class="card-text"><strong>Address:</strong> @Model.Address</p>
+        @* Optimized column size for a profile card *@
+        <div class="col-md-8 col-lg-6 col-xl-5">
+            <div class="profile-card p-5 shadow-xl rounded-4">
+                
+                <div class="text-center mb-5">
+                    <i class="bi bi-person-circle profile-icon mb-3"></i>
+                    <h2 class="display-6 fw-bolder text-dark-blue">My Profile Details</h2>
+                    <p class="text-secondary mt-2">Review and manage your personal information.</p>
                 </div>
-            </div>
 
-            <div class="text-center mt-4">
-                <a asp-controller="Customer" asp-action="UpdateProfile" class="btn btn-insure-primary me-2">Edit Profile</a>
-                <a asp-controller="Customer" asp-action="CustomerDashboard" class="text-decoration-none text-insure-mid-purple">Back to Home</a>
+                @* Displaying the customer data in a styled block *@
+                <div class="card border-0 mb-4 bg-light-blue rounded-3 p-4">
+                    <h5 class="card-title fw-bold text-dark-blue mb-3 border-bottom pb-2">Account Holder Information</h5>
+                    
+                    <div class="d-flex justify-content-between py-2 border-bottom">
+                        <strong class="text-muted">Name:</strong>
+                        <span class="text-dark fw-semibold">@Model.Name</span>
+                    </div>
+
+                    <div class="d-flex justify-content-between py-2 border-bottom">
+                        <strong class="text-muted">Email:</strong>
+                        <span class="text-dark fw-semibold">@Model.Email</span>
+                    </div>
+
+                    <div class="d-flex justify-content-between py-2 border-bottom">
+                        <strong class="text-muted">Phone:</strong>
+                        <span class="text-dark fw-semibold">@Model.Phone</span>
+                    </div>
+
+                    <div class="d-flex justify-content-between py-2">
+                        <strong class="text-muted">Address:</strong>
+                        @* Using max-width to handle long address lines gracefully *@
+                        <span class="text-dark fw-semibold text-end" style="max-width: 60%;">@Model.Address</span>
+                    </div>
+
+                </div>
+
+                <div class="d-flex justify-content-between mt-4">
+                    <a asp-controller="Customer" asp-action="UpdateProfile" class="btn btn-profile-primary px-4 py-2 flex-grow-1 me-2 fw-bold">
+                        <i class="bi bi-pencil-square me-2"></i> Edit Profile
+                    </a>
+                    @* Updated link to match the controller action for the dashboard *@
+                    <a asp-controller="Customer" asp-action="CustomerDashboard" class="btn btn-outline-secondary px-4 py-2">
+                        <i class="bi bi-arrow-left me-2"></i> Back to Dashboard
+                    </a>
+                </div>
             </div>
         </div>
     </div>
 </div>
+
+<style>
+    /* Styling for the Customer Details/Profile Page for consistency */
+    
+    /* Overall background */
+    .profile-bg-container {
+        background-color: #f0f4f8; /* Light grey/blue background, consistent with dashboard */
+        min-height: 80vh; 
+        padding-top: 50px !important;
+        padding-bottom: 50px !important;
+    }
+
+    /* Primary Navy Blue Color (from Register/Login theme) */
+    .btn-profile-primary {
+        background-color: #1a237e; /* Deep Navy Blue */
+        border-color: #1a237e;
+        color: white;
+        transition: all 0.3s ease;
+    }
+
+    .btn-profile-primary:hover {
+        background-color: #0d144b; /* Darker Navy Blue on hover */
+        border-color: #0d144b;
+        transform: translateY(-1px);
+        box-shadow: 0 4px 8px rgba(26, 35, 126, 0.4);
+    }
+    
+    .text-dark-blue {
+        color: #1a237e; /* Navy Blue text for headings */
+    }
+    
+    .bg-light-blue {
+        background-color: #f8f9fa; /* Very light background for the info card */
+        border: 1px solid #e9ecef !important;
+    }
+
+    /* Card Styling */
+    .profile-card {
+        background: #ffffff;
+        border: 1px solid #e9ecef;
+        border-radius: 1.5rem !important; 
+        box-shadow: 0 10px 30px rgba(0, 0, 0, 0.08); 
+    }
+
+    /* Icon Styling - Deep Indigo Accent */
+    .profile-icon {
+        font-size: 4rem;
+        color: #4B0082; 
+        text-shadow: 0 0 10px rgba(75, 0, 130, 0.3);
+    }
+    
+    /* Override layout body background for this specific view */
+    body {
+        background-color: #f0f4f8 !important; 
+    }
+</style>

@@ -47,7 +47,7 @@ namespace VehicleInsuranceProject.Controllers
             if (customer == null)
             {
                 TempData["ErrorMessage"] = "Could not find your customer profile. Please complete it.";
-                return RedirectToAction("Register", "Customer"); // Redirect to complete profile
+                return RedirectToAction("CompleteProfile", "Customer"); // Redirect to complete profile
             }
 
             // Fetch policies including their associated claims for the button logic in the view

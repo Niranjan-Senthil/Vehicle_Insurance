@@ -6,244 +6,190 @@
 }
 
 <style>
-    /*
-         * IMPORTANT: Color Palette Variables are defined in wwwroot/css/site.css
-         * Do NOT redefine them here. Refer to them directly using var(--variable-name).
-         */
-
-    /* Global Body Styling (if specific to this page, otherwise use site.css) */
-    body {
-        background-color: var(--dashboard-bg); /* Using a variable from site.css */
-        font-family: 'Open Sans', sans-serif; /* Using font from site.css */
-        color: var(--insure-edge-dark-text); /* Using text color from site.css */
+    /* ------------------------------------------------------------------ */
+    /* POLISURE VIBRANT BLUE/PURPLE THEME STYLES                          */
+    /* ------------------------------------------------------------------ */
+    
+    /* Custom Color Definitions for this page (Matching the reference images) */
+    :root {
+        --theme-primary-blue: #3F51B5;     /* Main action and accent color (Indigo) */
+        --theme-dark-blue: #303F9F;        /* Darker primary color (Table Header) */
+        --theme-bg-light: #f4f6f9;         /* Very light dashboard background */
+        --theme-text-dark: #2c3e50;        /* Main content text color */
+        --theme-text-light: #7f8c8d;       /* Secondary/muted text */
+        --theme-border-light: #ecf0f1;     /* Subtle border */
+        --theme-danger-red: #E74C3C;       /* Clean error red */
+        --theme-success-green: #2ECC71;    /* Clean success green */
     }
 
-    /* Main Container for the Page Content */
+    /* Global Body Styling */
+    body {
+        background-color: var(--theme-bg-light); 
+        font-family: 'Inter', sans-serif;
+        color: var(--theme-text-dark);
+    }
+
+    /* Main Container for the Page Content (Minimalist Card) */
     .vehicles-main-card {
-        max-width: 1200px;
-        margin: 60px auto; /* Centered with vertical spacing */
-        padding: 30px;
+        max-width: 1100px;
+        margin: 40px auto;
+        padding: 50px; /* Increased padding */
         background-color: #ffffff;
         border-radius: 12px;
-        box-shadow: 0 10px 30px rgba(0, 0, 0, 0.08); /* Soft, elegant shadow */
-        border: 1px solid var(--dashboard-activity-border); /* Using a variable from site.css */
+        box-shadow: 0 8px 30px rgba(0, 0, 0, 0.05); /* Soft, hovering shadow */
+        border: 1px solid var(--theme-border-light); 
     }
 
-        /* Page Heading Style */
-        .vehicles-main-card h2 {
-            font-size: 2.5rem;
-            font-weight: 700;
-            /* CHANGE: Heading color to dark purple */
-            color: var(--insure-edge-dark-purple); /* Reference from site.css */
-            margin-bottom: 30px;
-            text-align: center;
-            position: relative;
-            padding-bottom: 15px;
-        }
+    /* Page Heading Block (Centered with Icon) */
+    .header-block {
+        text-align: center;
+        margin-bottom: 40px;
+    }
 
-            /* Underline for the heading */
-            .vehicles-main-card h2::after {
-                content: '';
-                position: absolute;
-                left: 50%;
-                bottom: 0;
-                transform: translateX(-50%);
-                width: 100px;
-                height: 4px;
-                /* CHANGE: Underline to mid-purple (or light if preferred) */
-                background-color: var(--insure-edge-mid-purple); /* Reference from site.css */
-                border-radius: 2px;
-            }
+    .header-icon {
+        font-size: 3.5rem;
+        color: var(--theme-primary-blue);
+        margin-bottom: 15px;
+        display: block;
+    }
 
-    /* Add New Vehicle Button */
+    .header-block h2 {
+        font-size: 2.2rem;
+        font-weight: 700;
+        color: var(--theme-dark-blue); 
+        margin-bottom: 5px;
+    }
+    
+    .header-block p {
+        color: var(--theme-text-light);
+        font-size: 1rem;
+    }
+
+    /* Add New Vehicle Button (Primary Blue) */
     .btn-add-vehicle {
-        /* CHANGE: Background to light purple */
-        background-color: var(--insure-edge-light-purple); /* Reference from site.css */
-        /* CHANGE: Border to dark purple */
-        border-color: var(--insure-edge-dark-purple); /* Reference from site.css */
-        color: var(--insure-edge-white-text); /* Ensure text is white for contrast */
-        padding: 0.75rem 1.5rem;
-        font-size: 1.05rem;
+        background-color: var(--theme-primary-blue); 
+        border-color: var(--theme-primary-blue); 
+        color: #fff; 
+        padding: 0.8rem 1.6rem;
+        font-size: 1rem;
         font-weight: 600;
-        border-radius: 8px;
-        transition: all 0.2s ease-in-out;
+        border-radius: 6px;
+        transition: all 0.3s ease;
+        box-shadow: 0 4px 10px rgba(63, 81, 181, 0.4); 
         display: inline-flex;
         align-items: center;
         gap: 8px;
+        text-transform: uppercase;
     }
 
-        .btn-add-vehicle:hover {
-            /* Adjust hover color based on your desired effect, here slightly darker light purple */
-            background-color: color-mix(in srgb, var(--insure-edge-light-purple) 85%, black);
-            /* Keep border dark purple on hover or adjust */
-            border-color: var(--insure-edge-dark-purple);
-            transform: translateY(-2px);
-            /* Adjust box-shadow to fit the purple theme */
-            box-shadow: 0 4px 10px rgba(var(--insure-edge-light-purple), 0.2); /* Soft shadow */
-            color: var(--insure-edge-white-text);
-        }
-
-        .btn-add-vehicle:active {
-            transform: translateY(0);
-            box-shadow: none;
-        }
+    .btn-add-vehicle:hover {
+        background-color: var(--theme-dark-blue);
+        border-color: var(--theme-dark-blue);
+        transform: translateY(-2px); 
+        box-shadow: 0 6px 15px rgba(63, 81, 181, 0.6); 
+        color: #fff;
+    }
 
     /* Table Styling */
-    .table {
-        margin-top: 30px;
-        border-collapse: separate;
-        border-spacing: 0;
+    .table-responsive {
+        border-radius: 8px;
+        overflow: hidden;
+        border: 1px solid var(--theme-border-light);
     }
 
-        .table thead th {
-            /* CHANGE: Table header background to dark purple */
-            background-color: var(--insure-edge-dark-purple); /* Reference from site.css */
-            color: var(--insure-edge-white-text); /* White text on dark header */
-            font-weight: 600;
-            padding: 1rem 1.25rem;
-            vertical-align: middle;
-            border: none;
-            position: sticky;
-            top: 0;
-            z-index: 1;
-            text-align: left; /* Default text alignment */
-        }
+    .table {
+        margin-top: 0;
+        border-collapse: separate;
+    }
 
-            .table thead th:last-child {
-                text-align: center; /* Center actions header */
-            }
+    .table thead th {
+        /* Darker Blue Header */
+        background-color: var(--theme-dark-blue); 
+        color: #ffffff; 
+        font-weight: 600;
+        padding: 1rem 1.25rem;
+        border: none;
+        text-align: left; 
+    }
 
-            /* Rounded corners for table header */
-            .table thead th:first-child {
-                border-top-left-radius: 8px;
-            }
+    .table tbody tr {
+        background-color: #ffffff;
+        transition: background-color 0.2s ease;
+    }
 
-            .table thead th:last-child {
-                border-top-right-radius: 8px;
-            }
+    .table tbody tr:hover {
+        /* Subtle light blue hover */
+        background-color: #fafbfe; 
+    }
 
-        .table tbody tr {
-            transition: background-color 0.2s ease-in-out, transform 0.1s ease;
-        }
+    .table tbody td {
+        padding: 1.2rem 1.25rem;
+        vertical-align: middle;
+        border-top: 1px solid var(--theme-border-light);
+        color: var(--theme-text-dark); 
+        font-weight: 500;
+    }
 
-            .table tbody tr:nth-of-type(even) {
-                background-color: #fcfcfc; /* Slightly off-white stripe */
-            }
-
-            .table tbody tr:hover {
-                /* CHANGE: Table row hover to a light tint of a purple variable */
-                background-color: rgba(var(--insure-edge-light-purple), 0.2); /* Light purple tint on hover */
-                transform: translateY(-1px);
-                box-shadow: 0 2px 8px rgba(0,0,0,0.03); /* Very subtle shadow on hover */
-            }
-
-        .table tbody td {
-            padding: 1rem 1.25rem;
-            vertical-align: middle;
-            border-top: 1px solid var(--dashboard-activity-border); /* Light border between rows from site.css */
-            color: var(--insure-edge-dark-text); /* Using text color from site.css */
-        }
-
-            .table tbody td:last-child {
-                text-align: center; /* Center actions column in body */
-            }
+    /* Vehicle Icon in the first column for visual interest */
+    .vehicle-row-icon {
+        color: var(--theme-primary-blue);
+        font-size: 1.1rem;
+        margin-right: 10px;
+    }
 
     /* Action Buttons within the table */
     .btn-table-action {
-        padding: 0.5rem 1rem;
-        font-size: 0.9rem;
-        font-weight: 500;
-        border-radius: 6px;
-        transition: all 0.2s ease-in-out;
-        display: inline-flex;
-        align-items: center;
-        gap: 6px;
+        padding: 0.5rem; /* Square-ish buttons for icons */
+        font-size: 1rem;
+        border-radius: 4px;
+        transition: all 0.2s ease;
+        line-height: 1; /* Center the icon perfectly */
     }
 
-        .btn-table-action:hover {
-            transform: translateY(-1px);
-        }
-
-    .btn-edit {
-        background-color: var(--insure-edge-accent-yellow); /* Using accent yellow from site.css */
-        border-color: var(--insure-edge-accent-yellow);
-        color: var(--insure-edge-dark-text); /* Dark text for contrast on yellow */
-    }
-
-        .btn-edit:hover {
-            background-color: color-mix(in srgb, var(--insure-edge-accent-yellow) 85%, black);
-            border-color: color-mix(in srgb, var(--insure-edge-accent-yellow) 85%, black);
-            color: var(--insure-edge-dark-text);
-        }
-
+    /* Delete Button (Danger Red - Icon Only) */
     .btn-delete {
-        background-color: var(--insure-edge-accent-red); /* Using accent red from site.css */
-        border-color: var(--insure-edge-accent-red);
-        color: var(--insure-edge-white-text);
+        background-color: #fcebeb; /* Very light red background */
+        border: 1px solid #f8d0cf;
+        color: var(--theme-danger-red);
     }
 
-        .btn-delete:hover {
-            background-color: color-mix(in srgb, var(--insure-edge-accent-red) 85%, black);
-            border-color: color-mix(in srgb, var(--insure-edge-accent-red) 85%, black);
-            color: var(--insure-edge-white-text);
-        }
+    .btn-delete:hover {
+        background-color: var(--theme-danger-red); 
+        border-color: var(--theme-danger-red);
+        color: #fff;
+        transform: scale(1.05);
+    }
 
-    /* Alert for no vehicles found */
+    /* Alert for no vehicles found (Blue Accent) */
     .alert-no-vehicles {
-        background-color: var(--insure-edge-accent-blue); /* Using accent blue from site.css */
-        color: var(--insure-edge-white-text);
-        border-color: color-mix(in srgb, var(--insure-edge-accent-blue) 80%, black);
-        padding: 2rem; /* More padding for a softer look */
-        border-radius: 12px;
+        background-color: #EBF5FB; /* Very light blue background */
+        color: var(--theme-dark-blue);
+        border: 1px solid #D6EAF8;
+        padding: 2.5rem; 
+        border-radius: 8px;
         text-align: center;
-        font-size: 1.15rem;
         margin-top: 40px;
-        box-shadow: 0 4px 15px rgba(0, 0, 0, 0.05);
+        font-size: 1.1rem;
     }
 
-        .alert-no-vehicles .alert-heading {
-            color: var(--insure-edge-white-text);
-            font-weight: 700;
-            margin-bottom: 15px;
-            font-size: 1.8rem;
-        }
-
-        .alert-no-vehicles p {
-            color: var(--insure-edge-white-text);
-            opacity: 0.9;
-            line-height: 1.6;
-        }
-
-        .alert-no-vehicles hr {
-            border-top-color: rgba(255, 255, 255, 0.3);
-            margin: 20px 0;
-        }
-
-    /* General success/danger alerts from TempData */
-    .alert-success {
-        background-color: var(--insure-edge-accent-green); /* Using accent green from site.css */
-        color: var(--insure-edge-white-text);
-        border-color: color-mix(in srgb, var(--insure-edge-accent-green) 80%, black);
-    }
-
-    .alert-danger {
-        background-color: var(--insure-edge-accent-red); /* Using accent red from site.css */
-        color: var(--insure-edge-white-text);
-        border-color: color-mix(in srgb, var(--insure-edge-accent-red) 80%, black);
-    }
-
-    .alert .btn-close {
-        filter: invert(1); /* Makes the close button white for dark alerts */
-        opacity: 0.8;
+    .alert-no-vehicles .alert-heading {
+        color: var(--theme-dark-blue);
+        font-weight: 700;
+        margin-bottom: 10px;
+        font-size: 1.8rem;
     }
 </style>
 
 <div class="container vehicles-main-card">
-    <h2>My Vehicles</h2>
+    <div class="header-block">
+        <i class="bi bi-car-front header-icon"></i>
+        <h2>My Registered Vehicles</h2>
+        <p>View, manage, or add new vehicles to your insurance portfolio.</p>
+    </div>
 
     <div class="d-flex justify-content-end mb-4">
         <a asp-controller="Vehicle" asp-action="Add" class="btn btn-add-vehicle">
-            <i class="bi bi-plus-circle-fill"></i> Add New Vehicle
+            <i class="bi bi-plus-lg"></i> Add New Vehicle
         </a>
     </div>
 
@@ -274,23 +220,23 @@
                         <th>Model</th>
                         <th>Year</th>
                         <th>Type</th>
-                        <th>Action</th>
-
+                        <th class="text-center">Action</th> @* Center the Action header *@
                     </tr>
                 </thead>
                 <tbody>
                     @foreach (var v in Model)
                     {
                         <tr>
-                            <td>@v.registrationNumber</td>
+                            <td><i class="bi bi-truck vehicle-row-icon"></i> @v.registrationNumber</td>
                             <td>@v.make</td>
                             <td>@v.model</td>
                             <td>@v.yearOfManufacture</td>
                             <td>@v.vehicleType.ToString()</td>
-                            <td>
+                            <td class="text-center">
+                                @* We are using a client-side confirm before form submission for deletion *@
                                 <form asp-action="Delete" asp-route-vehicleId="@v.vehicleId" method="post" style="display:inline;" onsubmit="return confirm('Are you sure you want to delete this vehicle? This action cannot be undone.');">
                                     <button type="submit" class="btn btn-table-action btn-delete" title="Delete Vehicle">
-                                        <i class="bi bi-trash"></i> Delete
+                                        <i class="bi bi-trash"></i>
                                     </button>
                                 </form>
                             </td>
@@ -303,10 +249,9 @@
     else
     {
         <div class="alert alert-no-vehicles" role="alert">
-            <h4 class="alert-heading"><i class="bi bi-info-circle-fill me-2"></i> No Vehicles Found!</h4>
-            <p>It looks like you haven't added any vehicles to your account yet.</p>
-            <hr>
-            <p class="mb-0">Click the "Add New Vehicle" button above to get started!</p>
+            <h4 class="alert-heading"><i class="bi bi-info-circle-fill me-2"></i> No Vehicles Registered!</h4>
+            <p>You currently do not have any active vehicles associated with your insurance profile.</p>
+            <p class="mb-0 mt-3">Click the **Add New Vehicle** button to register your first one and manage its policies.</p>
         </div>
     }
 </div>
