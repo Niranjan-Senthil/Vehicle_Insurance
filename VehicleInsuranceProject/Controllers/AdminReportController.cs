@@ -2,7 +2,7 @@
 using Microsoft.AspNetCore.Mvc;
 using VehicleInsuranceProject.BusinessLogic.Services;
 using VehicleInsuranceProject.ViewModels;
-
+//Admin access
 namespace VehicleInsuranceProject.Controllers
 {
     [Authorize(Roles = "Admin")] // Only administrators can access these reports
