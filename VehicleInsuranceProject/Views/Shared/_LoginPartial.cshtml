@@ -1,102 +1,173 @@
-﻿@using Microsoft.AspNetCore.Identity;
+﻿@using Microsoft.AspNetCore.Identity
 @using VehicleInsuranceProject.Repository.Models
-@inject SignInManager<IdentityUser> SignInManager;
-@inject UserManager<IdentityUser> UserManager;
+@inject SignInManager<IdentityUser> SignInManager
+@inject UserManager<IdentityUser> UserManager
 
-@if (SignInManager.IsSignedIn(User))
+@* Custom styles for the icons and list items within the navbar partial. *@
+<style>
+    /* 1. Increased vertical padding on the navbar list items */
+    .navbar-nav .nav-item {
+        padding-top: 5px;
+        padding-bottom: 5px;
+    }
+    
+    /* Only apply icon sizing/transition to icons inside buttons (Login/Register/Logout/Profile) */
+    .navbar-nav .btn i,
+    /* Also target the icon inside the Profile link, which is kept as an icon */
+    .navbar-nav .nav-link i {
+        font-size: 1.6rem !important; 
+        transition: transform 0.2s ease-in-out, color 0.2s ease-in-out;
+    }
+    
+    /* Apply hover effect only to button and profile icons */
+    .navbar-nav .nav-link:hover i,
+    .navbar-nav .btn:hover i {
+         transform: translateY(-2px) scale(1.1);
+         color: white !important;
+    }
+    
+    /* Ensure regular links have standard padding for readable text */
+    .navbar-nav .nav-link {
+        padding-left: 0.75rem; 
+        padding-right: 0.75rem; 
+        transition: color 0.2s;
+    }
+    
+    /* Enhance text link hover state */
+    .navbar-nav .nav-link:hover {
+        color: #F8F8FF !important; /* Ghost White on hover for text links */
+    }
+</style>
+
+@* This partial view is loaded inside the main <nav> defined in _Layout.cshtml.
+    It should only contain the lists of links and buttons, not the <nav> itself. *@
+
+@{
+    // 1. IMPROVEMENT: Pre-calculate role checks for efficiency and cleaner markup.
+    bool isAuthenticated = SignInManager.IsSignedIn(User);
+    bool isAdmin = false;
+    bool isCustomer = false;
+
+    if (isAuthenticated)
+    {
+        var user = await UserManager.GetUserAsync(User);
+        if (user != null)
+        {
+            isAdmin = await UserManager.IsInRoleAsync(user, "Admin");
+            isCustomer = await UserManager.IsInRoleAsync(user, "Customer");
+        }
+    }
+}
+
+@if (isAuthenticated)
 {
-    <nav class="navbar navbar-expand-lg navbar-dark bg-insure-dark-purple py-3 shadow-lg rounded-bottom">
-        <div class="container-fluid">
-            <a class="navbar-brand d-flex align-items-center" asp-area="" asp-controller="Home" asp-action="Index">
-                <img src="~/images/logo2.png" alt="InsureEdge Logo" style="height: 70px; margin-right: 10px;">
-                <span class="font-great-vibes fs-2 text-insure-white">InsureEdge</span>
-            </a>
+    @* CONTENT FOR AUTHENTICATED USERS: Generates the role-based navigation and Logout button. *@
 
-            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContentAuth"
-                    aria-controls="navbarSupportedContentAuth" aria-expanded="false" aria-label="Toggle navigation">
-                <span class="navbar-toggler-icon"></span>
-            </button>
+    <!-- Primary Navigation Links (Left Side) - NAME ONLY -->
+    <ul class="navbar-nav me-auto mb-2 mb-lg-0 flex-grow-1">
+        @if (isAdmin)
+        {
+            <li class="nav-item">
+                <a class="nav-link" asp-area="" asp-controller="Admin" asp-action="AdminDashboard">
+                    Admin Dashboard
+                </a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link" asp-area="" asp-controller="Admin" asp-action="Customers">
+                    Customers
+                </a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link" asp-area="" asp-controller="Claims" asp-action="AllClaims">
+                    Claims
+                </a>
+            </li>
+        }
+        else if (isCustomer)
+        {
+            <li class="nav-item">
+                <a class="nav-link" asp-area="" asp-controller="Customer" asp-action="CustomerDashboard">
+                    Home
+                </a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link" asp-area="" asp-controller="Vehicle" asp-action="ViewVehicles">
+                    Vehicles
+                </a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link" asp-area="" asp-controller="Claims" asp-action="CustomerClaims">
+                    Claims
+                </a>
+            </li>
+        }
+    </ul>
 
-            <div class="collapse navbar-collapse" id="navbarSupportedContentAuth">
-                <ul class="navbar-nav me-auto mb-2 mb-lg-0">
-                    @if (await UserManager.IsInRoleAsync(await UserManager.GetUserAsync(User), "Admin"))
-                    {
-                        <li class="nav-item">
-                            <a class="nav-link" asp-area="" asp-controller="Admin" asp-action="AdminDashboard">Home</a>
-                        </li>
-                        <li class="nav-item">
-                            <a class="nav-link" asp-area="" asp-controller="Admin" asp-action="Customers">Manage Customers</a>
-                        </li>
-                        <li class="nav-item">
-                            <a class="nav-link" asp-area="" asp-controller="Claims" asp-action="AllClaims">Manage Claims</a>
-                        </li>
-                    }
-                    else if (await UserManager.IsInRoleAsync(await UserManager.GetUserAsync(User), "Customer"))
-                    {
-                        <li class="nav-item">
-                            <a class="nav-link" asp-area="" asp-controller="Customer" asp-action="CustomerDashboard">Home</a>
-                        </li>
-                        <li class="nav-item">
-                            <a class="nav-link" asp-area="" asp-controller="Vehicle" asp-action="ViewVehicles">Vehicles</a>
-                        </li>
-                        <li class="nav-item">
-                            <a class="nav-link" asp-area="" asp-controller="Claims" asp-action="CustomerClaims">Claims</a>
-                        </li>
-                    }
-                    @* <li class="nav-item"> *@
-                    @*     <a class="nav-link" asp-area="" asp-controller="Home" asp-action="Privacy">Privacy</a> *@
-                    @* </li> *@
-                </ul>
-
-                <ul class="navbar-nav mb-2 mb-lg-0">
-                    @if (await UserManager.IsInRoleAsync(await UserManager.GetUserAsync(User), "Customer"))
-                    {
-                        <li class="nav-item">
-                            <a class="nav-link" asp-area="" asp-controller="Customer" asp-action="Details">My Profile</a>
-                        </li>
-                    }
-                    <li class="nav-item">
-                        <form class="form-inline" asp-controller="Customer" asp-action="Logout" method="post">
-                            <button type="submit" class="btn btn-outline-light mt-2 mt-lg-0">Logout</button>
-                        </form>
-                    </li>
-                </ul>
-            </div>
-        </div>
-    </nav>
+    <!-- Authentication/Profile Links (Right Side) - ICONS ONLY with Tooltips -->
+    <ul class="navbar-nav mb-2 mb-lg-0">
+        @if (isCustomer)
+        {
+            <li class="nav-item">
+                <a class="nav-link" asp-area="" asp-controller="Customer" asp-action="Details"
+                   data-bs-toggle="tooltip" data-bs-placement="bottom" title="My Profile">
+                    <i class="bi bi-person-circle"></i>
+                </a>
+            </li>
+        }
+        else if (isAdmin)
+        {
+             <li class="nav-item">
+                <a class="nav-link" asp-area="" asp-controller="Admin" asp-action="Details"
+                   data-bs-toggle="tooltip" data-bs-placement="bottom" title="My Profile">
+                    <i class="bi bi-person-circle"></i>
+                </a>
+            </li>
+        }
+        <li class="nav-item">
+            <form class="form-inline" asp-controller="Customer" asp-action="Logout" method="post">
+                <button type="submit" class="btn btn-primary rounded-pill px-3 mt-2 mt-lg-0"
+                        data-bs-toggle="tooltip" data-bs-placement="bottom" title="Logout">
+                    <i class="bi bi-box-arrow-right"></i>
+                </button>
+            </form>
+        </li>
+    </ul>
 }
 else
 {
-    <nav class="navbar navbar-expand-lg navbar-dark bg-insure-dark-purple py-2 shadow-lg rounded-bottom">
-        <div class="container-fluid">
-            <a class="navbar-brand d-flex align-items-center" asp-area="" asp-controller="Home" asp-action="Index">
-                <img src="~/images/logo2.png" alt="InsureEdge Logo" style="height: 70px; margin-right: 10px;">
-                <span class="font-great-vibes fs-2 text-insure-white">InsureEdge</span>
+    @* CONTENT FOR UNAUTHENTICATED USERS: Generates the Home link and the Login/Register buttons. *@
+
+    <!-- Primary Navigation Links (Left Side) - NAME ONLY -->
+    <ul class="navbar-nav me-auto mb-2 mb-lg-0 flex-grow-1">
+        <li class="nav-item">
+            <a class="nav-link" asp-area="" asp-controller="Home" asp-action="Index">
+                Home
             </a>
+        </li>
+    </ul>
 
-            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContentUnauth"
-                    aria-controls="navbarSupportedContentUnauth" aria-expanded="false" aria-label="Toggle navigation">
-                <span class="navbar-toggler-icon"></span>
-            </button>
-
-            <div class="collapse navbar-collapse" id="navbarSupportedContentUnauth">
-                <ul class="navbar-nav me-auto mb-2 mb-lg-0">
-                    <li class="nav-item">
-                        <a class="nav-link" asp-area="" asp-controller="Home" asp-action="Index">Home</a>
-                    </li>
-                    @* <li class="nav-item"> *@
-                    @*     <a class="nav-link" asp-area="" asp-controller="Home" asp-action="Privacy">Privacy</a> *@
-                    @* </li> *@
-                </ul>
-                <ul class="navbar-nav mb-2 mb-lg-0">
-                    <li class="nav-item">
-                        <a class="btn btn-outline-light me-2 mt-2 mt-lg-0" asp-controller="Customer" asp-action="Login">Login</a>
-                    </li>
-                    <li class="nav-item">
-                        <a class="btn btn-insure-primary mt-2 mt-lg-0" asp-controller="Customer" asp-action="Register">Register</a>
-                    </li>
-                </ul>
-            </div>
-        </div>
-    </nav>
+    <!-- Authentication Buttons (Right Side) - ICONS ONLY with Tooltips -->
+    <ul class="navbar-nav mb-2 mb-lg-0">
+        <li class="nav-item me-2">
+            <a class="btn btn-outline-light rounded-pill px-3 mt-2 mt-lg-0" asp-controller="Customer" asp-action="Login"
+               data-bs-toggle="tooltip" data-bs-placement="bottom" title="Login">
+                <i class="bi bi-person-fill"></i>
+            </a>
+        </li>
+        <li class="nav-item">
+            <a class="btn btn-primary rounded-pill px-3 mt-2 mt-lg-0" asp-controller="Customer" asp-action="Register"
+               data-bs-toggle="tooltip" data-bs-placement="bottom" title="Register">
+                <i class="bi bi-person-plus-fill"></i>
+            </a>
+        </li>
+    </ul>
 }
+
+@* We need a script block to initialize the Bootstrap tooltips when the partial view loads. *@
+<script>
+    // Initialize tooltips in this partial view
+    var tooltipTriggerList = [].slice.call(document.querySelectorAll('[data-bs-toggle="tooltip"]'))
+    var tooltipList = tooltipTriggerList.map(function (tooltipTriggerEl) {
+        return new bootstrap.Tooltip(tooltipTriggerEl)
+    })
+</script>

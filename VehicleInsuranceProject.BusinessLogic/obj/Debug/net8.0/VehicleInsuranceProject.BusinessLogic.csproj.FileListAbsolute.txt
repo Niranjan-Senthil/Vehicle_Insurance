@@ -1,0 +1,32 @@
+C:\Users\2438801\OneDrive - Cognizant\Desktop\Final\Vehicle_Insurance\VehicleInsuranceProject.BusinessLogic\bin\Debug\net8.0\VehicleInsuranceProject.BusinessLogic.deps.json
+C:\Users\2438801\OneDrive - Cognizant\Desktop\Final\Vehicle_Insurance\VehicleInsuranceProject.BusinessLogic\bin\Debug\net8.0\VehicleInsuranceProject.BusinessLogic.dll
+C:\Users\2438801\OneDrive - Cognizant\Desktop\Final\Vehicle_Insurance\VehicleInsuranceProject.BusinessLogic\bin\Debug\net8.0\VehicleInsuranceProject.BusinessLogic.pdb
+C:\Users\2438801\OneDrive - Cognizant\Desktop\Final\Vehicle_Insurance\VehicleInsuranceProject.BusinessLogic\bin\Debug\net8.0\VehicleInsuranceProject.Repository.dll
+C:\Users\2438801\OneDrive - Cognizant\Desktop\Final\Vehicle_Insurance\VehicleInsuranceProject.BusinessLogic\bin\Debug\net8.0\VehicleInsuranceProject.Repository.pdb
+C:\Users\2438801\OneDrive - Cognizant\Desktop\Final\Vehicle_Insurance\VehicleInsuranceProject.BusinessLogic\obj\Debug\net8.0\VehicleInsuranceProject.BusinessLogic.csproj.AssemblyReference.cache
+C:\Users\2438801\OneDrive - Cognizant\Desktop\Final\Vehicle_Insurance\VehicleInsuranceProject.BusinessLogic\obj\Debug\net8.0\VehicleInsuranceProject.BusinessLogic.GeneratedMSBuildEditorConfig.editorconfig
+C:\Users\2438801\OneDrive - Cognizant\Desktop\Final\Vehicle_Insurance\VehicleInsuranceProject.BusinessLogic\obj\Debug\net8.0\VehicleInsuranceProject.BusinessLogic.AssemblyInfoInputs.cache
+C:\Users\2438801\OneDrive - Cognizant\Desktop\Final\Vehicle_Insurance\VehicleInsuranceProject.BusinessLogic\obj\Debug\net8.0\VehicleInsuranceProject.BusinessLogic.AssemblyInfo.cs
+C:\Users\2438801\OneDrive - Cognizant\Desktop\Final\Vehicle_Insurance\VehicleInsuranceProject.BusinessLogic\obj\Debug\net8.0\VehicleInsuranceProject.BusinessLogic.csproj.CoreCompileInputs.cache
+C:\Users\2438801\OneDrive - Cognizant\Desktop\Final\Vehicle_Insurance\VehicleInsuranceProject.BusinessLogic\obj\Debug\net8.0\VehicleInsuranceProject.BusinessLogic.sourcelink.json
+C:\Users\2438801\OneDrive - Cognizant\Desktop\Final\Vehicle_Insurance\VehicleInsuranceProject.BusinessLogic\obj\Debug\net8.0\VehicleI.B4F7626C.Up2Date
+C:\Users\2438801\OneDrive - Cognizant\Desktop\Final\Vehicle_Insurance\VehicleInsuranceProject.BusinessLogic\obj\Debug\net8.0\VehicleInsuranceProject.BusinessLogic.dll
+C:\Users\2438801\OneDrive - Cognizant\Desktop\Final\Vehicle_Insurance\VehicleInsuranceProject.BusinessLogic\obj\Debug\net8.0\refint\VehicleInsuranceProject.BusinessLogic.dll
+C:\Users\2438801\OneDrive - Cognizant\Desktop\Final\Vehicle_Insurance\VehicleInsuranceProject.BusinessLogic\obj\Debug\net8.0\VehicleInsuranceProject.BusinessLogic.pdb
+C:\Users\2438801\OneDrive - Cognizant\Desktop\Final\Vehicle_Insurance\VehicleInsuranceProject.BusinessLogic\obj\Debug\net8.0\ref\VehicleInsuranceProject.BusinessLogic.dll
+C:\Users\2438801\OneDrive - Cognizant\Desktop\New folder\Final\Vehicle_Insurance\VehicleInsuranceProject.BusinessLogic\bin\Debug\net8.0\VehicleInsuranceProject.BusinessLogic.deps.json
+C:\Users\2438801\OneDrive - Cognizant\Desktop\New folder\Final\Vehicle_Insurance\VehicleInsuranceProject.BusinessLogic\bin\Debug\net8.0\VehicleInsuranceProject.BusinessLogic.dll
+C:\Users\2438801\OneDrive - Cognizant\Desktop\New folder\Final\Vehicle_Insurance\VehicleInsuranceProject.BusinessLogic\bin\Debug\net8.0\VehicleInsuranceProject.BusinessLogic.pdb
+C:\Users\2438801\OneDrive - Cognizant\Desktop\New folder\Final\Vehicle_Insurance\VehicleInsuranceProject.BusinessLogic\bin\Debug\net8.0\VehicleInsuranceProject.Repository.dll
+C:\Users\2438801\OneDrive - Cognizant\Desktop\New folder\Final\Vehicle_Insurance\VehicleInsuranceProject.BusinessLogic\bin\Debug\net8.0\VehicleInsuranceProject.Repository.pdb
+C:\Users\2438801\OneDrive - Cognizant\Desktop\New folder\Final\Vehicle_Insurance\VehicleInsuranceProject.BusinessLogic\obj\Debug\net8.0\VehicleInsuranceProject.BusinessLogic.csproj.AssemblyReference.cache
+C:\Users\2438801\OneDrive - Cognizant\Desktop\New folder\Final\Vehicle_Insurance\VehicleInsuranceProject.BusinessLogic\obj\Debug\net8.0\VehicleInsuranceProject.BusinessLogic.GeneratedMSBuildEditorConfig.editorconfig
+C:\Users\2438801\OneDrive - Cognizant\Desktop\New folder\Final\Vehicle_Insurance\VehicleInsuranceProject.BusinessLogic\obj\Debug\net8.0\VehicleInsuranceProject.BusinessLogic.AssemblyInfoInputs.cache
+C:\Users\2438801\OneDrive - Cognizant\Desktop\New folder\Final\Vehicle_Insurance\VehicleInsuranceProject.BusinessLogic\obj\Debug\net8.0\VehicleInsuranceProject.BusinessLogic.AssemblyInfo.cs
+C:\Users\2438801\OneDrive - Cognizant\Desktop\New folder\Final\Vehicle_Insurance\VehicleInsuranceProject.BusinessLogic\obj\Debug\net8.0\VehicleInsuranceProject.BusinessLogic.csproj.CoreCompileInputs.cache
+C:\Users\2438801\OneDrive - Cognizant\Desktop\New folder\Final\Vehicle_Insurance\VehicleInsuranceProject.BusinessLogic\obj\Debug\net8.0\VehicleInsuranceProject.BusinessLogic.sourcelink.json
+C:\Users\2438801\OneDrive - Cognizant\Desktop\New folder\Final\Vehicle_Insurance\VehicleInsuranceProject.BusinessLogic\obj\Debug\net8.0\VehicleI.B4F7626C.Up2Date
+C:\Users\2438801\OneDrive - Cognizant\Desktop\New folder\Final\Vehicle_Insurance\VehicleInsuranceProject.BusinessLogic\obj\Debug\net8.0\VehicleInsuranceProject.BusinessLogic.dll
+C:\Users\2438801\OneDrive - Cognizant\Desktop\New folder\Final\Vehicle_Insurance\VehicleInsuranceProject.BusinessLogic\obj\Debug\net8.0\refint\VehicleInsuranceProject.BusinessLogic.dll
+C:\Users\2438801\OneDrive - Cognizant\Desktop\New folder\Final\Vehicle_Insurance\VehicleInsuranceProject.BusinessLogic\obj\Debug\net8.0\VehicleInsuranceProject.BusinessLogic.pdb
+C:\Users\2438801\OneDrive - Cognizant\Desktop\New folder\Final\Vehicle_Insurance\VehicleInsuranceProject.BusinessLogic\obj\Debug\net8.0\ref\VehicleInsuranceProject.BusinessLogic.dll

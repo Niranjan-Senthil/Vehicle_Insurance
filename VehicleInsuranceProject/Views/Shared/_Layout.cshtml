@@ -3,21 +3,151 @@
 <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>@ViewData["Title"] - VehicleInsuranceProject</title>
+    <title>@ViewData["Title"] - PoliSure</title>
 
     <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.min.css" />
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
     <link rel="stylesheet" href="~/css/site.css" asp-append-version="true" />
 
     <link rel="stylesheet" href="~/VehicleInsuranceProject.styles.css" asp-append-version="true" />
+    <link rel="icon" type="image/x-icon" href="~/images/favicon.ico">
 
-    <link href="https://fonts.googleapis.com/css2?family=Great+Vibes&family=Open+Sans:wght@300;400;600;700&display=swap" rel="stylesheet">
+    <style>
+        /* Custom Styles for PoliSure Look and Feel */
+        
+        /* --- COLOR PALETTE (Solid Sky Blue: #007BFF) --- */
+        :root {
+            --bs-primary: #007BFF; /* Solid Sky Blue for a clean, vibrant look (used for buttons/links) */
+            --bs-primary-dark: #0056b3; /* Darker tone for hover/footer/navbar background */
+            --bs-primary-light: #3399ff; /* Lighter tone */
+        }
+        
+        /* New Navbar Color (Darker Blue) and Increased Height */
+        .custom-navbar {
+            /* Changed background to the darker color from the footer */
+            background-color: var(--bs-primary-dark) !important; 
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+            /* Increased padding for taller navbar */
+            padding-top: 1.5rem; 
+            padding-bottom: 1.5rem;
+        }
+        
+        /* PoliSure Title Style (Standard Font, Bold) */
+        .app-brand-title {
+            font-weight: 700; 
+            /* Increased font size to 2.0rem to match larger logo */
+            font-size: 2.0rem;
+            color: white !important; 
+            text-decoration: none;
+            padding-left: 10px; 
+            transition: transform 0.2s;
+            /* Ensures minimum space for the text */
+            white-space: nowrap; 
+        }
+        
+        .app-brand-title:hover {
+            color: #e0e0e0 !important;
+            transform: scale(1.05);
+        }
+        
+        /* Footer Stability Fix: Removed fixed positioning */
+        .custom-footer {
+            background-color: var(--bs-primary-dark); 
+            color: #ccc;
+            width: 100%;
+            padding: 1rem 0; /* Added padding to ensure visibility */
+            margin-top: auto; /* Ensures it is pushed to the bottom if content is short */
+        }
+
+        /* Removed padding-bottom from body to fix content overlap caused by fixed footer */
+        body {
+            min-height: 100vh; /* Ensures body takes full height for sticky footer effect */
+            display: flex;
+            flex-direction: column;
+        }
+        
+        /* Container for main content to enable sticky footer logic */
+        /* The main content area remains constrained for better readability */
+        .container {
+            flex-grow: 1;
+        }
+
+        /* Styles for navigation links to ensure they are white against the dark navbar */
+        .navbar-nav .nav-link {
+            color: #F0F8FF !important; /* Pale White */
+            font-weight: 600;
+            transition: color 0.2s;
+        }
+        
+        .navbar-nav .nav-link:hover {
+            color: #F8F8FF !important; /* Ghost White on hover */
+        }
+        
+        /* General Bootstrap Overrides for Primary Color (Bright Sky Blue) */
+        
+        /* For buttons using .btn-primary */
+        .btn-primary {
+            --bs-btn-bg: var(--bs-primary);
+            --bs-btn-border-color: var(--bs-primary);
+            --bs-btn-hover-bg: var(--bs-primary-dark);
+            --bs-btn-hover-border-color: var(--bs-primary-dark);
+            --bs-btn-focus-shadow-rgb: 0, 123, 255; /* RGB derived from #007BFF */
+            --bs-btn-active-bg: var(--bs-primary-dark);
+            --bs-btn-active-border-color: var(--bs-primary-dark);
+        }
+        
+        /* For buttons using .btn-outline-light (used for login/register borders) */
+        .btn-outline-light {
+            --bs-btn-color: #FFFFFF;
+            --bs-btn-border-color: #FFFFFF;
+            --bs-btn-hover-bg: rgba(255, 255, 255, 0.1);
+            --bs-btn-hover-color: #FFFFFF;
+            --bs-btn-active-bg: rgba(255, 255, 255, 0.2);
+            --bs-btn-active-border-color: #FFFFFF;
+        }
+
+        /* For text using .text-primary */
+        .text-primary {
+            color: var(--bs-primary) !important;
+        }
+        
+        /* Logo styling for circular shape */
+        .navbar-brand img {
+            border-radius: 50%; 
+            box-shadow: 0 0 5px rgba(0, 0, 0, 0.3); 
+            transition: transform 0.3s ease-in-out;
+            filter: brightness(1.1); 
+        }
+
+        .navbar-brand img:hover {
+            transform: scale(1.05);
+        }
+        
+    </style>
 
     @RenderSection("Head", required: false)
 </head>
 <body>
     <header>
-        <partial name="_LoginPartial" />
+        <nav class="navbar navbar-expand-sm navbar-dark custom-navbar">
+            <div class="container-fluid">
+                @* Logo image (if present) and brand title *@
+                <a class="navbar-brand d-flex align-items-center" asp-area="" asp-controller="Home" asp-action="Index">
+                    <!-- CHANGED HEIGHT FROM 35 to 45 -->
+                    <img src="~/images/logo2.png" alt="PoliSure Logo" height="45" class="me-2" /> 
+                    <span class="app-brand-title">PoliSure</span>
+                </a>
+                
+                <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target=".navbar-collapse" aria-controls="navbarSupportedContent"
+                        aria-expanded="false" aria-label="Toggle navigation">
+                    <span class="navbar-toggler-icon"></span>
+                </button>
+                
+                <div class="navbar-collapse collapse d-sm-inline-flex justify-content-between">
+                    <partial name="_LoginPartial" />
+                </div>
+            </div>
+        </nav>
     </header>
 
     <div class="container">
@@ -28,11 +158,7 @@
 
     <footer class="custom-footer text-center">
         <div class="container">
-            <p>&copy; @DateTime.Now.Year Vehicle Insurance System. All rights reserved.</p>
-            @* <div class="mt-2 small"> *@
-            @*     <a asp-area="" asp-controller="Home" asp-action="Privacy" class="text-white-50 text-decoration-none mx-2">Privacy Policy</a> | *@
-            @*     <a href="#" class="text-white-50 text-decoration-none mx-2">Terms of Service</a> *@
-            @* </div> *@
+            <p>&copy; @DateTime.Now.Year PoliSure. All rights reserved.</p>
         </div>
     </footer>
 

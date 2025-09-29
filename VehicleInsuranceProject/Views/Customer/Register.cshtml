@@ -2,68 +2,158 @@
 @model CustomerRegisterViewModel; // Use CustomerRegisterViewModel
 
 @{
-    ViewData["Title"] = "Register";
-    Layout = "~/Views/Shared/_Layout.cshtml"; // Adjust the layout if needed
+    ViewData["Title"] = "Customer Registration";
+    Layout = "~/Views/Shared/_Layout.cshtml"; 
 }
 
-<div class="container my-5">
-    <h2 class="text-center mb-4 display-5 fw-bold text-insure-dark-purple">Register</h2>
+<div class="container my-5 login-bg-container">
     <div class="row justify-content-center">
-        <div class="col-md-6 ">
-            <div class="card p-4 shadow-lg border-0 rounded-3">
+        @* Increased column size slightly for the longer registration form *@
+        <div class="col-md-8 col-lg-7 col-xl-6">
+            <div class="login-card p-5 shadow-xl rounded-4">
+                
+                <div class="text-center mb-5">
+                    <i class="bi bi-person-badge-fill register-icon mb-3"></i>
+                    <h2 class="display-6 fw-bolder text-dark-blue">Create Your Account</h2>
+                    <p class="text-secondary mt-2">Join us to manage your vehicle insurance easily.</p>
+                </div>
+                
                 <form asp-action="Register" method="post">
                     <div asp-validation-summary="ModelOnly" class="text-danger mb-3"></div>
-                    <div class="mb-3">
-                        <label asp-for="Name" class="form-label text-insure-dark-text">Name</label>
-                        <input asp-for="Name" class="form-control form-control-lg" placeholder="Enter your name" />
+                    
+                    <div class="mb-4">
+                        <label asp-for="Name" class="form-label login-label">Full Name</label>
+                        <input asp-for="Name" class="form-control form-control-lg login-input" placeholder="Enter your full name" />
                         <span asp-validation-for="Name" class="text-danger small mt-1 d-block"></span>
                     </div>
 
-                    <div class="mb-3">
-                        <label asp-for="Email" class="form-label text-insure-dark-text">Email</label>
-                        <input asp-for="Email" class="form-control form-control-lg" placeholder="Enter your email" />
+                    <div class="mb-4">
+                        <label asp-for="Email" class="form-label login-label">Email Address</label>
+                        <input asp-for="Email" class="form-control form-control-lg login-input" placeholder="Enter your email" />
                         <span asp-validation-for="Email" class="text-danger small mt-1 d-block"></span>
                     </div>
 
-                    <div class="mb-3">
-                        <label asp-for="Phone" class="form-label text-insure-dark-text">Phone</label>
-                        <input asp-for="Phone" class="form-control form-control-lg" placeholder="Enter your phone number" />
+                    <div class="mb-4">
+                        <label asp-for="Phone" class="form-label login-label">Phone Number</label>
+                        <input asp-for="Phone" class="form-control form-control-lg login-input" placeholder="Enter your phone number" />
                         <span asp-validation-for="Phone" class="text-danger small mt-1 d-block"></span>
                     </div>
 
-                    <div class="mb-3">
-                        <label asp-for="Address" class="form-label text-insure-dark-text">Address</label>
-                        <input asp-for="Address" class="form-control form-control-lg" placeholder="Enter your address" />
+                    <div class="mb-4">
+                        <label asp-for="Address" class="form-label login-label">Residential Address</label>
+                        <input asp-for="Address" class="form-control form-control-lg login-input" placeholder="Enter your address" />
                         <span asp-validation-for="Address" class="text-danger small mt-1 d-block"></span>
                     </div>
 
-                    <div class="mb-3">
-                        <label asp-for="Password" class="form-label text-insure-dark-text">Password</label>
-                        <input asp-for="Password" type="password" class="form-control form-control-lg" placeholder="Enter your password" />
+                    <div class="mb-4">
+                        <label asp-for="Password" class="form-label login-label">Password</label>
+                        <input asp-for="Password" type="password" class="form-control form-control-lg login-input" placeholder="Create a strong password" />
                         <span asp-validation-for="Password" class="text-danger small mt-1 d-block"></span>
                     </div>
 
-                    <div class="mb-3">
-                        <label asp-for="ConfirmPassword" class="form-label text-insure-dark-text">Confirm Password</label>
-                        <input asp-for="ConfirmPassword" type="password" class="form-control form-control-lg" placeholder="Confirm your password" />
+                    <div class="mb-5">
+                        <label asp-for="ConfirmPassword" class="form-label login-label">Confirm Password</label>
+                        <input asp-for="ConfirmPassword" type="password" class="form-control form-control-lg login-input" placeholder="Confirm your password" />
                         <span asp-validation-for="ConfirmPassword" class="text-danger small mt-1 d-block"></span>
                     </div>
 
-                    <button type="submit" value="Register" class="btn btn-insure-primary w-100 p-3 fs-5">Register</button>
-                    <p class="text-center mt-4 text-insure-dark-text">
+                    <button type="submit" value="Register" class="btn btn-register-primary w-100 p-3 fs-5 fw-bold">Register Account</button>
+                    
+                    <p class="text-center mt-4 text-secondary">
                         Already have an account?
-                        <a asp-controller="Customer" asp-action="Login" class="text-decoration-none text-insure-mid-purple fw-semibold">Login</a>
+                        <a asp-controller="Customer" asp-action="Login" class="text-decoration-none text-primary-link fw-bold">Login here</a>.
                     </p>
                     <div class="text-center mt-3">
-                        <a asp-controller="Home" asp-action="Index" class="text-decoration-none text-insure-mid-purple">Back to Home</a>
+                        <a asp-controller="Home" asp-action="Index" class="text-decoration-none text-secondary small">← Back to Home</a>
                     </div>
                 </form>
             </div>
         </div>
     </div>
 </div>
+
 @section Scripts {
     @{
         await Html.RenderPartialAsync("_ValidationScriptsPartial.cshtml");
     }
 }
+
+<style>
+    /* * MODERN REGISTRATION PAGE STYLES
+     * Uses the identical Navy Blue (Primary) and Indigo (Accent) palette as the Login page for consistency.
+     */
+
+    /* Apply a soft background to the main page content */
+    .login-bg-container {
+        background-color: #F0F4F8; 
+        min-height: 100vh; /* Set to 100vh since the form is longer */
+        padding-top: 50px !important;
+        padding-bottom: 50px !important;
+        margin-top: -20px; 
+        margin-bottom: -20px;
+    }
+
+    /* Primary Navy Blue Color (for Register Button) */
+    .btn-register-primary {
+        background-color: #1a237e; /* Deep Navy Blue */
+        border-color: #1a237e;
+        color: white;
+        transition: all 0.3s ease;
+    }
+
+    .btn-register-primary:hover {
+        background-color: #0d144b; /* Darker Navy Blue on hover */
+        border-color: #0d144b;
+        transform: translateY(-2px);
+        box-shadow: 0 4px 10px rgba(26, 35, 126, 0.4);
+    }
+    
+    .text-primary-link {
+        color: #4B0082; /* Deep Indigo Accent (Kept for contrast) */
+    }
+    .text-primary-link:hover {
+        color: #6a00b0;
+    }
+    .text-dark-blue {
+        color: #333333; /* Dark text for high contrast */
+    }
+
+    /* Card Styling */
+    .login-card {
+        background: #ffffff;
+        border: 1px solid #e9ecef;
+        border-radius: 1.5rem !important; 
+        box-shadow: 0 10px 30px rgba(0, 0, 0, 0.08); 
+    }
+
+    /* Icon Styling - using a different icon for Register */
+    .register-icon {
+        font-size: 4rem;
+        color: #1a237e; /* Navy Blue icon */
+        text-shadow: 0 0 10px rgba(26, 35, 126, 0.3);
+    }
+
+    /* Form Elements (shared classes from Login) */
+    .login-label {
+        color: #333333;
+        font-weight: 500;
+        margin-bottom: 0.5rem;
+    }
+
+    .login-input {
+        border-radius: 0.75rem; 
+        border: 1px solid #ced4da;
+        padding: 0.75rem 1rem;
+        transition: border-color 0.3s, box-shadow 0.3s;
+    }
+
+    .login-input:focus {
+        border-color: #1a237e; /* Navy Blue focus glow */
+        box-shadow: 0 0 0 0.25rem rgba(26, 35, 126, 0.2);
+    }
+    
+    /* Ensure body background is overridden for this view */
+    body {
+        background-color: #F0F4F8 !important; 
+    }
+</style>
