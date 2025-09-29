@@ -2,73 +2,91 @@
 
 @{
     ViewData["Title"] = "Create New Policy";
+    Layout = "~/Views/Shared/_Layout.cshtml"; // Assuming the default layout
 }
 
 @section Head {
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
+    @* jQuery is required for the AJAX logic in the script section below *@
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
 }
 
-<div class="container dashboard-container">
-    <h2 class="mb-4"><i class="bi bi-file-earmark-plus me-2"></i> @ViewData["Title"]</h2>
+<div class="container py-5 policy-bg-container">
+    <div class="row justify-content-center">
+        <div class="col-lg-8">
+            <h2 class="mb-4 text-center fw-bolder text-dark-blue display-5">
+                <i class="bi bi-file-earmark-plus me-3"></i> @ViewData["Title"]
+            </h2>
 
-    @* Display Errors from Controller *@
-    <div asp-validation-summary="ModelOnly" class="alert alert-danger" role="alert"></div>
+            @* Custom message box for AJAX errors/status, replacing alert() *@
+            <div id="calculationStatus" class="alert d-none mt-3" role="alert" style="display: none;"></div>
 
-    <div class="card shadow-sm p-4">
-        <form asp-action="Create">
-            @Html.AntiForgeryToken()
+            @* Main Card for the form *@
+            <div class="card shadow-xl p-5 rounded-4 border-0">
+                
+                @* Display Server Errors from Controller *@
+                <div asp-validation-summary="ModelOnly" class="alert alert-danger mb-4 rounded-3" role="alert"></div>
 
-            <div class="row g-3">
-                <div class="col-md-6">
-                    <label asp-for="vehicleId" class="form-label">Select Vehicle</label>
-                    <select asp-for="vehicleId" class="form-select" asp-items="ViewBag.Vehicles" required>
-                        <option value="">-- Select a Vehicle --</option>
-                    </select>
-                    <span asp-validation-for="vehicleId" class="text-danger"></span>
-                </div>
-                <div class="col-md-6">
-                    <label asp-for="CoverageLevelId" class="form-label">Coverage Level</label>
-                    <select asp-for="CoverageLevelId" class="form-select" asp-items="ViewBag.CoverageLevels" required>
-                        <option value="">-- Select Coverage Level --</option>
-                    </select>
-                    <span asp-validation-for="CoverageLevelId" class="text-danger"></span>
-                </div>
-                <div class="col-md-6">
-                    <label asp-for="startDate" class="form-label">Start Date</label>
-                    <input asp-for="startDate" type="date" class="form-control" />
-                    <span asp-validation-for="startDate" class="text-danger"></span>
-                </div>
-                <div class="col-md-6">
-                    <label asp-for="endDate" class="form-label">End Date</label>
-                    <input asp-for="endDate" type="date" class="form-control" />
-                    <span asp-validation-for="endDate" class="text-danger"></span>
-                </div>
+                <form asp-action="Create" method="post">
+                    @Html.AntiForgeryToken()
 
-                <!-- Premium and Coverage Amount will be calculated by the service
-                     and populated on the server-side before the form is redisplayed
-                     or on initial load for defaults. These fields can be read-only if desired. -->
-                <div class="col-md-6">
-                    <label asp-for="premiumAmount" class="form-label">Calculated Premium Amount</label>
-                    <input asp-for="premiumAmount" class="form-control" type="number" step="0.01" min="0.01" readonly /> 
-                    <span asp-validation-for="premiumAmount" class="text-danger"></span>
-                </div>
-                <div class="col-md-6">
-                    <label asp-for="coverageAmount" class="form-label">Calculated Coverage Amount</label>
-                    <input asp-for="coverageAmount" class="form-control" type="number" step="0.01" min="0.01" readonly /> 
-                    <span asp-validation-for="coverageAmount" class="text-danger"></span>
-                </div>
+                    <div class="row g-4">
+                        <div class="col-md-6">
+                            <label asp-for="vehicleId" class="form-label text-dark-blue fw-semibold">Select Vehicle <span class="text-danger">*</span></label>
+                            <select asp-for="vehicleId" id="vehicleId" class="form-select form-control-lg rounded-3 shadow-sm" asp-items="ViewBag.Vehicles" required>
+                                <option value="">-- Select a Vehicle --</option>
+                            </select>
+                            <span asp-validation-for="vehicleId" class="text-danger small mt-1 d-block"></span>
+                        </div>
+                        
+                        <div class="col-md-6">
+                            <label asp-for="CoverageLevelId" class="form-label text-dark-blue fw-semibold">Coverage Level <span class="text-danger">*</span></label>
+                            <select asp-for="CoverageLevelId" id="CoverageLevelId" class="form-select form-control-lg rounded-3 shadow-sm" asp-items="ViewBag.CoverageLevels" required>
+                                <option value="">-- Select Coverage Level --</option>
+                            </select>
+                            <span asp-validation-for="CoverageLevelId" class="text-danger small mt-1 d-block"></span>
+                        </div>
+                        
+                        <div class="col-md-6">
+                            <label asp-for="startDate" class="form-label text-dark-blue fw-semibold">Start Date <span class="text-danger">*</span></label>
+                            <input asp-for="startDate" type="date" class="form-control form-control-lg rounded-3 shadow-sm" required/>
+                            <span asp-validation-for="startDate" class="text-danger small mt-1 d-block"></span>
+                        </div>
+                        
+                        <div class="col-md-6">
+                            <label asp-for="endDate" class="form-label text-dark-blue fw-semibold">End Date <span class="text-danger">*</span></label>
+                            <input asp-for="endDate" type="date" class="form-control form-control-lg rounded-3 shadow-sm" required/>
+                            <span asp-validation-for="endDate" class="text-danger small mt-1 d-block"></span>
+                        </div>
 
-                <!-- Hidden fields for policyNumber and policyStatus, handled by service -->
-                <input type="hidden" asp-for="policyNumber" />
-                <input type="hidden" asp-for="policyStatus" />
+                        <!-- Calculated fields: Premium and Coverage Amount -->
+                        <div class="col-md-6">
+                            <label asp-for="premiumAmount" class="form-label text-dark-blue fw-semibold">Calculated Premium Amount</label>
+                            <input asp-for="premiumAmount" id="premiumAmount" class="form-control form-control-lg rounded-3 shadow-sm bg-light" type="number" step="0.01" min="0.01" readonly /> 
+                            <span asp-validation-for="premiumAmount" class="text-danger small mt-1 d-block"></span>
+                        </div>
+                        <div class="col-md-6">
+                            <label asp-for="coverageAmount" class="form-label text-dark-blue fw-semibold">Calculated Coverage Amount</label>
+                            <input asp-for="coverageAmount" id="coverageAmount" class="form-control form-control-lg rounded-3 shadow-sm bg-light" type="number" step="0.01" min="0.01" readonly /> 
+                            <span asp-validation-for="coverageAmount" class="text-danger small mt-1 d-block"></span>
+                        </div>
 
+                        <!-- Hidden fields for policyNumber and policyStatus, handled by service -->
+                        <input type="hidden" asp-for="policyNumber" />
+                        <input type="hidden" asp-for="policyStatus" />
+                    </div>
+
+                    <div class="mt-5 d-flex justify-content-between align-items-center">
+                        <a asp-action="ViewPolicies" class="btn btn-outline-secondary rounded-pill px-4 py-2 fw-bold">
+                            <i class="bi bi-arrow-left me-2"></i> Back to Policies
+                        </a>
+                        <button type="submit" class="btn btn-policy-primary btn-lg rounded-pill px-5 py-2 fw-bold">
+                            <i class="bi bi-save me-2"></i> Create Policy
+                        </button>
+                    </div>
+                </form>
             </div>
-
-            <div class="mt-4 d-flex justify-content-between">
-                <a asp-action="ViewPolicies" class="btn btn-secondary"><i class="bi bi-arrow-left-circle me-2"></i> Back to Policies</a>
-                <button type="submit" class="btn btn-insure-primary btn-lg"><i class="bi bi-save me-2"></i> Create Policy</button>
-            </div>
-        </form>
+        </div>
     </div>
 </div>
 
@@ -77,11 +95,24 @@
         await Html.RenderPartialAsync("_ValidationScriptsPartial");
     }
     <script>
+        // Function to display status messages (replaces alert())
+        function showStatusMessage(message, type = 'danger') {
+            const statusBox = $('#calculationStatus');
+            // Remove previous classes and add the new one, show the box
+            statusBox.removeClass('alert-danger alert-success alert-warning d-none').addClass('alert-' + type).html(message).slideDown();
+            
+            // Auto-hide after 5 seconds
+            setTimeout(() => {
+                statusBox.slideUp(function() {
+                    $(this).addClass('d-none'); // Hide the element completely
+                });
+            }, 5000);
+        }
+
         // Client-side logic for dynamic calculation.
-        // This will now make an AJAX call to get the premium/coverage from the server.
         function updatePremiumAndCoverageAjax() {
             var vehicleId = $('#vehicleId').val();
-            var coverageLevelId = $('#CoverageLevelId').val(); // Changed to CoverageLevelId
+            var coverageLevelId = $('#CoverageLevelId').val();
 
             if (vehicleId && coverageLevelId) {
                 // AJAX call to a new controller action to get calculated values
@@ -93,22 +124,24 @@
                         if (data.success) {
                             $('#premiumAmount').val(data.premium.toFixed(2));
                             $('#coverageAmount').val(data.coverage.toFixed(2));
+                            showStatusMessage('Policy calculation updated successfully!', 'success');
                         } else {
                             // Handle error if calculation failed on server (e.g., invalid IDs)
                             console.error("Error calculating policy values:", data.message);
                             $('#premiumAmount').val('0.00');
                             $('#coverageAmount').val('0.00');
-                            alert("Could not calculate policy values. " + data.message); // Use alert for simple demo
+                            showStatusMessage(`<strong>Calculation Error:</strong> ${data.message || "Please check your selections."}`, 'warning');
                         }
                     },
                     error: function(jqXHR, textStatus, errorThrown) {
                         console.error("AJAX Error:", textStatus, errorThrown);
                         $('#premiumAmount').val('0.00');
                         $('#coverageAmount').val('0.00');
-                        alert("An error occurred during calculation. Please try again.");
+                        showStatusMessage("<strong>System Error:</strong> An error occurred during calculation. Please try again.", 'danger');
                     }
                 });
             } else {
+                // Clear fields if either selection is empty
                 $('#premiumAmount').val('0.00');
                 $('#coverageAmount').val('0.00');
             }
@@ -119,48 +152,57 @@
             updatePremiumAndCoverageAjax();
 
             // Call when vehicle or coverage level changes
-            $('#vehicleId, #CoverageLevelId').change(updatePremiumAndCoverageAjax); // Changed to CoverageLevelId
+            $('#vehicleId, #CoverageLevelId').change(updatePremiumAndCoverageAjax);
         });
     </script>
 }
 
 <style>
-    /* Custom styles for this view */
-    .dashboard-container {
-        padding-top: 20px;
-        padding-bottom: 20px;
+    /* Styling for the Create Policy Page, consistent with the Customer views */
+    
+    /* Overall background */
+    .policy-bg-container {
+        background-color: #f0f4f8; /* Light grey/blue background */
+        min-height: 80vh; 
+        padding-top: 50px !important;
+        padding-bottom: 50px !important;
+    }
+    
+    .text-dark-blue {
+        color: #1a237e; /* Navy Blue text for headings/labels */
     }
 
+    /* Primary Navy Blue Color (for buttons) */
+    .btn-policy-primary {
+        background-color: #1a237e; /* Deep Navy Blue */
+        border-color: #1a237e;
+        color: white;
+        transition: all 0.3s ease;
+    }
+
+    .btn-policy-primary:hover {
+        background-color: #0d144b; /* Darker Navy Blue on hover */
+        border-color: #0d144b;
+        transform: translateY(-2px);
+        box-shadow: 0 4px 8px rgba(26, 35, 126, 0.4);
+    }
+    
+    /* Card Styling */
     .card {
-        border: none;
-        border-radius: 8px;
+        background: #ffffff;
+        border: 1px solid #e9ecef;
+        border-radius: 1.5rem !important; 
+        box-shadow: 0 10px 30px rgba(0, 0, 0, 0.08); 
     }
 
-    .form-label {
-        font-weight: 600;
-        color: #333;
+    /* Input focus style override */
+    .form-control:focus, .form-select:focus {
+        border-color: #4B0082; /* Deep Indigo focus color */
+        box-shadow: 0 0 0 0.25rem rgba(75, 0, 130, 0.25);
     }
-
-    .btn-insure-primary {
-        background-color: #6A0DAD; /* Purple */
-        border-color: #6A0DAD;
-        color: white;
-        transition: background-color 0.2s ease-in-out;
-    }
-
-    .btn-insure-primary:hover {
-        background-color: #550a99; /* Darker purple */
-        border-color: #550a99;
-    }
-
-    .btn-secondary {
-        background-color: #6c757d;
-        border-color: #6c757d;
-        color: white;
-    }
-
-    .btn-secondary:hover {
-        background-color: #5a6268;
-        border-color: #545b62;
+    
+    /* Override layout body background for this specific view */
+    body {
+        background-color: #f0f4f8 !important; 
     }
 </style>

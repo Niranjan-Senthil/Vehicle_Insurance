@@ -6,42 +6,54 @@
     Layout = "~/Views/Shared/_Layout.cshtml"; // Adjust the layout if needed
 }
 
-<div class="container my-5">
-    <h2 class="text-center mb-4 display-5 fw-bold text-insure-dark-purple">Update Profile</h2>
+<div class="container my-5 profile-bg-container">
     <div class="row justify-content-center">
-        <div class="col-md-6">
-            <div class="card p-4 shadow-lg border-0 rounded-3">
+        @* Optimized column size for the form *@
+        <div class="col-md-8 col-lg-6">
+            <div class="update-profile-card p-5 shadow-xl rounded-4">
+                
+                <div class="text-center mb-5">
+                    <i class="bi bi-person-lines-fill update-icon mb-3"></i>
+                    <h2 class="display-6 fw-bolder text-dark-blue">Update Profile</h2>
+                    <p class="text-secondary mt-2">Modify your personal information below.</p>
+                </div>
+
                 <form asp-action="UpdateProfile" method="post">
-                    <div asp-validation-summary="ModelOnly" class="text-danger mb-3"></div>
+                    <div asp-validation-summary="ModelOnly" class="alert alert-danger mb-4 rounded-3 small"></div>
                     <input type="hidden" asp-for="CustomerId" />
 
                     <div class="mb-3">
-                        <label asp-for="Name" class="form-label text-insure-dark-text">Name</label>
-                        <input asp-for="Name" class="form-control form-control-lg" />
+                        <label asp-for="Name" class="form-label text-dark-blue fw-semibold">Name</label>
+                        <input asp-for="Name" class="form-control form-control-lg rounded-3 shadow-sm" />
                         <span asp-validation-for="Name" class="text-danger small mt-1 d-block"></span>
                     </div>
 
                     <div class="mb-3">
-                        <label asp-for="Email" class="form-label text-insure-dark-text">Email</label>
-                        <input asp-for="Email" class="form-control form-control-lg" />
+                        <label asp-for="Email" class="form-label text-dark-blue fw-semibold">Email</label>
+                        <input asp-for="Email" class="form-control form-control-lg rounded-3 shadow-sm" />
                         <span asp-validation-for="Email" class="text-danger small mt-1 d-block"></span>
                     </div>
 
                     <div class="mb-3">
-                        <label asp-for="Phone" class="form-label text-insure-dark-text">Phone</label>
-                        <input asp-for="Phone" class="form-control form-control-lg" />
+                        <label asp-for="Phone" class="form-label text-dark-blue fw-semibold">Phone</label>
+                        <input asp-for="Phone" class="form-control form-control-lg rounded-3 shadow-sm" />
                         <span asp-validation-for="Phone" class="text-danger small mt-1 d-block"></span>
                     </div>
 
-                    <div class="mb-3">
-                        <label asp-for="Address" class="form-label text-insure-dark-text">Address</label>
-                        <textarea asp-for="Address" class="form-control form-control-lg"></textarea>
-                        <label asp-validation-for="Address" class="text-danger small mt-1 d-block"></label>
+                    <div class="mb-4">
+                        <label asp-for="Address" class="form-label text-dark-blue fw-semibold">Address</label>
+                        <textarea asp-for="Address" class="form-control form-control-lg rounded-3 shadow-sm" rows="3"></textarea>
+                        <span asp-validation-for="Address" class="text-danger small mt-1 d-block"></span>
                     </div>
 
-                    <button type="submit" value="Update" class="btn btn-insure-primary w-100 p-3 fs-5">Update</button>
-                    <div class="text-center mt-3">
-                        <a asp-controller="Customer" asp-action="CustomerDashboard" class="text-decoration-none text-insure-mid-purple">Back to Home</a>
+                    <button type="submit" value="Update" class="btn btn-profile-primary w-100 p-3 fs-5 fw-bold">
+                        <i class="bi bi-floppy-fill me-2"></i> Save Changes
+                    </button>
+                    
+                    <div class="text-center mt-4">
+                        <a asp-controller="Customer" asp-action="Dashboard" class="text-dark-blue text-decoration-none fw-semibold">
+                            <i class="bi bi-arrow-left me-2"></i> Cancel and Go Back
+                        </a>
                     </div>
                 </form>
             </div>
@@ -54,3 +66,60 @@
         await Html.RenderPartialAsync("_ValidationScriptsPartial.cshtml");
     }
 }
+
+<style>
+    /* Styling for the Update Profile Page, consistent with the Details view */
+    
+    /* Overall background */
+    .profile-bg-container {
+        background-color: #f0f4f8; /* Light grey/blue background, consistent with dashboard */
+        min-height: 80vh; 
+        padding-top: 50px !important;
+        padding-bottom: 50px !important;
+    }
+
+    /* Card Styling */
+    .update-profile-card {
+        background: #ffffff;
+        border: 1px solid #e9ecef;
+        border-radius: 1.5rem !important; 
+        box-shadow: 0 10px 30px rgba(0, 0, 0, 0.08); 
+    }
+
+    /* Icon Styling - Deep Indigo Accent */
+    .update-icon {
+        font-size: 4rem;
+        color: #4B0082; /* Deep Indigo */
+        text-shadow: 0 0 10px rgba(75, 0, 130, 0.3);
+    }
+
+    /* Primary Navy Blue Color (for buttons and text) */
+    .btn-profile-primary {
+        background-color: #1a237e; /* Deep Navy Blue */
+        border-color: #1a237e;
+        color: white;
+        transition: all 0.3s ease;
+    }
+
+    .btn-profile-primary:hover {
+        background-color: #0d144b; /* Darker Navy Blue on hover */
+        border-color: #0d144b;
+        transform: translateY(-2px);
+        box-shadow: 0 4px 8px rgba(26, 35, 126, 0.4);
+    }
+    
+    .text-dark-blue {
+        color: #1a237e; /* Navy Blue text for headings/labels */
+    }
+    
+    /* Override layout body background for this specific view */
+    body {
+        background-color: #f0f4f8 !important; 
+    }
+
+    /* Input focus style override */
+    .form-control:focus {
+        border-color: #4B0082; /* Deep Indigo focus color */
+        box-shadow: 0 0 0 0.25rem rgba(75, 0, 130, 0.25);
+    }
+</style>

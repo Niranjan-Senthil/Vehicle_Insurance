@@ -1,6 +1,6 @@
 .vs/
-/bin
-/obj
+**/bin/
+**/obj/
 *.json.cache
 *.pdb
 *.dll

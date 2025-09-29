@@ -8,23 +8,44 @@
 @section Head {
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
     <style>
+        /* ------------------------------------------------------------------ */
+        /* POLISURE FILE CLAIM VIEW - GREEN THEME                             */
+        /* ------------------------------------------------------------------ */
+
+        :root {
+            --theme-claims-primary: #10B981;     /* Bright Green for action/accents */
+            --theme-claims-dark: #047857;          /* Dark Green for Header/Titles */
+            --theme-bg-light: #f4f6f9;             /* Consistent page background */
+            --theme-border-light: #e0e0e0;         /* Subtle border */
+            --theme-text-dark: #2c3e50;            /* Main content text color */
+            --theme-secondary-btn: #6c757d;        /* Standard secondary button color */
+            --theme-focus-shadow: rgba(16, 185, 129, 0.35); /* Green shadow for focus */
+        }
+
+        body {
+            background-color: var(--theme-bg-light);
+            font-family: 'Inter', sans-serif;
+        }
+
         /* Custom styles for this view */
         .container.claim-container {
             padding-top: 40px;
             padding-bottom: 40px;
+            max-width: 800px;
         }
 
         .card.claim-card {
-            border: none;
+            border: 1px solid var(--theme-border-light);
             border-radius: 12px;
-            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1); /* Slightly stronger shadow for depth */
-            overflow: hidden; /* Ensures no content overflows rounded corners */
+            box-shadow: 0 4px 25px rgba(0, 0, 0, 0.1); 
+            overflow: hidden; 
         }
 
+        /* Green Header */
         .card-header-custom {
-            background-color: #6A0DAD; /* Primary purple color */
+            background-color: var(--theme-claims-dark); /* Dark Green color */
             color: white;
-            padding: 20px 30px;
+            padding: 25px 35px;
             border-bottom: none;
             border-top-left-radius: 12px;
             border-top-right-radius: 12px;
@@ -35,42 +56,58 @@
 
         .card-header-custom h2 {
             margin-bottom: 0;
-            font-weight: 600;
+            font-weight: 700;
+            font-size: 1.8rem;
             display: flex;
             align-items: center;
         }
 
+        .policy-info-header {
+            font-size: 1rem;
+            font-weight: 500;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            color: #d1fae5; /* Light green text */
+        }
+
+        .policy-info-header strong {
+            color: white;
+            font-size: 1.1rem;
+        }
+        
         .card-body.claim-form-body {
-            padding: 30px; /* Generous padding inside the form body */
+            padding: 35px; 
         }
 
         .form-group {
-            margin-bottom: 25px; /* Increased space between form groups */
+            margin-bottom: 25px; 
         }
 
         .form-label {
             font-weight: 600;
-            color: #495057;
+            color: var(--theme-claims-dark); /* Dark green for labels */
             margin-bottom: 8px;
-            display: block; /* Ensure label takes its own line */
+            display: block; 
         }
 
         .form-control, .form-control-file {
             border-radius: 8px;
-            padding: 12px 15px; /* More padding inside inputs */
+            padding: 12px 15px; 
             border: 1px solid #ced4da;
             transition: border-color 0.2s ease-in-out, box-shadow 0.2s ease-in-out;
         }
 
+        /* Green Focus State */
         .form-control:focus, .form-control-file:focus {
-            border-color: #8a41cc; /* Purple border on focus */
-            box-shadow: 0 0 0 0.25rem rgba(106, 13, 173, 0.25);
+            border-color: var(--theme-claims-primary); 
+            box-shadow: 0 0 0 0.25rem var(--theme-focus-shadow);
             outline: none;
         }
 
         textarea.form-control {
-            min-height: 120px; /* Taller textarea for claim reason */
-            resize: vertical; /* Allow vertical resizing */
+            min-height: 120px; 
+            resize: vertical; 
         }
 
         .form-text {
@@ -82,33 +119,37 @@
         .text-danger {
             font-size: 0.875rem;
             margin-top: 5px;
-            display: block; /* Ensure validation message is on its own line */
+            display: block; 
         }
 
+        /* Primary Button (Submit) - Green */
         .btn-primary-custom {
-            background-color: #6A0DAD;
-            border-color: #6A0DAD;
+            background-color: var(--theme-claims-primary);
+            border-color: var(--theme-claims-primary);
             color: white;
             font-weight: 600;
             padding: 12px 30px;
             border-radius: 8px;
-            transition: background-color 0.2s ease-in-out, border-color 0.2s ease-in-out, transform 0.2s ease;
+            transition: background-color 0.2s ease-in-out, transform 0.2s ease, box-shadow 0.2s;
+            box-shadow: 0 4px 10px rgba(16, 185, 129, 0.4);
         }
 
         .btn-primary-custom:hover {
-            background-color: #550a99;
-            border-color: #550a99;
+            background-color: #059669; /* Slightly darker green */
+            border-color: #059669;
             transform: translateY(-2px);
+            box-shadow: 0 6px 15px rgba(16, 185, 129, 0.6);
         }
 
+        /* Secondary Button (Cancel) - Grey */
         .btn-secondary-custom {
-            background-color: #6c757d;
-            border-color: #6c757d;
+            background-color: var(--theme-secondary-btn);
+            border-color: var(--theme-secondary-btn);
             color: white;
             font-weight: 600;
             padding: 12px 30px;
             border-radius: 8px;
-            transition: background-color 0.2s ease-in-out, border-color 0.2s ease-in-out, transform 0.2s ease;
+            transition: background-color 0.2s ease-in-out, transform 0.2s ease;
         }
 
         .btn-secondary-custom:hover {
@@ -119,41 +160,30 @@
 
         .button-group-end {
             display: flex;
-            justify-content: flex-end; /* Aligns buttons to the right */
-            gap: 15px; /* Space between buttons */
-            margin-top: 30px; /* Space above buttons */
-        }
-
-        .policy-info-header {
-            font-size: 1.1rem;
-            font-weight: 500;
-            color: #555;
-            margin-bottom: 20px; /* Space below policy info */
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-        }
-
-        .policy-info-header strong {
-            color: white;
-            font-size: 1.2rem;
-        }
-
-        .policy-info-header span {
-            color: #6A0DAD; /* Purple for coverage amount */
-            font-weight: 700;
-            font-size: 1.3rem;
+            justify-content: flex-end; 
+            gap: 15px; 
+            margin-top: 30px; 
         }
 
         /* Responsive adjustments */
         @@media (max-width: 767.98px) {
+            .card-header-custom {
+                flex-direction: column;
+                align-items: flex-start;
+            }
+            .policy-info-header {
+                margin-top: 10px;
+                flex-direction: column;
+                align-items: flex-start;
+                gap: 5px;
+            }
             .button-group-end {
-                flex-direction: column; /* Stack buttons on small screens */
-                align-items: stretch; /* Make buttons full width */
+                flex-direction: column; 
+                align-items: stretch; 
             }
             .button-group-end .btn {
                 width: 100%;
-                margin-bottom: 10px; /* Space between stacked buttons */
+                margin-bottom: 10px; 
             }
         }
     </style>
@@ -164,8 +194,12 @@
         <div class="card-header-custom">
             <h2><i class="bi bi-file-earmark-diff me-3"></i> @ViewData["Title"]</h2>
             <div class="policy-info-header m-0 p-0">
-                <span>Policy: <strong>@Model.PolicyNumber</strong></span>
-                <span class="ms-4">Coverage: <strong>@Model.PolicyCoverageAmount.ToString("C")</strong></span>
+                <span class="d-inline-flex align-items-center">
+                    <i class="bi bi-card-checklist me-2"></i> Policy: <strong>@Model.PolicyNumber</strong>
+                </span>
+                <span class="ms-0 ms-sm-4 d-inline-flex align-items-center">
+                    <i class="bi bi-cash-stack me-2"></i> Max Coverage: <strong>@Model.PolicyCoverageAmount.ToString("C")</strong>
+                </span>
             </div>
         </div>
         <div class="card-body claim-form-body">
@@ -185,26 +219,29 @@
                 <div class="form-group">
                     <label asp-for="ClaimAmount" class="form-label"></label>
                     <input asp-for="ClaimAmount" class="form-control" type="number" step="0.01" min="0.01" max="@Model.PolicyCoverageAmount" />
+                    <small class="form-text text-muted">Claim amount cannot exceed your policy coverage of @Model.PolicyCoverageAmount.ToString("C").</small>
                     <span asp-validation-for="ClaimAmount" class="text-danger"></span>
                 </div>
                 <div class="form-group">
                     <label asp-for="ClaimReason" class="form-label"></label>
-                    <textarea asp-for="ClaimReason" class="form-control"></textarea>
+                    <textarea asp-for="ClaimReason" class="form-control" placeholder="Describe the incident that led to this claim..."></textarea>
                     <span asp-validation-for="ClaimReason" class="text-danger"></span>
                 </div>
                 <div class="form-group">
-                    <label asp-for="ClaimImages" class="form-label"></label>
+                    <label asp-for="ClaimImages" class="form-label d-flex align-items-center">
+                        <i class="bi bi-image me-2"></i> Upload Supporting Images
+                    </label>
                     <input asp-for="ClaimImages" type="file" multiple class="form-control-file" accept="image/*" />
-                    <small class="form-text text-muted">You can upload multiple images (e.g., JPEG, PNG) related to your claim.</small>
+                    <small class="form-text text-muted">Upload photos of the damage or incident. You can select multiple files.</small>
                     <span asp-validation-for="ClaimImages" class="text-danger"></span>
                 </div>
 
                 <div class="button-group-end">
-                    <a asp-action="ViewPolicies" asp-controller="Policy" class="btn btn-secondary-custom">
+                    <a asp-action="ViewPolicies" asp-controller="Customer" class="btn btn-secondary-custom">
                         <i class="bi bi-x-circle me-2"></i> Cancel
                     </a>
                     <button type="submit" class="btn btn-primary-custom">
-                        <i class="bi bi-check-circle me-2"></i> Submit Claim
+                        <i class="bi bi-box-arrow-in-right me-2"></i> Submit Claim
                     </button>
                 </div>
             </form>

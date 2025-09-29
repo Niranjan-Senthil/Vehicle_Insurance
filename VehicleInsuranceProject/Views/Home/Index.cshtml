@@ -1,84 +1,391 @@
 ﻿@{
-    ViewData["Title"] = "Home Page - InsureEdge"; // Set the title for this page
+    ViewData["Title"] = "PoliSure";
+    Layout = "~/Views/Shared/_Layout.cshtml";
 }
 
-<div class="container my-5">
-    <div class="p-5 text-center hero-gradient-bg text-insure-white rounded-3 shadow-lg mb-5">
-        <h1 class="display-4 fw-bold mb-3 text-shadow-light">
-            Protect Your Journey with Confidence
-        </h1>
-        <p class="lead mb-4">
-            Your ultimate solution for managing vehicle insurance policies and claims with ease.
-            Secure, simple, and always at your fingertips.
+<section class="hero-section text-center py-5">
+    <div class="container py-5">
+        <h1 class="display-4 fw-bold mb-4 animate-fade-in">Drive with Confidence, We've Got You Covered</h1>
+        <p class="lead mb-4 animate-fade-in">
+            Welcome! We are committed to making vehicle insurance simple and straightforward.
+            Whether you're a customer looking to manage your policy or an admin overseeing operations,
+            our system provides a seamless experience to help you stay protected on the road.
         </p>
-        <a asp-controller="Customer" asp-action="Register" class="btn btn-insure-primary btn-lg">
-            Get Started Today
-        </a>
+
     </div>
+</section>
 
-    <section class="py-5 bg-insure-accent-beige rounded-3 shadow-sm mb-5">
-        <h2 class="text-center mb-5 display-5 fw-bold text-insure-dark-purple">
-            Key Features for Your Peace of Mind
-        </h2>
-        <div class="row row-cols-1 row-cols-md-2 row-cols-lg-3 g-4">
-            <div class="col">
-                <div class="card h-100 shadow-sm border-0">
-                    <div class="card-body text-center">
-                        <div class="feature-icon-circle bg-insure-light-purple text-insure-white">
-                            <i class="bi bi-file-earmark-text-fill"></i>
-                        </div>
-                        <h3 class="h5 fw-semibold mb-3 text-insure-dark-purple">Effortless Policy Management</h3>
-                        <p class="text-muted">
-                            Create, view, and renew your vehicle insurance policies with a few simple clicks.
-                            Stay organized and up-to-date.
-                        </p>
+<section class="features-section py-5">
+    <div class="container">
+        <h2 class="display-5 text-center mb-5 animate-fade-in">Seamlessly Manage Your Insurance</h2>
+        <div class="row text-center">
+            <div class="col-md-4 mb-4">
+                <div class="card h-100 shadow-sm border-0 animate-slide-up">
+                    <div class="card-body">
+                        <!-- Font Awesome Icon -->
+                        <i class="fas fa-car-crash fa-3x text-primary mb-3"></i>
+                        <h5 class="card-title">File a Claim</h5>
+                        <p class="card-text text-muted">Submit and track your claims easily online with our intuitive system.</p>
                     </div>
                 </div>
             </div>
-
-            <div class="col">
-                <div class="card h-100 shadow-sm border-0">
-                    <div class="card-body text-center">
-                        <div class="feature-icon-circle bg-insure-light-purple text-insure-white">
-                            <i class="bi bi-truck-flatbed"></i>
-                        </div>
-                        <h3 class="h5 fw-semibold mb-3 text-insure-dark-purple">Quick Claim Filing & Tracking</h3>
-                        <p class="text-muted">
-                            File claims quickly and track their status in real-time. Our system simplifies the entire process.
-                        </p>
+            <div class="col-md-4 mb-4">
+                <div class="card h-100 shadow-sm border-0 animate-slide-up">
+                    <div class="card-body">
+                        <!-- Font Awesome Icon -->
+                        <i class="fas fa-file-contract fa-3x text-primary mb-3"></i>
+                        <h5 class="card-title">Manage Policies</h5>
+                        <p class="card-text text-muted">View, renew, and manage all your policies in one place.</p>
                     </div>
                 </div>
             </div>
-
-            <div class="col">
-                <div class="card h-100 shadow-sm border-0">
-                    <div class="card-body text-center">
-                        <div class="feature-icon-circle bg-insure-light-purple text-insure-white">
-                            <i class="bi bi-person-fill"></i>
-                        </div>
-                        <h3 class="h5 fw-semibold mb-3 text-insure-dark-purple">Personalized Customer Dashboard</h3>
-                        <p class="text-muted">
-                            Manage your profile, vehicles, and view all your insurance details from a centralized, secure portal.
-                        </p>
+            <div class="col-md-4 mb-4">
+                <div class="card h-100 shadow-sm border-0 animate-slide-up">
+                    <div class="card-body">
+                        <!-- Font Awesome Icon -->
+                        <i class="fas fa-headset fa-3x text-primary mb-3"></i>
+                        <h5 class="card-title">24/7 Support</h5>
+                        <p class="card-text text-muted">Our dedicated support team is always available to assist you.</p>
                     </div>
                 </div>
             </div>
         </div>
-    </section>
+    </div>
+</section>
 
-    <section class="py-5 bg-light rounded-3 shadow-sm">
-        <div class="text-center">
-            <h2 class="h3 fw-bold mb-4 text-insure-dark-purple">
-                Why Choose InsureEdge?
-            </h2>
-            <p class="lead text-muted mx-auto" style="max-width: 700px;">
-                Our Vehicle Insurance Policy and Claims Management System is built with you in mind.
-                We offer a robust, scalable, and user-friendly platform that simplifies every aspect of vehicle insurance,
-                from policy creation to efficient claim resolution. Experience unparalleled convenience and reliability.
-            </p>
-            @* <a asp-area="" asp-controller="Home" asp-action="Privacy" class="text-insure-mid-purple mt-3 d-inline-block"> *@
-            @*     Learn more about our mission *@
-            @* </a> *@
+
+
+<section class="why-us-section py-5">
+    <div class="container text-center">
+        <h2 class="display-5 mb-5">Why Choose PoliSure?</h2>
+        <div class="row">
+            <div class="col-md-4 mb-4">
+                <div class="animate-slide-up">
+                    <!-- Font Awesome Icon -->
+                    <i class="fas fa-shield-alt fa-4x text-primary mb-3"></i>
+                    <h5>Complete Protection</h5>
+                    <p class="text-muted">Extensive coverage for all your vehicle insurance needs.</p>
+                </div>
+            </div>
+            <div class="col-md-4 mb-4">
+                <div class="animate-slide-up">
+                    <!-- Font Awesome Icon -->
+                    <i class="fas fa-lock fa-4x text-primary mb-3"></i>
+                    <h5>Secure & Transparent</h5>
+                    <p class="text-muted">Your data is safe, and our processes are completely transparent.</p>
+                </div>
+            </div>
+            <div class="col-md-4 mb-4">
+                <div class="animate-slide-up">
+                    <!-- Font Awesome Icon -->
+                    <i class="fas fa-star fa-4x text-primary mb-3"></i>
+                    <h5>Exceptional Service</h5>
+                    <p class="text-muted">A dedicated team ready to provide you with the best support.</p>
+                </div>
+            </div>
         </div>
-    </section>
-</div>
+    </div>
+</section>
+
+<!-- Testimonials Section -->
+<section id="testimonials" class="py-5 bg-light animate-fade-in">
+    <div class="container text-center">
+        <h2 class="display-5 mb-5">What Our Customers Say</h2>
+        <div class="row justify-content-center">
+            <div class="col-md-6 mb-4">
+                <div class="testimonial-card p-4 shadow-sm h-100">
+                    <!-- Font Awesome Icon -->
+                    <i class="fas fa-quote-left fa-2x text-primary mb-3"></i>
+                    <p class="fst-italic text-muted">"PoliSure made filing a claim incredibly easy. The entire process was seamless, and I received support every step of the way."</p>
+                    <h6 class="fw-bold mt-3">- Jane Doe</h6>
+                </div>
+            </div>
+            <div class="col-md-6 mb-4">
+                <div class="testimonial-card p-4 shadow-sm h-100">
+                    <!-- Font Awesome Icon -->
+                    <i class="fas fa-quote-left fa-2x text-primary mb-3"></i>
+                    <p class="fst-italic text-muted">"Managing my policy has never been easier. The dashboard is intuitive, and I love having all my vehicle and policy details in one place."</p>
+                    <h6 class="fw-bold mt-3">- John Smith</h6>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- About Us Section -->
+<section id="about-us" class="py-5 bg-white animate-fade-in">
+    <div class="container">
+        <div class="row justify-content-center align-items-center">
+            <div class="col-lg-6 text-center text-lg-start">
+                <h2 class="display-5 mb-4">About Us</h2>
+                <!-- UPDATED TEXT: Focuses on trust, efficiency, and results to align with the cards below -->
+                <p class="text-muted">
+                    At PoliSure, we believe insurance is more than just protection. It's about caring for you and your 
+                    Journey.That's why we've earned the trust of 100k+ users, delivering claims in as fast as 24 hours
+                    with a 98% success rate, and standing strong with over 5 years of experience. Every step we take is 
+                    to make sure you feel safe, supported, and confident on the road.
+                </p>
+            </div>
+            <!-- Stat cards are compact and visually distinct -->
+            <div class="col-lg-6 text-center mt-4 mt-lg-0">
+                <div class="row justify-content-center g-4">
+                    <!-- Statistic Card 1: Active Users -->
+                    <div class="col-6">
+                        <div class="p-3 shadow text-white stat-card-primary">
+                            <i class="fas fa-users fa-2x mb-2"></i> <!-- Reduced Icon Size -->
+                            <h4 class="fw-bold">100K+</h4> <!-- Reduced Text Size -->
+                            <p class="mb-0">Active Users</p>
+                        </div>
+                    </div>
+                    <!-- Statistic Card 2: Claim Success Rate -->
+                    <div class="col-6">
+                        <div class="p-3 shadow bg-light text-primary stat-card-light">
+                            <i class="fas fa-check-circle fa-2x mb-2"></i> <!-- Reduced Icon Size -->
+                            <h4 class="fw-bold">98%</h4> <!-- Reduced Text Size -->
+                            <p class="mb-0 text-muted">Claim Success Rate</p>
+                        </div>
+                    </div>
+                    <!-- Statistic Card 3: Average Payout Time -->
+                    <div class="col-6">
+                        <div class="p-3 shadow text-white stat-card-success">
+                            <i class="fas fa-clock fa-2x mb-2"></i> <!-- Reduced Icon Size -->
+                            <h4 class="fw-bold">24h</h4> <!-- Reduced Text Size -->
+                            <p class="mb-0">Average Claim Payout</p>
+                        </div>
+                    </div>
+                    <!-- Statistic Card 4: Years in Business -->
+                    <div class="col-6">
+                        <div class="p-3 shadow text-white stat-card-secondary">
+                            <i class="fas fa-history fa-2x mb-2"></i> <!-- Reduced Icon Size -->
+                            <h4 class="fw-bold">5+</h4> <!-- Reduced Text Size -->
+                            <p class="mb-0">Years Protecting</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- Contact Section -->
+<section id="contact" class="py-5 bg-light animate-fade-in">
+    <div class="container text-center">
+        <div class="col-lg-8 mx-auto">
+            <h2 class="display-5 mb-4">Contact</h2>
+            <p class="lead mb-4">Get in touch with our team for any inquiries or support.</p>
+            <div class="row justify-content-center g-4">
+                <div class="col-md-4">
+                    <div class="contact-card p-4 shadow-sm h-100">
+                        <!-- Font Awesome Icon -->
+                        <i class="fas fa-envelope fa-2x text-primary mb-3"></i>
+                        <h5 class="fw-bold">Email</h5>
+                        <p class="mb-0 text-muted">support@polisure.com</p>
+                    </div>
+                </div>
+                <div class="col-md-4">
+                    <div class="contact-card p-4 shadow-sm h-100">
+                        <!-- Font Awesome Icon -->
+                        <i class="fas fa-phone fa-2x text-primary mb-3"></i>
+                        <h5 class="fw-bold">Phone</h5>
+                        <p class="mb-0 text-muted">1-800-POLISURE</p>
+                    </div>
+                </div>
+                <div class="col-md-4">
+                    <div class="contact-card p-4 shadow-sm h-100">
+                        <!-- Font Awesome Icon -->
+                        <i class="fas fa-map-marker-alt fa-2x text-primary mb-3"></i>
+                        <h5 class="fw-bold">Address</h5>
+                        <p class="mb-0 text-muted">123 Insurance Blvd, City, State, ZIP</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<button onclick="topFunction()" id="scroll-to-top" title="Go to top" class="btn btn-primary shadow-lg" style="display: none;">
+    <!-- Font Awesome Icon -->
+    <i class="fas fa-arrow-up"></i>
+</button>
+
+<!-- EXTERNAL LINKS: Font Awesome is required for all icons -->
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css" />
+
+<style>
+    /* Styling for the Home Page specific elements */
+    .hero-section {
+        background-color: #f0f4f8;
+        border-radius: 20px;
+        box-shadow: 0 10px 20px rgba(0, 0, 0, 0.05);
+        animation: fadeIn 1s ease-in-out;
+    }
+
+    .features-section {
+        background-color: #ffffff;
+    }
+
+    .about-contact-section {
+        border-radius: 20px;
+    }
+
+    .card, .contact-card, .testimonial-card {
+        transition: transform 0.3s ease-in-out, box-shadow 0.3s ease-in-out;
+        border-radius: 10px;
+        border: none;
+    }
+
+        .card:hover, .contact-card:hover, .testimonial-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 15px 30px rgba(0, 0, 0, 0.1);
+        }
+
+    /* Custom styles for the new statistic cards in the About Us section */
+    .stat-card-primary, .stat-card-light, .stat-card-success, .stat-card-secondary {
+        /* This applies the soft edges across all stat cards */
+        border-radius: 15px !important; 
+        transform: scale(1);
+        transition: transform 0.3s ease-in-out;
+    }
+    
+    .stat-card-primary {
+        background-color: #007BFF; /* Primary blue */
+    }
+    .stat-card-primary:hover {
+        transform: scale(1.03);
+    }
+
+    .stat-card-light {
+        border: 2px solid #007BFF;
+        color: #007BFF; /* Ensure text is primary color */
+    }
+    .stat-card-light:hover {
+        transform: scale(1.03);
+    }
+    
+    .stat-card-light p {
+        color: #6c757d !important; /* Muted text color for description */
+    }
+
+    .stat-card-success {
+        background-color: #28a745; /* Green for success/speed */
+    }
+    .stat-card-success:hover {
+        transform: scale(1.03);
+    }
+
+    .stat-card-secondary {
+        background-color: #6c757d; /* Grey for years/history */
+    }
+    .stat-card-secondary:hover {
+        transform: scale(1.03);
+    }
+    /* End of custom stat styles */
+
+
+    .btn-primary, .btn-secondary {
+        transition: all 0.3s ease-in-out;
+    }
+
+        /* Uses the variable defined in _Layout.cshtml */
+        .btn-primary:hover {
+            transform: translateY(-2px);
+            background-color: #0056b3; 
+        }
+
+        .btn-secondary:hover {
+            transform: translateY(-2px);
+            background-color: #5a6268;
+        }
+
+    .contact-list li {
+        font-size: 1.1rem;
+        margin-bottom: 10px;
+    }
+
+    /* Scroll-to-top button styling */
+    #scroll-to-top {
+        position: fixed;
+        bottom: 30px;
+        right: 30px;
+        z-index: 99;
+        border-radius: 50%;
+        width: 50px;
+        height: 50px;
+        padding: 0;
+        line-height: 50px;
+        text-align: center;
+        opacity: 0;
+        transition: opacity 0.5s ease-in-out;
+    }
+
+        #scroll-to-top.show {
+            opacity: 1;
+        }
+
+    /* Animations */
+    @@keyframes fadeIn {
+        from {
+            opacity: 0;
+        }
+
+        to {
+            opacity: 1;
+        }
+    }
+
+    .animate-fade-in {
+        animation: fadeIn 1s ease-in-out;
+    }
+
+    @@keyframes slideUp {
+        from {
+            transform: translateY(20px);
+            opacity: 0;
+        }
+
+        to {
+            transform: translateY(0);
+            opacity: 1;
+        }
+    }
+
+    .animate-slide-up {
+        animation: slideUp 0.8s ease-out;
+    }
+
+    @@keyframes pop {
+        0% {
+            transform: scale(1);
+        }
+
+        50% {
+            transform: scale(1.05);
+        }
+
+        100% {
+            transform: scale(1);
+        }
+    }
+
+    .animate-pop:hover {
+        animation: pop 0.5s ease-in-out;
+    }
+</style>
+<script>
+    // Get the button
+    let mybutton = document.getElementById("scroll-to-top");
+
+    // When the user scrolls down 20px from the top of the document, show the button
+    window.onscroll = function() {
+        if (document.body.scrollTop > 20 || document.documentElement.scrollTop > 20) {
+            mybutton.classList.add("show");
+        } else {
+            mybutton.classList.remove("show");
+        }
+    };
+
+    // When the user clicks on the button, scroll to the top of the document
+    function topFunction() {
+        window.scrollTo({ top: 0, behavior: 'smooth' });
+    }
+</script>

@@ -2,7 +2,7 @@
 using Microsoft.AspNetCore.Mvc;
 using VehicleInsuranceProject.BusinessLogic.Services;
 using VehicleInsuranceProject.ViewModels;
-//Admin access
+
 namespace VehicleInsuranceProject.Controllers
 {
     [Authorize(Roles = "Admin")] // Only administrators can access these reports
@@ -116,7 +116,6 @@ namespace VehicleInsuranceProject.Controllers
             // Map DTOs to ViewModels
             var viewModelList = dtoList.Select(dto => new AdminCustomerReportViewModel
             {
-                //New comment
                 CustomerId = dto.CustomerId,
                 Name = dto.Name,
                 Email = dto.Email,

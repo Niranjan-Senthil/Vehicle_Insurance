@@ -1,76 +1,290 @@
-﻿@* VehicleInsuranceProject.Web/Views/Claims/Details.cshtml *@
-@model VehicleInsuranceProject.Repository.Models.Claim
+﻿@model VehicleInsuranceProject.Repository.Models.Claim
+@using VehicleInsuranceProject.Repository.Models;
 
 @{
     ViewData["Title"] = "Claim Details";
 }
 
-<h1>Claim Details</h1>
+<style>
+    /* ------------------------------------------------------------------ */
+    /* POLISURE CLAIM DETAILS VIEW - GREEN THEME                          */
+    /* Consistent variables for Claims area                               */
+    /* ------------------------------------------------------------------ */
 
-<div>
-    <h4>Claim ID: @Model.claimId</h4>
-    <hr />
-    <dl class="row">
-        <dt class="col-sm-3">Policy Number:</dt>
-        <dd class="col-sm-9">@Model.Policy?.policyNumber</dd>
+    :root {
+        --theme-claims-primary: #10B981;     /* Bright Green for action/accents */
+        --theme-claims-dark: #047857;          /* Dark Green for Header/Titles */
+        --theme-bg-light: #f4f6f9;             /* Consistent page background */
+        --theme-text-dark: #2c3e50;            /* Main content text color */
+        --theme-border-light: #e0e0e0;         /* Subtle border */
+        
+        /* Status Colors */
+        --status-approved: #10B981;     /* Success Green */
+        --status-submitted: #f59e0b;    /* Warning Orange */
+        --status-rejected: #ef4444;     /* Danger Red */
+    }
 
-        <dt class="col-sm-3">Claim Amount:</dt>
-        <dd class="col-sm-9">@Model.claimAmount.ToString("C")</dd>
+    /* Global Body */
+    body {
+        background-color: var(--theme-bg-light);
+        font-family: 'Inter', sans-serif;
+    }
 
-        <dt class="col-sm-3">Policy Coverage:</dt>
-        <dd class="col-sm-9">@Model.Policy?.coverageAmount.ToString("C")</dd>
+    /* Main Details Card */
+    .claim-details-card {
+        max-width: 900px;
+        margin: 40px auto;
+        padding: 50px;
+        background-color: #ffffff;
+        border-radius: 12px;
+        box-shadow: 0 8px 30px rgba(0, 0, 0, 0.05);
+        border: 1px solid var(--theme-border-light);
+    }
 
-        <dt class="col-sm-3">Reason for Claim:</dt>
-        <dd class="col-sm-9">@Model.claimReason</dd>
+    /* Header Block */
+    .header-block {
+        text-align: center;
+        margin-bottom: 40px;
+        padding-bottom: 20px;
+        border-bottom: 2px solid var(--theme-claims-primary);
+    }
 
-        <dt class="col-sm-3">Claim Date:</dt>
-        <dd class="col-sm-9">@Model.claimDate.ToShortDateString()</dd>
+    .header-block h1 {
+        font-size: 2.5rem;
+        font-weight: 700;
+        color: var(--theme-claims-dark);
+        margin-bottom: 5px;
+    }
 
-        <dt class="col-sm-3">Status:</dt>
-        <dd class="col-sm-9">@Model.claimStatus</dd>
+    .header-icon {
+        font-size: 3.5rem;
+        color: var(--theme-claims-primary);
+        margin-right: 15px;
+    }
 
-        <dt class="col-sm-3">Vehicle:</dt>
-        <dd class="col-sm-9">@Model.Policy?.Vehicle?.make @Model.Policy?.Vehicle?.model (@Model.Policy?.Vehicle?.registrationNumber)</dd>
+    .claim-id-label {
+        color: #7f8c8d;
+        font-size: 1.1rem;
+        font-weight: 500;
+    }
 
-        <dt class="col-sm-3">Customer Name:</dt>
-        <dd class="col-sm-9">@Model.Policy?.Vehicle?.Customer?.Name</dd>
+    /* Description List Styling (dl) */
+    .claim-data-list {
+        font-size: 1.05rem;
+    }
 
-        <dt class="col-sm-3">Customer Email:</dt>
-        <dd class="col-sm-9">@Model.Policy?.Vehicle?.Customer?.Email</dd>
+    .claim-data-list dt {
+        font-weight: 600; /* Bolder label */
+        color: var(--theme-claims-dark); /* Dark green for labels */
+        padding-top: 10px;
+        padding-bottom: 10px;
+    }
+
+    .claim-data-list dd {
+        padding-top: 10px;
+        padding-bottom: 10px;
+        border-bottom: 1px dashed var(--theme-border-light); /* Subtle separator */
+        color: var(--theme-text-dark);
+    }
+    
+    .claim-data-list dd:last-child {
+        border-bottom: none;
+    }
+
+    /* Status Badge Styling */
+    .badge-status {
+        padding: 0.5em 1em;
+        border-radius: 9999px; 
+        font-weight: 700;
+        font-size: 0.9rem;
+        text-transform: uppercase;
+        letter-spacing: 0.5px;
+    }
+
+    .bg-status-submitted { background-color: var(--status-submitted) !important; color: #fff !important; }
+    .bg-status-approved { background-color: var(--status-approved) !important; color: #fff !important; }
+    .bg-status-rejected { background-color: var(--status-rejected) !important; color: #fff !important; }
+
+
+    /* Image Gallery */
+    .image-preview-wrapper {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 15px;
+        padding: 15px 0;
+    }
+    .img-thumbnail-custom {
+        width: 150px;
+        height: 150px;
+        object-fit: cover;
+        border: 3px solid var(--theme-claims-primary); /* Green border accent */
+        border-radius: 8px;
+        transition: transform 0.2s ease;
+        cursor: pointer;
+    }
+    .img-thumbnail-custom:hover {
+        transform: scale(1.03);
+    }
+
+    /* Action Button Block */
+    .action-button-group {
+        margin-top: 30px;
+        padding-top: 20px;
+        border-top: 1px solid var(--theme-border-light);
+        display: flex;
+        gap: 15px;
+        flex-wrap: wrap;
+    }
+
+    /* Custom Button Styles (Admin Actions) */
+    .btn-action-approve {
+        background-color: var(--status-approved);
+        border-color: var(--status-approved);
+        color: #ffffff;
+        font-weight: 600;
+        transition: all 0.2s;
+    }
+    .btn-action-approve:hover {
+        background-color: #059669;
+        border-color: #059669;
+        transform: translateY(-1px);
+        box-shadow: 0 4px 8px rgba(16, 185, 129, 0.4);
+    }
+    
+    .btn-action-reject {
+        background-color: var(--status-rejected);
+        border-color: var(--status-rejected);
+        color: #ffffff;
+        font-weight: 600;
+        transition: all 0.2s;
+    }
+    .btn-action-reject:hover {
+        background-color: #dc2626;
+        border-color: #dc2626;
+        transform: translateY(-1px);
+        box-shadow: 0 4px 8px rgba(239, 68, 68, 0.4);
+    }
+
+    .btn-action-secondary {
+        background-color: #e9ecef;
+        color: var(--theme-text-dark);
+        border: 1px solid #c5cbd3;
+        font-weight: 500;
+        transition: all 0.2s;
+    }
+    .btn-action-secondary:hover {
+        background-color: #dee2e6;
+    }
+
+</style>
+
+<div class="claim-details-card">
+    <div class="header-block">
+        <i class="bi bi-shield-lock-fill header-icon"></i> @* Updated icon for secure claim view *@
+        <h1>@ViewData["Title"]</h1>
+        <p class="claim-id-label">Claim Reference: <strong class="text-secondary">#@Model.claimId</strong></p>
+    </div>
+
+    <dl class="row claim-data-list">
+        
+        <dt class="col-sm-4">Policy Number:</dt>
+        <dd class="col-sm-8"><strong>@Model.Policy?.policyNumber</strong> <i class="bi bi-journals ms-2 text-primary" title="Policy Details"></i></dd>
+
+        <dt class="col-sm-4">Claim Amount:</dt>
+        <dd class="col-sm-8 text-danger"><strong>@Model.claimAmount.ToString("C")</strong></dd> @* Highlight claim amount *@
+
+        <dt class="col-sm-4">Policy Coverage:</dt>
+        <dd class="col-sm-8">@Model.Policy?.coverageAmount.ToString("C")</dd>
+
+        <dt class="col-sm-4">Reason for Claim:</dt>
+        <dd class="col-sm-8">@Model.claimReason</dd>
+
+        <dt class="col-sm-4">Claim Date:</dt>
+        <dd class="col-sm-8">@Model.claimDate.ToShortDateString() <i class="bi bi-calendar-event ms-2"></i></dd>
+
+        <dt class="col-sm-4">Current Status:</dt>
+        <dd class="col-sm-8">
+            @{
+                string badgeClass = "";
+                switch (Model.claimStatus)
+                {
+                    case ClaimStatus.SUBMITTED:
+                        badgeClass = "bg-status-submitted";
+                        break;
+                    case ClaimStatus.APPROVED:
+                        badgeClass = "bg-status-approved";
+                        break;
+                    case ClaimStatus.REJECTED:
+                        badgeClass = "bg-status-rejected";
+                        break;
+                    default:
+                        badgeClass = "bg-secondary";
+                        break;
+                }
+            }
+            <span class="badge badge-status @badgeClass">@Model.claimStatus</span>
+        </dd>
+
+        <dt class="col-sm-4">Vehicle:</dt>
+        <dd class="col-sm-8">
+            <i class="bi bi-car-front-fill me-1 text-secondary"></i>
+            @Model.Policy?.Vehicle?.make @Model.Policy?.Vehicle?.model (Reg: @Model.Policy?.Vehicle?.registrationNumber)
+        </dd>
+
+        <dt class="col-sm-4">Customer Name:</dt>
+        <dd class="col-sm-8">@Model.Policy?.Vehicle?.Customer?.Name</dd>
+
+        <dt class="col-sm-4">Customer Email:</dt>
+        <dd class="col-sm-8"><a href="mailto:@Model.Policy?.Vehicle?.Customer?.Email">@Model.Policy?.Vehicle?.Customer?.Email</a></dd>
 
         @if (!string.IsNullOrEmpty(Model.ImagePaths))
         {
-            <dt class="col-sm-3">Images:</dt>
-            <dd class="col-sm-9">
-                <div class="row">
+            <dt class="col-sm-4 mt-3">Damage Images:</dt>
+            <dd class="col-sm-8 mt-3">
+                <div class="image-preview-wrapper">
                     @foreach (var path in Model.ImagePaths.Split(',', StringSplitOptions.RemoveEmptyEntries))
                     {
-                        <div class="col-md-4 mb-3">
-                            <img src="@path" alt="Claim Image" class="img-fluid img-thumbnail" style="max-width: 200px; max-height: 200px; object-fit: cover;" />
-                        </div>
+                        @* Using placeholder image for demonstration since actual image URLs are not guaranteed to work *@
+                        <img src="@path" onerror="this.onerror=null; this.src='https://placehold.co/150x150/d2eec4/047857?text=Image+Unavailable';" alt="Claim Image" class="img-fluid img-thumbnail-custom" title="Click to view full image" />
                     }
                 </div>
             </dd>
         }
     </dl>
 </div>
-<div>
-    @* <a asp-action="CustomerClaims" class="btn btn-secondary">Back to Claims</a> *@
+
+<div class="container action-button-group">
+    @* Customer View (Back to Claims List) or Admin View (Back to All Claims) *@
     @if (User.IsInRole("Admin"))
     {
-        <a asp-action="AllClaims" class="btn btn-secondary">Back to All Claims</a>
+        <a asp-action="AllClaims" class="btn btn-lg btn-action-secondary">
+            <i class="bi bi-arrow-left-circle me-2"></i> Back to All Claims
+        </a>
+        
         @if (Model.claimStatus == VehicleInsuranceProject.Repository.Models.ClaimStatus.SUBMITTED)
         {
+            @* Admin Actions: Approve/Reject Forms *@
             <form asp-action="UpdateClaimStatus" method="post" class="d-inline">
                 <input type="hidden" name="claimId" value="@Model.claimId" />
                 <input type="hidden" name="newStatus" value="@VehicleInsuranceProject.Repository.Models.ClaimStatus.APPROVED" />
-                <button type="submit" class="btn btn-success">Approve</button>
+                <button type="submit" class="btn btn-lg btn-action-approve">
+                    <i class="bi bi-check-circle-fill me-2"></i> Approve Claim
+                </button>
             </form>
             <form asp-action="UpdateClaimStatus" method="post" class="d-inline">
                 <input type="hidden" name="claimId" value="@Model.claimId" />
                 <input type="hidden" name="newStatus" value="@VehicleInsuranceProject.Repository.Models.ClaimStatus.REJECTED" />
-                <button type="submit" class="btn btn-danger">Reject</button>
+                <button type="submit" class="btn btn-lg btn-action-reject">
+                    <i class="bi bi-x-circle-fill me-2"></i> Reject Claim
+                </button>
             </form>
         }
+    }
+    else
+    {
+        @* Assumes Customer needs to go back to their list of claims *@
+         <a asp-action="CustomerClaims" class="btn btn-lg btn-action-secondary">
+            <i class="bi bi-arrow-left-circle me-2"></i> Back to Your Claims
+        </a>
     }
 </div>
