@@ -116,6 +116,7 @@ namespace VehicleInsuranceProject.Controllers
             // Map DTOs to ViewModels
             var viewModelList = dtoList.Select(dto => new AdminCustomerReportViewModel
             {
+                //New comment
                 CustomerId = dto.CustomerId,
                 Name = dto.Name,
                 Email = dto.Email,
