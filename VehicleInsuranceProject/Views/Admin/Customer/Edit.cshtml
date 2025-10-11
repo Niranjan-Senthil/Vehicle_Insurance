@@ -1,5 +1,4 @@
-﻿<!-- Views/Admin/Customer/Edit.cshtml -->
-@model VehicleInsuranceProject.Repository.Models.Customer
+﻿@model VehicleInsuranceProject.Repository.Models.Customer
 
 @{
     ViewData["Title"] = "Admin - Edit Customer";
@@ -9,37 +8,50 @@
 
 @section Head {
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
-    <!-- Include your main CSS file here if it's not already in your _AdminLayout.cshtml -->
     <style>
         .dashboard-container {
             padding: 30px;
-            background-color: #f8f9fa;
+            /* Changed the background color to a standard light gray for a form view */
+            background-color: white;
             border-radius: 8px;
             box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05);
         }
+
+            /* NEW CSS: Targeting the page title to change its text color (The "header") */
+            .dashboard-container h2 {
+                color: black; /* Dark Blue color for the header text */
+                border-bottom: 2px solid black; /* Optional: Add a subtle underline */
+                padding-bottom: 10px;
+            }
+
         .card {
             border: none;
             border-radius: 8px;
         }
+
         .form-label {
             font-weight: 500;
         }
+
         .btn-primary {
             background-color: #007bff;
             border-color: #007bff;
         }
-        .btn-primary:hover {
-            background-color: #0056b3;
-            border-color: #0056b3;
-        }
+
+            .btn-primary:hover {
+                background-color: #0056b3;
+                border-color: #0056b3;
+            }
+
         .btn-secondary {
             background-color: #6c757d;
             border-color: #6c757d;
         }
-        .btn-secondary:hover {
-            background-color: #5a6268;
-            border-color: #5a6268;
-        }
+
+            .btn-secondary:hover {
+                background-color: #5a6268;
+                border-color: #5a6268;
+            }
     </style>
 }
 
@@ -88,6 +100,7 @@
 </div>
 
 @section Scripts {
-    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+    @{
+        await Html.RenderPartialAsync("_ValidationScriptsPartial");
+    }
 }
-

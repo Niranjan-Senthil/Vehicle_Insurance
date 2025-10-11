@@ -1,80 +1,114 @@
-﻿<!-- Views/Admin/Customer/Details.cshtml -->
-@model VehicleInsuranceProject.Repository.Models.Customer
+﻿@model VehicleInsuranceProject.Repository.Models.Customer
 
 @{
     ViewData["Title"] = "Admin - Customer Details";
-    // IMPORTANT: Replace "_AdminLayout" with the actual path to your admin layout file.
-    Layout = "_Layout";
+    // IMPORTANT: Replace "_AdminLayout" with the actual path to your admin layout file.
+    Layout = "_Layout";
 }
 
 @section Head {
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
-    <!-- Include your main CSS file here if it's not already in your _AdminLayout.cshtml -->
     <style>
-        .dashboard-container {
-            padding: 30px;
-            background-color: #f8f9fa;
-            border-radius: 8px;
-            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05);
+                .dashboard-container {
+                        padding: 30px;
+                        background-color: #f8f9fa;
+                        border-radius: 12px; /* Slightly more rounded corners */
+                        box-shadow: 0 6px 20px rgba(0, 0, 0, 0.08); /* Stronger, modern shadow */
+
         }
 
-        .card {
-            border: none;
-            border-radius: 8px;
+                .card {
+                        border: none;
+                        border-radius: 10px;
+
         }
 
-        dt {
-            font-weight: 600;
-            margin-bottom: 8px;
+
+        /* MODIFIED: Change the color of the Data Term (dt) to a vibrant blue and slightly larger font */
+                dt {
+                        font-weight: 700; /* Bolder font */
+                        margin-bottom: 8px;
+                        color: black; /* Bootstrap's main blue for clarity */
+                        font-size: 1.05rem;
+
         }
 
-        dd {
-            margin-bottom: 8px;
+                dd {
+                        margin-bottom: 8px;
+                        color: #495057; /* Darker text for data */
+
         }
 
-        .badge-success {
-            background-color: #28a745 !important;
+
+        /* REMOVED: .badge-success and .badge-secondary - using built-in Bootstrap bg-* classes now */
+                .btn-secondary {
+                        background-color: #6c757d;
+                        border-color: #6c757d;
+                        transition: all 0.2s; /* Added smooth transition */
+
         }
 
-        .badge-secondary {
-            background-color: #6c757d !important;
+                    .btn-secondary:hover {
+                            background-color: #5a6268;
+                            border-color: #5a6268;
+                            transform: translateY(-1px); /* Subtle hover effect */
+
         }
 
-        .btn-primary {
-            background-color: #007bff;
-            border-color: #007bff;
+                .btn-warning {
+                        background-color: #ffc107;
+                        border-color: #ffc107;
+                        color: #212529;
+                        transition: all 0.2s;
+
         }
 
-            .btn-primary:hover {
-                background-color: #0056b3;
-                border-color: #0056b3;
-            }
+                    .btn-warning:hover {
+                            background-color: #e0a800;
+                            border-color: #e0a800;
+                            transform: translateY(-1px);
 
-        .btn-secondary {
-            background-color: #6c757d;
-            border-color: #6c757d;
         }
 
-            .btn-secondary:hover {
-                background-color: #5a6268;
-                border-color: #5a6268;
-            }
 
-        .btn-warning {
-            background-color: #ffc107;
-            border-color: #ffc107;
-            color: #212529; /* Dark text for contrast */
+
+
+
+
+        /* New style for Active button, distinct from the primary color scheme */
+                .btn-success {
+                        background-color: #198754; /* Green */
+                        border-color: #198754;
+                        transition: all 0.2s;
+
         }
 
-            .btn-warning:hover {
-                background-color: #e0a800;
-                border-color: #e0a800;
-            }
+                    .btn-success:hover {
+                            background-color: #157347;
+                            border-color: #157347;
+                            transform: translateY(-1px);
+
+        }
+
+
+
+
+
+
+        /* Badge modernization */
+                .status-badge {
+                        padding: 0.5em 0.8em;
+                        border-radius: 0.5rem;
+                        font-size: 0.875rem;
+
+        }
+
+
     </style>
 }
 
 <div class="container dashboard-container">
-    <h2 class="mb-4"><i class="bi bi-person-lines-fill me-2"></i> @ViewData["Title"]</h2>
+    <h2 class="mb-5 border-bottom pb-2"><i class="bi bi-person-lines-fill me-3 text-primary"></i> @ViewData["Title"]</h2>
 
     @if (Model == null)
     {
@@ -84,7 +118,7 @@
     }
     else
     {
-        <div class="card shadow-sm p-4">
+        <div class="card shadow-lg p-5">
             <dl class="row">
                 <dt class="col-sm-4">Customer ID:</dt>
                 <dd class="col-sm-8">@Html.DisplayFor(model => model.CustomerId)</dd>
@@ -93,7 +127,9 @@
                 <dd class="col-sm-8">@Html.DisplayFor(model => model.Name)</dd>
 
                 <dt class="col-sm-4">Email:</dt>
-                <dd class="col-sm-8">@Html.DisplayFor(model => model.Email)</dd>
+                <dd class="col-sm-8">
+                    <a href="mailto:@Model.Email" class="text-decoration-none">@Html.DisplayFor(model => model.Email)</a>
+                </dd>
 
                 <dt class="col-sm-4">Phone:</dt>
                 <dd class="col-sm-8">@Html.DisplayFor(model => model.Phone)</dd>
@@ -103,45 +139,48 @@
 
                 <dt class="col-sm-4">Status:</dt>
                 <dd class="col-sm-8">
-                    <span class="badge @(Model.IsActive ? "bg-success" : "bg-secondary")">
+                    <span class="badge status-badge @(Model.IsActive ? "bg-success" : "bg-secondary") text-light">
                         @(Model.IsActive ? "Active" : "Inactive")
                     </span>
                 </dd>
                 <dt class="col-sm-4">Identity User ID:</dt>
-                <dd class="col-sm-8">@Html.DisplayFor(model => model.IdentityUserId)</dd>
+                <dd class="col-sm-8 text-monospace">@Html.DisplayFor(model => model.IdentityUserId)</dd>
 
                 @* Add related data (vehicles, policies) here if loaded in controller *@
                 @* This would require eager loading in GetCustomerByCustomerIdAsync or separate service calls *
-                @* <dt class="col-sm-4">Vehicles:</dt>
-                <dd class="col-sm-8">
-                    <ul>
-                        @if (ViewBag.Vehicles != null)
-                        {
-                            @foreach (var vehicle in ViewBag.Vehicles)
-                            {
-                                <li>@vehicle.registrationNumber (@vehicle.make @vehicle.model)</li>
-                            }
-                        }
-                    </ul>
-                </dd>
-                <dt class="col-sm-4">Policies:</dt>
-                <dd class="col-sm-8">
-                     <ul>
-                        @if (ViewBag.Policies != null)
-                        {
-                            @foreach (var policy in ViewBag.Policies)
-                            {
-                                <li>@policy.policyNumber (Coverage: @string.Format("{0:C}", policy.coverageAmount))</li>
-                            }
-                        }
-                    </ul>
-                </dd> *@
+                @* <dt class="col-sm-4">Vehicles:</dt>
+                <dd class="col-sm-8">
+                    <ul>
+                        @if (ViewBag.Vehicles != null)
+                        {
+                            @foreach (var vehicle in ViewBag.Vehicles)
+                            {
+                                <li>@vehicle.registrationNumber (@vehicle.make @vehicle.model)</li>
+                            }
+                        }
+                    </ul>
+                </dd>
+                <dt class="col-sm-4">Policies:</dt>
+                <dd class="col-sm-8">
+                     <ul>
+                        @if (ViewBag.Policies != null)
+                        {
+                            @foreach (var policy in ViewBag.Policies)
+                            {
+                                <li>@policy.policyNumber (Coverage: @string.Format("{0:C}", policy.coverageAmount))</li>
+                            }
+                        }
+                    </ul>
+                </dd> *@
             </dl>
-            <div class="mt-4 d-flex justify-content-between">
+            <hr class="my-4" />
+            <div class="mt-2 d-flex justify-content-between">
 
-                <a asp-action="Customers" class="btn btn-secondary"><i class="bi bi-arrow-left-circle me-2"></i> Back to List</a>
-                <div>
-                    <a asp-action="EditCustomer" asp-route-id="@Model.CustomerId" class="btn btn-warning me-2"><i class="bi bi-pencil me-2"></i> Edit Customer</a>
+                <a asp-action="Customers" class="btn btn-outline-secondary"><i class="bi bi-arrow-left-circle me-2"></i> Back to List</a>
+
+                <div class="d-flex gap-2">
+                    <a asp-action="EditCustomer" asp-route-id="@Model.CustomerId" class="btn btn-warning"><i class="bi bi-pencil me-2"></i> Edit Customer</a>
+
                     @if (Model.IsActive)
                     {
                         <form asp-action="DeactivateCustomer" asp-route-id="@Model.CustomerId" method="post" class="d-inline">

@@ -41,30 +41,91 @@
             display: block;
         }
 
+        /* ICON COLORS */
         .card-customer {
-            color: #007bff; /* Primary blue */
+            color: #17a2b8;
         }
 
         .card-vehicle {
-            color: #28a745; /* Success green */
+            color: #007bff;
         }
 
         .card-policy {
-            color: #17a2b8; /* Info teal */
+            color: palevioletred;
         }
 
         .card-claim {
-            color: #ffc107; /* Warning yellow */
+            color: #28a745;
         }
 
         .card-admin {
-            color: #dc3545; /* Danger red */
+            color: #dc3545; /* Danger red (Not used) */
         }
 
         .card-setting {
             color: #6c757d; /* Secondary gray */
         }
 
+        /* NEW ICON COLOR: Matching the Bootstrap btn-warning yellow */
+        .card-report {
+            color: #ffc107; /* Bootstrap's standard warning color */
+        }
+
+
+        /* --- CUSTOM BUTTON STYLES TO MATCH ICONS --- */
+        /* Custom Button for Customer Management (#17a2b8) */
+        .btn-custom-customer {
+            background-color: #17a2b8;
+            border-color: #1595a8;
+            color: #fff;
+        }
+
+            .btn-custom-customer:hover {
+                background-color: #1595a8;
+                border-color: #138798;
+                color: #fff;
+            }
+
+        /* Custom Button for Vehicle Management (#007bff) - Standard Primary */
+        .btn-custom-vehicle {
+            background-color: #007bff;
+            border-color: #0069d9;
+            color: #fff;
+        }
+
+            .btn-custom-vehicle:hover {
+                background-color: #0069d9;
+                border-color: #0062cc;
+                color: #fff;
+            }
+
+        /* Custom Button for Policy Administration (palevioletred) */
+        .btn-custom-policy {
+            background-color: palevioletred;
+            border-color: #d17c9b; /* Slightly darker */
+            color: #fff;
+        }
+
+            .btn-custom-policy:hover {
+                background-color: #d17c9b;
+                border-color: #c06a8a;
+                color: #fff;
+            }
+
+        /* Custom Button for Claims Processing (#28a745) */
+        .btn-custom-claim {
+            background-color: #28a745;
+            border-color: #238b3a;
+            color: #fff;
+        }
+
+            .btn-custom-claim:hover {
+                background-color: #238b3a;
+                border-color: #1e7030;
+                color: #fff;
+            }
+
+        /* The rest of the CSS from the original code */
         .card-title {
             font-size: 1.5rem;
             font-weight: 600;
@@ -83,55 +144,7 @@
             border-radius: 8px;
         }
 
-        .recent-activity-section {
-            margin-top: 60px;
-            padding: 30px;
-            background-color: #ffffff;
-            border-radius: 8px;
-            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05);
-        }
-
-        .activity-list-group-item {
-            display: flex;
-            align-items: center;
-            padding: 12px 0;
-            border-bottom: 1px solid #eee;
-        }
-
-            .activity-list-group-item:last-child {
-                border-bottom: none;
-            }
-
-        .activity-icon {
-            font-size: 1.5rem;
-            margin-right: 15px;
-            flex-shrink: 0;
-        }
-
-        .activity-details {
-            flex-grow: 1;
-            font-size: 1rem;
-            color: #343a40;
-        }
-
-        .activity-date {
-            font-size: 0.85rem;
-            color: #6c757d;
-            flex-shrink: 0;
-        }
-        /* Specific icon colors */
-        .bi-check-circle-fill {
-            color: #28a745;
-        }
-        /* Green */
-        .bi-arrow-clockwise {
-            color: #17a2b8;
-        }
-        /* Teal */
-        .bi-file-earmark-medical {
-            color: #007bff;
-        }
-        /* Blue */
+        /* ... (rest of the original utility CSS like .recent-activity-section, etc. is omitted for brevity) ... */
 
         .alert.welcome-alert {
             background-color: #e2f2ff; /* Light blue */
@@ -167,15 +180,17 @@
         </div>
     }
 
-    <div class="row row-cols-1 row-cols-md-2 row-cols-lg-2 g-4">
-        <!-- Customer Management Card -->
+    @* Set to row-cols-lg-3 to force a 3-card, 2-card layout for large screens. *@
+    <div class="row row-cols-1 row-cols-md-2 row-cols-lg-3 g-4">
+
+        @* CARD 1: Customer Management *@
         <div class="col">
             <div class="card card-dashboard text-center shadow">
                 <div class="card-body">
                     <i class="bi bi-people-fill card-icon card-customer"></i>
                     <h5 class="card-title">Customer Management</h5>
                     <p class="card-text">View, search, edit, activate, or deactivate customer accounts.</p>
-                    <a asp-controller="Admin" asp-action="Customers" class="btn btn-primary dashboard-link-btn">
+                    <a asp-controller="Admin" asp-action="Customers" class="btn btn-custom-customer dashboard-link-btn">
                         <i class="bi bi-person-lines-fill me-2"></i> Manage Customers
                     </a>
                 </div>
@@ -183,23 +198,39 @@
         </div>
 
 
-        <!-- Policy Management Card -->
+        @* CARD 2: Policy Administration *@
         <div class="col">
             <div class="card card-dashboard text-center shadow">
                 <div class="card-body">
                     <i class="bi bi-file-earmark-text-fill card-icon card-policy"></i>
                     <h5 class="card-title">Policy Administration</h5>
                     <p class="card-text">Manage and modify all insurance policies.</p>
-                    <a asp-controller="Admin" asp-action="ViewPolicies" class="btn btn-info dashboard-link-btn">
+                    <a asp-controller="Admin" asp-action="ViewPolicies" class="btn btn-custom-policy dashboard-link-btn">
                         <i class="bi bi-journal-check me-2"></i> Manage Customer Policies
                     </a>
                 </div>
             </div>
         </div>
+
+        @* CARD 3: Claims Processing *@
         <div class="col">
             <div class="card card-dashboard text-center shadow">
                 <div class="card-body">
-                    <i class="bi bi-sliders card-icon card-coverage"></i>
+                    <i class="bi bi-exclamation-triangle-fill card-icon card-claim"></i>
+                    <h5 class="card-title">Claims Processing</h5>
+                    <p class="card-text">Review, approve, or reject insurance claims.</p>
+                    <a asp-controller="Claims" asp-action="AllClaims" class="btn btn-custom-claim dashboard-link-btn">
+                        <i class="bi bi-clipboard-data me-2"></i> Process Claims
+                    </a>
+                </div>
+            </div>
+        </div>
+
+        @* CARD 4: Coverage Level Management *@
+        <div class="col">
+            <div class="card card-dashboard text-center shadow">
+                <div class="card-body">
+                    <i class="bi bi-sliders card-icon card-setting"></i>
                     <h5 class="card-title">Coverage Level Management</h5>
                     <p class="card-text">Define and adjust insurance coverage levels.</p>
                     <a asp-controller="Admin" asp-action="CoverageLevels" class="btn btn-secondary dashboard-link-btn">
@@ -209,30 +240,14 @@
             </div>
         </div>
 
-        <!-- Claims Processing Card -->
+        @* CARD 5: Reports & Analytics *@
         <div class="col">
             <div class="card card-dashboard text-center shadow">
                 <div class="card-body">
-                    <i class="bi bi-exclamation-triangle-fill card-icon card-claim"></i>
-                    <h5 class="card-title">Claims Processing</h5>
-                    <p class="card-text">Review, approve, or reject insurance claims.</p>
-                    <a asp-controller="Claims" asp-action="AllClaims" class="btn btn-warning dashboard-link-btn">
-                        <i class="bi bi-clipboard-data me-2"></i> Process Claims
-                    </a>
-                </div>
-            </div>
-        </div>
-
-       
-
-        <!-- NEW: Reports & Analytics Card -->
-        <div class="col">
-            <div class="card card-dashboard text-center shadow">
-                <div class="card-body">
-                    <i class="bi bi-graph-up card-icon card-setting"></i> <!-- Or a specific report icon -->
+                    <i class="bi bi-graph-up card-icon card-report"></i>
                     <h5 class="card-title">Reports & Analytics</h5>
                     <p class="card-text">Generate comprehensive reports on system data.</p>
-                    <a asp-controller="AdminReport" asp-action="Index" class="btn btn-secondary dashboard-link-btn">
+                    <a asp-controller="AdminReport" asp-action="Index" class="btn btn-warning dashboard-link-btn">
                         <i class="bi bi-bar-chart-line me-2"></i> View Reports
                     </a>
                 </div>
@@ -241,7 +256,8 @@
 
     </div>
 
-    
+</div>
+
 
 @section Scripts {
     @{
